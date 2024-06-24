@@ -1,0 +1,81 @@
+/* ../styles/EventItem.css */
+.event-item {
+  display: flex;
+  background-color: rgba(253, 243, 231, 0.45);
+  padding: 12px;
+  margin: 0px 10px 16px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.event-date-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers items horizontally */
+  justify-content: flex-start; /* Aligns items to the top vertically */
+  text-align: center;
+  background-color: #800020;
+  color: white;
+  padding: 10px;
+  border-radius: 8px 0 0 8px;
+}
+
+.event-date-container > p {
+  margin-top: 5px;
+  margin-bottom: 0; /* Adjust as needed to reduce space */
+}
+
+.event-month {
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.event-day {
+  font-size: 36px;
+}
+
+.event-details {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+}
+
+.event-details > p {
+  margin-top: 0px;
+  margin-bottom: 5px; /* Adjust as needed to reduce space */
+}
+
+.event-name {
+  font-weight: 350;
+  font-size: 24px;
+}
+
+.event-host {
+  font-weight: 700;
+  font-size: 16px;
+},
+
+.event-location,
+.event-time {
+  font-size: 14px;
+  font-
+}
+
+.event-logo-container {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.event-logo {
+  height: 100px;
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}

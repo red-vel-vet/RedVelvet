@@ -1,0 +1,33 @@
+# .gitignore
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+.env
+
+# Environment variables
+.env
+
+# Vite/React
+node_modules/
+dist/
+
+# VS Code
+.vscode/
+
+# Python
+*.py[cod]
+*.sqlite3
+__pycache__/
+*.pyc
+
+# MacOS
+.DS_Store
+
+# Virtual Environments
+env/
+venv/
