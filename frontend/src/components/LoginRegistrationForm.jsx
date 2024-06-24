@@ -45,7 +45,7 @@ function LoginRegistrationForm({ route, method }) {
 
         // Check if email is allowed for registration
         const allowedDomain = "@red-vel.vet";
-        if ( !email.endsWith(allowedDomain) ) {
+        if ( !email.endsWith(allowedDomain) && !isLogin ) {
             alert("Registration is currently limited to specific email addresses. Please check back later.");
             setLoading(false); // Stop the loading state
             navigate("/"); // Redirect to homepage
