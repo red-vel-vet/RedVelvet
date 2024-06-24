@@ -62,7 +62,23 @@ function LoginRegistrationForm({ route, method }) {
                 navigate("/login");
             }
         } catch (error) {
-            alert(error);
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.error("Error data:", error.response.data);
+                console.error("Error status:", error.response.status);
+                console.error("Error headers:", error.response.headers);
+                alert(`Error: ${error.response.status} - ${error.response.data.detail}`);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.error("Error request:", error.request);
+                alert("Error: No response was received from the server.");
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.error("Error message:", error.message);
+                alert("Error: An error occurred while setting up the request.");
+            }
+            console.error("Error config:", error.config);
         } finally {
             setLoading(false);
         }
