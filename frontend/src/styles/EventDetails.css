@@ -90,7 +90,7 @@
 }
 
 .scroll-view {
-    max-height: 450px;
+    max-height: 300px;
     overflow-y: auto;
     padding: 10px;
 }
