@@ -1,11 +1,11 @@
 /* styles.css */
 body {
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(#800020, #800020, #333333);
+    background: #800020;
     color: #FDF3E7;
     min-height: 100vh;
-    background-attachment: fixed; 
-    background-size: cover;
+    /* background-attachment: fixed; 
+    background-size: cover; */
   }
   
   .header, .logo, .title, .events-container, .event-list, .event-item, .event-details, .event-host, .event-name, .event-time, .event-date, .event-hour {
