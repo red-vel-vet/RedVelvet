@@ -10,51 +10,63 @@ function Home() {
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [eventModalVisible, setEventModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // Added isLoading state
 
     useEffect(() => {
         getEvents();
     }, []);
 
     const getEvents = () => {
+        setIsLoading(true); // Start loading
         api.get('/api/events/')
             .then((res) => res.data)
             .then((data) => {
                 const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start));
                 setEvents(sortedData);
             })
-            .catch((err) => alert(err));
+            .catch((err) => alert(err))
+            .finally(() => setIsLoading(false)); // Stop loading regardless of result
     };
 
     const handleEventClick = (event) => {
         const url = `/api/events/${event.id}/`;
-        console.log('Fetching event details from:', url);
 
         api.get(url)
             .then((res) => {
-                console.log(res);
                 setSelectedEvent(res.data);
                 setEventModalVisible(true);
             })
             .catch((err) => alert(err));
     };
 
+
     return (
         <div className="home-container">
-            <header className="header">
-                <img src={logo} alt="Red Velvet Icon" className="logo" />
-                <h1 className="title">RED VELVET</h1>
-            </header>
-            <main className="events-container">
-                <ul className="event-list">
-                    {events.map((event) => (
-                        <EventItem 
-                            key={event.id} 
-                            event={event} 
-                            onClick={() => handleEventClick(event)} 
-                        />
-                    ))}
-                </ul>
-            </main>
+            {isLoading ? (
+                <div className="loading-container">
+                    <img src={logo} alt="Red Velvet Icon" className="loading-logo" />
+                    <h1 className="title">RED VELVET</h1>
+                    {/* <h2 className="tagline">Where decadence meets desire.</h2> */}
+                </div>
+            ) : (
+                <>
+                    <header className="header">
+                        <img src={logo} alt="Red Velvet Icon" className="logo" />
+                        <h1 className="title">RED VELVET</h1>
+                    </header>
+                    <main className="events-container">
+                        <ul className="event-list">
+                            {events.map((event) => (
+                                <EventItem 
+                                    key={event.id} 
+                                    event={event} 
+                                    onClick={() => handleEventClick(event)} 
+                                />
+                            ))}
+                        </ul>
+                    </main>
+                </>
+            )}
             
             {eventModalVisible && selectedEvent && (
                 <EventDetails

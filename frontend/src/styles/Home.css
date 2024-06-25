@@ -1,4 +1,5 @@
 /* ../styles/Home.css */
+
 .home-container {
   padding-left: 10px;
   padding-right: 10px;
@@ -10,7 +11,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding-top: 40px;
+  padding-top: 20px;
   padding-bottom: 20px;
   position: sticky;
   top: 0;
@@ -24,10 +25,44 @@
   margin-right: 15px;
 }
 
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+@keyframes coin-spin {
+  0%, 100% {
+    transform: rotateY(360deg) scaleX(1);
+  }
+  50% {
+    transform: rotateY(360deg) scaleX(0);
+  }
+}
+
+.loading-logo {
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  margin-right: 15px;
+  animation: coin-spin infinite 3s linear;
+}
+
 .title {
   font-size: 24px;
   letter-spacing: 12px;
   font-weight: 400;
+}
+
+.tagline {
+  font-size: 16px;
+  font-weight: 300;
+  margin-top: 5px;
+  font-family: 'Luxurious Script';
+  font-size: 42px;
+  letter-spacing: 6px;
 }
 
 .events-container {
