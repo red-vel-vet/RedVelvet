@@ -75,7 +75,7 @@
 
 .scroll-view-container {
     flex-grow: 1;
-    padding: 5px;
+    padding: 0px;
     width: 100%;
     overflow: auto;
 }
@@ -90,7 +90,7 @@
 }
 
 .scroll-view {
-    max-height: 300px;
+    max-height: 350px;
     overflow-y: auto;
     padding: 10px;
 }
