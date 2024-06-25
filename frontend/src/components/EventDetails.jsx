@@ -21,7 +21,8 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
                     <div className="modal-header">
 
 
-                        <img src={selectedEvent.host_logo_url ? selectedEvent.host_logo_url:logo} alt="Red Velvet Icon" className="event-icon" />
+                        {/* <img src={selectedEvent.host_logo_url ? selectedEvent.host_logo_url:logo} alt="Red Velvet Icon" className="event-icon" /> */}
+                        <img src={logo} alt="Red Velvet Icon" className="event-icon" />
                         <div className="event-header">
                             <p className="modal-host">{selectedEvent.host.toUpperCase()}</p>
                             <p className="modal-event-name">{selectedEvent.title.toUpperCase()}</p>
