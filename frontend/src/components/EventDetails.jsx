@@ -20,7 +20,7 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
             <div className="modal-content">
                 <img src={logo} alt="Red Velvet Icon" className="event-icon" />
                 <div className="container">
-                    <h2 className="host">{selectedEvent.host.toUpperCase()}</h2>
+                    <h2 className="host">{selectedEvent.host}</h2>
                     <p className="event-name">{selectedEvent.title}</p>
                     <img src={selectedEvent.image_url || defaultImage} alt="Event" className="event-image" />
                     <p className="details-text">{month} {day} {startTime} - {endTime}</p>
