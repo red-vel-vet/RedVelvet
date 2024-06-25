@@ -33,7 +33,7 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
                         <div className="scroll-view">
                             <img src={selectedEvent.image_url || defaultImage} alt="Event" className="event-image" />
                             <div className="text">
-                                {selectedEvent.description.split('\n').map((line, index) => (
+                                {selectedEvent.description.trim().split('\n').map((line, index) => (
                                     <React.Fragment key={index}>
                                     {line}
                                     <br/><br/>
