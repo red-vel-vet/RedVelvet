@@ -39,45 +39,46 @@ function Home() {
             .catch((err) => alert(err));
     };
 
-
     return (
-        <div>
-            {isLoading ? (
-                <div className="home-container">
-                    <div className="loading-container">
-                        <img src={logo} alt="Red Velvet Icon" className="loading-logo" />
-                        <h1 className="title">RED VELVET</h1>
-                    </div>
-                </div>
-            ) : (
-                <>
-                    <header className="header">
-                        <img src={logo} alt="Red Velvet Icon" className="logo" />
-                        <h1 className="title">RED VELVET</h1>
-                    </header>
+        <>
+            <div>
+                {isLoading ? (
                     <div className="home-container">
-                        <main className="events-container">
-                            <ul className="event-list">
-                                {events.map((event) => (
-                                    <EventItem 
-                                        key={event.id} 
-                                        event={event} 
-                                        onClick={() => handleEventClick(event)} 
-                                    />
-                                ))}
-                            </ul>
-                        </main>
-                        {eventModalVisible && selectedEvent && (
-                            <EventDetails
-                                eventModalVisible={eventModalVisible}
-                                selectedEvent={selectedEvent}
-                                onCancel={() => setEventModalVisible(false)}
-                            />
-                        )}
+                        <div className="loading-container">
+                            <img src={logo} alt="Red Velvet Icon" className="loading-logo" />
+                            <h1 className="title">RED VELVET</h1>
+                        </div>
                     </div>
-                </>
+                ) : (
+                    <>
+                        <header className="header">
+                            <img src={logo} alt="Red Velvet Icon" className="logo" />
+                            <h1 className="title">RED VELVET</h1>
+                        </header>
+                        <div className="home-container">
+                            <main className="events-container">
+                                <ul className="event-list">
+                                    {events.map((event) => (
+                                        <EventItem 
+                                            key={event.id} 
+                                            event={event} 
+                                            onClick={() => handleEventClick(event)} 
+                                        />
+                                    ))}
+                                </ul>
+                            </main>
+                        </div>
+                    </>
+                )}
+            </div>
+            {eventModalVisible && selectedEvent && (
+                <EventDetails
+                    eventModalVisible={eventModalVisible}
+                    selectedEvent={selectedEvent}
+                    onCancel={() => setEventModalVisible(false)}
+                />
             )}
-        </div>
+        </>
     );
 }
 

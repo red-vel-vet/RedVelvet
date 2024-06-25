@@ -32,8 +32,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 350px);
   flex-direction: column;
+  padding-top: 60px;
 }
 
 @keyframes coin-spin {
@@ -102,6 +103,7 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
+  z-index: 2000;
 }
 
 @keyframes fadeIn {
