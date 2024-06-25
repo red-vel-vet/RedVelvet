@@ -59,7 +59,7 @@ function Home() {
                             <main className="events-container">
                                 <ul className="event-list">
                                     {events.map((event) => (
-                                        <EventItem 
+                                        <EventItem
                                             key={event.id} 
                                             event={event} 
                                             onClick={() => handleEventClick(event)} 

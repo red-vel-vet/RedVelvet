@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/EventDetails.css';
 import logo from '../assets/images/token.png';
+import api from '../api'; 
 
 function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
     if (!eventModalVisible) return null;
@@ -13,14 +14,14 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
     const startTime = eventDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
     const endTime = eventEndDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
 
-    const defaultImage = 'https://images.unsplash.com/photo-1571118027171-d2e2c56cc926?q=80&w=2371&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-
     return (
         <div className="modal-background">
             <div className="modal-content">
                 <div className="container">
                     <div className="modal-header">
-                        <img src={logo} alt="Red Velvet Icon" className="event-icon" />
+
+
+                        <img src={selectedEvent.host_logo_url ? selectedEvent.host_logo_url:logo} alt="Red Velvet Icon" className="event-icon" />
                         <div className="event-header">
                             <p className="modal-host">{selectedEvent.host.toUpperCase()}</p>
                             <p className="modal-event-name">{selectedEvent.title.toUpperCase()}</p>
@@ -31,7 +32,7 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
                     
                     <div className="scroll-view-container">
                         <div className="scroll-view">
-                            <img src={selectedEvent.image_url || defaultImage} alt="Event" className="event-image" />
+                            { selectedEvent.image_url ? <img src={selectedEvent.image_url} alt="Event" className="event-image" /> : null }
                             <div className="text">
                                 {selectedEvent.description.trim().split('\n').map((line, index) => (
                                     <React.Fragment key={index}>

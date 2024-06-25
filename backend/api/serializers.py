@@ -33,10 +33,15 @@ class MembershipSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     host = serializers.StringRelatedField()
+    host_logo_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
         fields = '__all__'
+
+    def get_host_logo_url(self, obj):
+        # Assuming 'host' is the related name and it has a 'logo_url' attribute
+        return obj.host.logo_url if obj.host else None
 
 class ListEventSerializer(serializers.ModelSerializer):
     host = serializers.StringRelatedField()
