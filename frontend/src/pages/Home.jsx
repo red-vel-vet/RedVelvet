@@ -26,9 +26,11 @@ function Home() {
     };
 
     const handleEventClick = (event) => {
-        api.get(`/api/events/${event.id}`)
+        const url = `/api/events/${event.id}`;
+        console.log('Fetching event details from:', url);
+
+        api.get(url)
             .then((res) => {
-                console.log(event.id);
                 console.log(res);
                 setSelectedEvent(res.data);
                 setEventModalVisible(true);
