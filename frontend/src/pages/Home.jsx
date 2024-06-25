@@ -26,7 +26,7 @@ function Home() {
     };
 
     const handleEventClick = (event) => {
-        const url = `/api/events/${event.id}`;
+        const url = `/api/events/${event.id}/`;
         console.log('Fetching event details from:', url);
 
         api.get(url)
