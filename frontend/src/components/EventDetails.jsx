@@ -52,7 +52,7 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
                         if (selectedEvent.event_url) {
                             window.open(selectedEvent.event_url, '_blank');
                         } else {
-                            alert('Please contact the host for details on how to attend this event.');
+                            window.open(selectedEvent.host_website_url, '_blank');
                         }
                     }}>RSVP</button>
                 </div>

@@ -24,7 +24,7 @@ RedVelvet is an app designed for the ENM (Ethical Non-Monogamy) community. It ce
 - **Node.js** and **npm** for the frontend.
 - **Python 3.10.x** for the backend.
 - **PostgreSQL** for the database.
-- **BeautifulSoup**, **Pytz**, and **datetime.timezone** for web scraping.
+- **BeautifulSoup** for web scraping.
 
 ### Frontend
 

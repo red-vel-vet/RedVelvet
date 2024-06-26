@@ -4,15 +4,12 @@ from tqdm import tqdm
 import time
 import random
 import pandas as pd
-from datetime import datetime
 import pytz
 from dotenv import load_dotenv
 import os
 import psycopg2
 from datetime import datetime, timezone
 import logging
-
-
 
 # Load environment variables
 load_dotenv()
@@ -27,6 +24,9 @@ DB_PORT=os.getenv("DB_PORT")
 DB_USER=os.getenv("DB_USER")
 DB_NAME=os.getenv("DB_NAME")
 DB_PASSWORD=os.getenv("DB_PWD")
+
+new_event_count = 0
+expected_no_event_hosts = []
 
 # Headers to mimic a browser request
 HEADERS = {
@@ -84,6 +84,8 @@ def get_api_events():
     api_event_data, api_event_columns = execute_CH_query(query, fetch=True)
     return pd.DataFrame(api_event_data, columns=api_event_columns)
 
+api_events = get_api_events()
+
 
 def fetch_page(url):
     response = requests.get(url, headers=HEADERS)
@@ -91,9 +93,10 @@ def fetch_page(url):
     return response.text
 
 
-def check_for_existing(event, api_events):
+def check_for_existing(event):
+    global api_events
     return len(api_events[api_events["event_url"] == event["event_url"]])
-
+    
 def save_event_to_db(event):
     query = """
     INSERT INTO api_event (host_id, title, image_url, event_url, start, "end", address, city, state, zip, description, membership_required, is_active, created_date, updated_date)
@@ -105,8 +108,7 @@ def save_event_to_db(event):
         event["membership_required"], event["is_active"], event["created_date"], event["updated_date"]
     )
     execute_CH_query(query, data)
-
-
+    
 def parse_loft_main(html_content, BASE_URL):
     soup = BeautifulSoup(html_content, 'html.parser')
     events = soup.find_all('div', class_='event')
@@ -268,22 +270,114 @@ def parse_caligula_event(event_page_content, url, host_id):
 hosts.append(("https://www.caligulany.com/events/", 16, parse_caligula_main, parse_caligula_event))
 
 
+def parse_checkmate_main(main_page_content, BASE_URL):
+    global new_event_count
+    global api_events
+    max_timestamp = api_events["start"].max()
+    start_timestamp = pd.Timestamp(datetime.now(), tz='UTC')
+    
+    def next_weekday(start, weekday, hour, minute):
+        days_ahead = weekday - start.weekday()
+        if days_ahead < 0:
+            days_ahead += 7
+        next_day = start + pd.Timedelta(days=days_ahead)
+        return next_day.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    
+    def get_event_data(day):
+        if day == 'thursday':
+            return {
+                'title': 'After Work Party',
+                'description': '''THURSDAY NIGHTS AFTER WORK PARTY 7PM TO 1AM\nREDUCED ADMISSION FOR MEMBERS EVERY THURSDAY NIGHT\nThursday nights at checkmate mark the beginning of the lifestyle weekend in NYC. the beginning of the party !\nCome unwind, relax and play after a long day at work.\nWe will have beautiful, attractive lifestyle couples and single girls, all looking to play.\nNO SINGLE MEN\nMEMBERS $120\nNEW COUPLES $170\nSINGLE GIRLS FREE''',
+                'image_url': 'https://static.wixstatic.com/media/9027f6_d46170212e01445aa43beee6a5ff98d8~mv2.jpg/v1/crop/x_29,y_0,w_1222,h_1255/fill/w_936,h_961,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/new%20thursdays%20noprice.jpg',
+                'start_hour': 19,
+                'end_hour': 1
+            }
+        elif day == 'friday':
+            return {
+                'title': 'Erotica Fridays',
+                'description': '''MEMBERS $170\nNEW COUPLES $220\nEROTICA FRIDAYS WHERE ANYTHING GOES!\nNew York city\'s hottest and most exclusive on-premises lifestyle party.\nWe are "where the pretty people play", come play, mingle, and enjoy the most attractive lifestyle couples and single girls.\nWe have members and new couples from all over the world, locals and tourists who want to explore with you.\nNewbies and experienced are welcome.\nSingle Girls FREE!\nNO SINGLE MEN EVER!''',
+                'image_url': 'https://static.wixstatic.com/media/9027f6_33a44a31d0fc467eacd9448ef064c0d5~mv2.jpeg/v1/crop/x_0,y_9,w_2160,h_3778/fill/w_484,h_847,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/IMG_3098.jpeg',
+                'start_hour': 22,
+                'end_hour': 4
+            }
+    
+    def create_event_row(timestamp, event_data):
+        return {
+            'host_id': 17,
+            'title': event_data['title'],
+            'image_url': event_data['image_url'],
+            'event_url': 'https://www.checkmatenyc.com/calendar-of-events',
+            'start': timestamp,
+            'end': timestamp + pd.Timedelta(hours=event_data['end_hour'] - event_data['start_hour']),
+            'address': '227 E 56th St, Lower Level',
+            'city': 'New York',
+            'state': 'NY',
+            'zip': '10022',
+            'description': event_data['description'],
+            'membership_required': True,
+            'is_active': True,
+            'created_date': get_current_utc_time(),
+            'updated_date': get_current_utc_time()
+        }
+    
+    current_thursday = next_weekday(start_timestamp, 3, 19, 0)  # Thursday 7 PM
+    current_friday = next_weekday(start_timestamp, 4, 22, 0)    # Friday 10 PM
+    
+    events_data = {
+        'thursday': {
+            'timestamp': current_thursday,
+            'event_data': get_event_data('thursday')
+        },
+        'friday': {
+            'timestamp': current_friday,
+            'event_data': get_event_data('friday')
+        }
+    }
+    
+    while events_data['thursday']['timestamp'] <= max_timestamp or events_data['friday']['timestamp'] <= max_timestamp:
+        for day, data in events_data.items():
+            if data['timestamp'] <= max_timestamp:
+                row = create_event_row(data['timestamp'], data['event_data'])
+                event_exists = len(api_events[(api_events['host_id'] == row['host_id']) & (api_events['start'] == row['start'])]) > 0
+                if not event_exists:
+                    save_event_to_db(row)
+                    logging.info(f"Added Checkmate event {row['title']} ({row['start']}) to database at {datetime.now()}")
+                    new_event_count += 1
+                data['timestamp'] += pd.Timedelta(days=7)
+    
+    return []
 
-new_event_count = 0
+def parse_checkmate_event(event_page_content, url, host_id):
+    return
+
+hosts.append(("https://www.checkmatenyc.com", 17, parse_checkmate_main, parse_checkmate_event))
+expected_no_event_hosts.append(17)
+
 
 def main(BASE_URL, host_id, parse_main_page, parse_event_page):
-    main_page_content = fetch_page(BASE_URL)
-    event_urls = parse_main_page(main_page_content, BASE_URL)
-
-    for url in tqdm(event_urls, desc=f"Processing events for {BASE_URL}"):
-        event_page_content = fetch_page(url)
-        event = parse_event_page(event_page_content, url, host_id)
-        if check_for_existing(event, api_events) == 0:
-            save_event_to_db(event)
-            logging.info(f"Added event {url} to database at {datetime.now()}")
-            new_event_count += 1
-        time.sleep(random.uniform(5, 10))  # Sleep to mimic human browsing and avoid getting blocked
-
+    global new_event_count
+    global api_events
+    try:
+        main_page_content = fetch_page(BASE_URL)
+        event_urls = parse_main_page(main_page_content, BASE_URL)
+        
+        # Check if event_urls is empty and host_id is not in the expected_no_event_hosts list
+        if not event_urls and host_id not in expected_no_event_hosts:
+            logging.info(f"No events found on {BASE_URL} (host_id: {host_id}) at {datetime.now()}")
+        
+        for url in tqdm(event_urls, desc=f"Processing events for {BASE_URL}"):
+            try:
+                event_page_content = fetch_page(url)
+                event = parse_event_page(event_page_content, url, host_id)
+                if check_for_existing(event) == 0:
+                    save_event_to_db(event)
+                    logging.info(f"Added event {url} to database at {datetime.now()}")
+                    new_event_count += 1
+            except Exception as e:
+                logging.info(f"Failed to parse event {url} at {datetime.now()} due to {e}")
+            time.sleep(random.uniform(5, 10))  # Sleep to mimic human browsing and avoid getting blocked
+    except Exception as e:
+        logging.info(f"Failed to parse {BASE_URL} at {datetime.now()} due to {e}")
 
 
 logging.info(f'Script started at {datetime.now()}')
@@ -291,6 +385,5 @@ logging.info(f'Script started at {datetime.now()}')
 api_events = get_api_events()
 for host in hosts:
     main(*host)
-    
-logging.info(f'Script finished at {datetime.now()}\n\nNew Events Added: {new_event_count}')
 
+logging.info(f'Script finished at {datetime.now()}\n\nNew Events Added: {new_event_count}\n\n')
