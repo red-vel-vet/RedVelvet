@@ -8,7 +8,6 @@ RedVelvet is an app designed for the ENM (Ethical Non-Monogamy) community. It ce
 - **List View of Events**: Displays upcoming events sorted by date.
 - **Event Details**: Click on an event to get more information.
 - **RSVP**: Click the RSVP button to navigate to the event website to buy tickets.
-- **Web Scraping**: Daily web scraping updates the database with new events at 3 AM.
 
 ## Tech Stack
 
