@@ -87,12 +87,19 @@
     overflow: auto;
 }
 
-.event-image {
+.event-image-tall {
     float: left;
-    width: 125px;
     height: 175px;
     margin-right: 20px;
     margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.event-image-wide {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 10px; 
     border-radius: 5px;
 }
 

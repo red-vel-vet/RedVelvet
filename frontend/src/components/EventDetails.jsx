@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/EventDetails.css';
 import logo from '../assets/images/token.png';
 import api from '../api'; 
 
 function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
     if (!eventModalVisible) return null;
+
+    const [imageClass, setImageClass] = useState('');
+
+    useEffect(() => {
+        if (!selectedEvent.image_url) return;
+
+        const image = new Image();
+        image.onload = () => {
+            const aspectRatio = image.naturalWidth / image.naturalHeight;
+            setImageClass(aspectRatio > 1 ? 'event-image-wide' : 'event-image-tall');
+        };
+        if (selectedEvent.image_url) {
+            image.src = selectedEvent.image_url;
+        }
+    }, [selectedEvent.image_url]);
 
     const eventDate = new Date(selectedEvent.start);
     const eventEndDate = new Date(selectedEvent.end);
@@ -33,7 +48,7 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
                     
                     <div className="scroll-view-container">
                         <div className="scroll-view">
-                            { selectedEvent.image_url ? <img src={selectedEvent.image_url} alt="Event" className="event-image" /> : null }
+                            { selectedEvent.image_url ? <img src={selectedEvent.image_url} alt="Event" className={imageClass} /> : null }
                             <div className="text">
                                 {selectedEvent.description.trim().split('\n').map((line, index) => (
                                     <React.Fragment key={index}>
