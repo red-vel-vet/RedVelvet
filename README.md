@@ -15,7 +15,6 @@ RedVelvet is an app designed for the ENM (Ethical Non-Monogamy) community. It ce
 - **Frontend**: React
 - **Backend**: Django
 - **Database**: PostgreSQL
-- **Web Scraping**: BeautifulSoup, Pytz, datetime.timezone
 
 ## Setup Instructions
 
@@ -24,7 +23,6 @@ RedVelvet is an app designed for the ENM (Ethical Non-Monogamy) community. It ce
 - **Node.js** and **npm** for the frontend.
 - **Python 3.10.x** for the backend.
 - **PostgreSQL** for the database.
-- **BeautifulSoup** for web scraping.
 
 ### Frontend
 
@@ -63,7 +61,7 @@ RedVelvet is an app designed for the ENM (Ethical Non-Monogamy) community. It ce
 
 ### Environment Variables
 
-Create a `.env` file in both the `backend` and `web_scraping` directories with the following variables:
+Create a `.env` file in both the `backend` directory with the following variables:
 
 **backend/.env**
 ```env
@@ -72,16 +70,6 @@ DB_PORT=your_db_port
 DB_USER=your_db_user
 DB_NAME=your_db_name
 DB_PWD=your_db_password
-```
-
-**web_scraping/.env**
-```env
-DB_HOST=your_db_host
-DB_PORT=your_db_port
-DB_USER=your_db_user
-DB_NAME=your_db_name
-DB_PWD=your_db_password
-LOG_PATH=path_to_log_directory
 ```
 
 ## Running the Project
@@ -99,7 +87,3 @@ LOG_PATH=path_to_log_directory
    ```sh
    python manage.py runserver
    ```
-
-### Web Scraping
-
-1. Ensure the cron job is set up to run daily at 3 AM for updating the database with new events.
