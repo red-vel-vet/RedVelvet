@@ -69,7 +69,7 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
                         } else {
                             window.open(selectedEvent.host_website_url, '_blank');
                         }
-                    }}>RSVP</button>
+                    }}>Details</button>
                 </div>
             </div>
         </div>
