@@ -32,35 +32,33 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
     return (
         <div className="modal-background">
             <div className="modal-content">
-                <div className="container">
-                    <div className="modal-header">
 
-
-                        {/* <img src={selectedEvent.host_logo_url ? selectedEvent.host_logo_url:logo} alt="Red Velvet Icon" className="event-icon" /> */}
-                        <img src={logo} alt="Red Velvet Icon" className="event-icon" />
-                        <div className="event-header">
-                            <p className="modal-host">{selectedEvent.host.toUpperCase()}</p>
-                            <p className="modal-event-name">{selectedEvent.title.toUpperCase()}</p>
-                            <p className="details-text">{dayName}, {month} {day} • {startTime} - {endTime}</p>
-                            <p className="details-text">{selectedEvent.city}, {selectedEvent.state}</p>
-                        </div>
+                <div className="modal-header">
+                    {/* <img src={selectedEvent.host_logo_url ? selectedEvent.host_logo_url:logo} alt="Red Velvet Icon" className="event-icon" /> */}
+                    <img src={logo} alt="Red Velvet Icon" className="event-icon" />
+                    <div className="event-header">
+                        <p className="modal-host">{selectedEvent.host.toUpperCase()}</p>
+                        <p className="modal-event-name">{selectedEvent.title.toUpperCase()}</p>
+                        <p className="details-text">{dayName}, {month} {day} • {startTime} - {endTime}</p>
+                        <p className="details-text">{selectedEvent.city}, {selectedEvent.state}</p>
                     </div>
-                    
-                    <div className="scroll-view-container">
-                        <div className="scroll-view">
-                            { selectedEvent.image_url ? <img src={selectedEvent.image_url} alt="Event" className={imageClass} /> : null }
-                            <div className="text">
-                                {selectedEvent.description.trim().split('\n').map((line, index) => (
-                                    <React.Fragment key={index}>
-                                    {line}
-                                    <br/><br/>
-                                    </React.Fragment>
-                                ))}
-                                {selectedEvent.membershipRequired ? 'Membership Required.' : ''}
-                            </div>
+                </div>
+                
+                <div className="scroll-view-container">
+                    <div className="scroll-view">
+                        { selectedEvent.image_url ? <img src={selectedEvent.image_url} alt="Event" className={imageClass} /> : null }
+                        <div className="text">
+                            {selectedEvent.description.trim().split('\n').map((line, index) => (
+                                <React.Fragment key={index}>
+                                {line}
+                                <br/><br/>
+                                </React.Fragment>
+                            ))}
+                            {selectedEvent.membershipRequired ? 'Membership Required.' : ''}
                         </div>
                     </div>
                 </div>
+                
                 <div className="button-container">
                     <button className="cancel-button" onClick={onCancel}>Back</button>
                     <button className="submit-button" onClick={() => {
