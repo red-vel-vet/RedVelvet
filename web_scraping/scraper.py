@@ -12,11 +12,14 @@ import psycopg2
 from datetime import datetime, timezone
 import logging
 
-now = datetime.now().strftime("%Y-%m-%d")
-logging.basicConfig(filename=f"/Users/rwilley/Desktop/Red-Vel.vet/web_scraping/logs/{now}.log", level=logging.INFO)
+
 
 # Load environment variables
 load_dotenv()
+
+LOG_PATH=os.getenv("LOG_PATH")
+now = datetime.now().strftime("%Y-%m-%d")
+logging.basicConfig(filename=f"{LOG_PATH}{now}.log", level=logging.INFO)
 
 # Database connection details from environment variables
 DB_HOST=os.getenv("DB_HOST")
