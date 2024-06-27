@@ -4,9 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(100vw - 5px);
-  padding-top: 5px;
-  padding-bottom: 5px;
+  width: 100vw;
+  padding: 5px 0;
   position: fixed;
   top: 0;
   z-index: 1000;
