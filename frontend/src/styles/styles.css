@@ -1,4 +1,7 @@
 /* styles.css */
+html {
+  background: #800020;
+}
 body {
     font-family: 'Montserrat', sans-serif;
     background: #800020;
