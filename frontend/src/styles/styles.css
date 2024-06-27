@@ -3,7 +3,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     background: #800020;
     color: #FDF3E7;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     /* background-attachment: fixed; 
     background-size: cover; */
   }
