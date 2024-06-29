@@ -72,7 +72,7 @@ function Home() {
                 )}
             </div>
             {eventModalVisible && selectedEvent && (
-                <EventDetails
+                <EventDetails 
                     eventModalVisible={eventModalVisible}
                     selectedEvent={selectedEvent}
                     onCancel={() => setEventModalVisible(false)}
