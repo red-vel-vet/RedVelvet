@@ -1,20 +1,4 @@
 /* ../styles/Home.css */
-
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  padding-top: calc(5px + env(safe-area-inset-top));
-  padding-bottom: 5px;
-  padding-left: 0;
-  padding-right: 0;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  background-color: #800020;
-}
-
 .home-container {
   top: 75px;
   padding-left: 10px;

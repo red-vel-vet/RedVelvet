@@ -46,7 +46,7 @@ function Home() {
                     <div className="home-container">
                         <div className="loading-container">
                             <img src={logo} alt="Red Velvet Icon" className="loading-logo" />
-                            <h1 className="title">RED VELVET</h1>
+                            {/* <h1 className="title">RED VELVET</h1> */}
                         </div>
                     </div>
                 ) : (

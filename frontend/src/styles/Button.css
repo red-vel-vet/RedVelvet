@@ -1,0 +1,35 @@
+.button {
+    width: 45%;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    letter-spacing: 1px;
+    transition: transform 0.1s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.button:active {
+    transform: scale(0.95);
+}
+
+.button.cancel {
+    background-color: #FFFFFF;
+    color: #DC143C;
+}
+
+.button.cancel:hover {
+    background-color: #dc143c0c;
+    /* color: #FFFFFF;  */
+}
+
+.button.submit {
+    background-color: #DC143C;
+}
+
+.button.submit:hover {
+    background-color: #800020; 
+}

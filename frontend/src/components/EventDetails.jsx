@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/EventDetails.css';
+import Button from './Button';
 import logo from '../assets/images/token.png';
-import api from '../api'; 
 
 function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
     if (!eventModalVisible) return null;
@@ -34,7 +34,6 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
             <div className="modal-content">
 
                 <div className="modal-header">
-                    {/* <img src={selectedEvent.host_logo_url ? selectedEvent.host_logo_url:logo} alt="Red Velvet Icon" className="event-icon" /> */}
                     <img src={logo} alt="Red Velvet Icon" className="event-icon" />
                     <div className="event-header">
                         <p className="modal-host">{selectedEvent.host.toUpperCase()}</p>
@@ -60,14 +59,14 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
                 </div>
                 
                 <div className="button-container">
-                    <button className="cancel-button" onClick={onCancel}>Back</button>
-                    <button className="submit-button" onClick={() => {
+                    <Button className="button cancel" onClick={onCancel}>Back</Button>
+                    <Button className="button submit" onClick={() => {
                         if (selectedEvent.event_url) {
                             window.open(selectedEvent.event_url, '_blank');
                         } else {
                             window.open(selectedEvent.host_website_url, '_blank');
                         }
-                    }}>Details</button>
+                    }}>Details</Button>
                 </div>
             </div>
         </div>

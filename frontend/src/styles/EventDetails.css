@@ -128,21 +128,3 @@
     margin-top: 10px;
     flex-shrink: 0;
 }
-
-.cancel-button, .submit-button {
-    width: 45%;
-    height: 40px;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    font-size: 16px;
-}
-
-.cancel-button {
-    background-color: #FFFFFF;
-    color: #DC143C;
-}
-
-.submit-button {
-    background-color: #DC143C;
-}

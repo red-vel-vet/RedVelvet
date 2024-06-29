@@ -1,6 +1,5 @@
 /* styles.css */
 body {
-    font-family: 'Montserrat', sans-serif;
     color: #FDF3E7;
     overflow: hidden;
     padding-top: env(safe-area-inset-top);
@@ -13,6 +12,7 @@ body {
   }
 
   html, body {
+    font-family: 'Montserrat', sans-serif;
     background: #800020;
     margin: 0;
     padding: 0;
@@ -26,5 +26,5 @@ body {
   }
   
   .header, .logo, .title, .events-container, .event-list, .event-item, .event-details, .event-host, .event-name, .event-time, .event-date, .event-hour {
-    /* Global styles for these elements/components */
+    font-family: 'Montserrat', sans-serif;
   }

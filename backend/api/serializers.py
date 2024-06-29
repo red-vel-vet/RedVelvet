@@ -9,11 +9,19 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate_username(self, value):
-        if "@" in value:
-            raise serializers.ValidationError("Username cannot contain '@'.")
+        print("Checking if username exists:", value)
+        if User.objects.filter(username__iexact=value).exists():
+            raise serializers.ValidationError("A user with that username already exists.")
+        return value
+
+    def validate_email(self, value):
+        print("Checking if email exists:", value)
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("A user with that email already exists.")
         return value
 
     def create(self, validated_data):
+        print("Creating user with data:", validated_data)
         user = User.objects.create_user(**validated_data)
         return user
 
