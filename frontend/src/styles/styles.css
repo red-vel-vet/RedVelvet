@@ -1,35 +1,40 @@
-/* styles.css */
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+}
+
 body {
-    color: #FDF3E7;
-    overflow: hidden;
-    padding-top: env(safe-area-inset-top);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-    padding-bottom: env(safe-area-inset-bottom);
-    margin: 0;
-    /* min-height: 100vh; */
-    /* background-attachment: fixed; 
-    background-size: cover; */
-  }
+  color: #FDF3E7;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #800020;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
 
-  html, body {
-    font-family: 'Montserrat', sans-serif;
-    background: #800020;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    box-sizing: border-box;
-  }
+html, body {
+  font-family: 'Montserrat', sans-serif;
+  background: #800020;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
 
-  header {
-    position: fixed; /* or 'absolute', depending on your layout */
-    top: 0;
-    width: 100%; /* Ensure it spans the full width */
-    padding-top: calc(5px + env(safe-area-inset-top)); /* Adjust padding for safe area */
-    background-color: #800020; /* Set your desired color */
-    z-index: 1000; /* Ensure the header is above other content */
-  }
+.safe-area {
+  padding-top: var(--safe-area-inset-top);
+  padding-left: var(--safe-area-inset-left);
+  padding-right: var(--safe-area-inset-right);
+  padding-bottom: var(--safe-area-inset-bottom);
+  background-color: #800020;
+  min-height: 100vh; /* Ensure it covers the entire viewport */
+}
+
+.header, .logo, .title, .events-container, .event-list, .event-item, .event-details, .event-host, .event-name, .event-time, .event-date, .event-hour {
   
-  .header, .logo, .title, .events-container, .event-list, .event-item, .event-details, .event-host, .event-name, .event-time, .event-date, .event-hour {
-    font-family: 'Montserrat', sans-serif;
-  }
+}
