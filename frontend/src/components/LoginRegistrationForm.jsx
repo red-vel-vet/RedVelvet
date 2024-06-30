@@ -1,9 +1,11 @@
+// LoginRegistrationForm.jsx
 import { useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import Button from './Button';
-import '../styles/styles.css'; 
+import LoadingSpinner from './LoadingSpinner';
+import '../styles/styles.css';
 import "../styles/Form.css";
 
 function LoginRegistrationForm({ route, method }) {
@@ -92,6 +94,7 @@ function LoginRegistrationForm({ route, method }) {
 
     return (
         <div className="container">
+            {loading && <LoadingSpinner />}
             <form onSubmit={handleSubmit} className="form-container">
                 <p className="form-title">{name.toUpperCase()}</p>
                 {!isLogin && (
