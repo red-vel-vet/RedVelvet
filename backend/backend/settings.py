@@ -148,10 +148,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # Email configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'info@red-vel.vet'
+EMAIL_BACKEND = os.getenv("EMAILBACKEND")
+EMAIL_HOST = os.getenv("EMAILHOST")
+# EMAIL_PORT = os.getenv("EMAILPORT")
+# EMAIL_USE_TLS = os.getenv("EMAILUSETLS")
+EMAIL_HOST_USER = os.getenv("EMAILHOSTUSER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAILHOSTPASSWORD")
-DEFAULT_FROM_EMAIL = 'info@red-vel.vet'
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULTFROMEMAIL")
