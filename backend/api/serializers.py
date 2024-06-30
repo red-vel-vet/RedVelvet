@@ -31,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
     
     def send_verification_email(self, email, token):
-        verification_link = f"http://localhost:5173/verify-email/?token={token}"  # Points to frontend
+        verification_link = f"https://www.red-vel.vet/verify-email/?token={token}"  # Points to frontend
         send_mail(
             'Verify your email address',
             f'Please click the link to verify your email address: {verification_link}',
