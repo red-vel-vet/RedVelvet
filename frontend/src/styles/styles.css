@@ -21,8 +21,12 @@ body {
   }
 
   header {
-    padding-top: env(safe-area-inset-top);
-    padding-top: calc(5px + env(safe-area-inset-top));
+    position: fixed; /* or 'absolute', depending on your layout */
+    top: 0;
+    width: 100%; /* Ensure it spans the full width */
+    padding-top: calc(5px + env(safe-area-inset-top)); /* Adjust padding for safe area */
+    background-color: #800020; /* Set your desired color */
+    z-index: 1000; /* Ensure the header is above other content */
   }
   
   .header, .logo, .title, .events-container, .event-list, .event-item, .event-details, .event-host, .event-name, .event-time, .event-date, .event-hour {
