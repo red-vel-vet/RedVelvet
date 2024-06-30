@@ -19,7 +19,6 @@ function LoginRegistrationForm({ route, method }) {
     const name = isLogin ? "Login" : "Register";
 
     const TottleLoginRegistration = () => {
-        // Assuming you have access to the current location/path
         const currentPath = window.location.pathname;
         if (currentPath.includes('/login')) {
             navigate('/register'); // Redirect to register if on login
@@ -31,42 +30,36 @@ function LoginRegistrationForm({ route, method }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrors({});  // Reset errors before submission
+        setErrors({});
 
-        // Verify email format when registering
         if (!isLogin) {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
                 alert(`Sorry, but ${email} is not a valid email address.`);
-                setLoading(false); // Stop the loading state
-                return; // Prevent the form from submitting
+                setLoading(false);
+                return;
             }
-        }
 
-        // Check if it's the registration form and the username contains disallowed characters
-        if (!isLogin) {
             const disallowedCharactersPattern = /[^\w.-]/; // Allows only letters, numbers, underscores, hyphens, and dots
             if (disallowedCharactersPattern.test(username)) {
                 alert("Sorry, but that username is invalid. Usernames may only contain letters, numbers, and the following characters: _ - .");
-                setLoading(false); // Stop the loading state
-                return; // Prevent the form from submitting
+                setLoading(false);
+                return;
+            }
+
+            if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/\d/.test(password) || !/[!@#$%^&*]/.test(password)) {
+                alert("Password must be at least 8 characters long and contain at least one letter, one number, and one special character.");
+                setLoading(false);
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                setLoading(false);
+                return;
             }
         }
 
-        // Check if it's the registration form and password too short, and has chars, numbers, and symbols
-        if (!isLogin && (password.length < 8 || !/[a-zA-Z]/.test(password) || !/\d/.test(password) || !/[!@#$%^&*]/.test(password))) {
-            alert("Password must be at least 8 characters long and contain at least one letter, one number, and one special character.");
-            setLoading(false); // Stop the loading state
-            return; // Prevent the form from submitting
-        }
-
-        // Check if it's the registration form and passwords match
-        if (!isLogin && password !== confirmPassword) {
-            alert("Passwords do not match.");
-            setLoading(false); // Stop the loading state
-            return; // Prevent the form from submitting
-        }
-        
         try {
             const res = await api.post(route, { email, username, password });
             if (isLogin) {
@@ -74,18 +67,22 @@ function LoginRegistrationForm({ route, method }) {
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
                 navigate("/");
             } else {
+                alert("Please check your email to verify your account.");
                 navigate("/login");
             }
         } catch (error) {
             if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
+                console.log('Error response data:', error.response.data);
                 setErrors(error.response.data);
+                if (error.response.data.detail) {
+                    alert(error.response.data.detail);  // Display general error as alert
+                }
+                if (error.response.data.non_field_errors) {
+                    alert(error.response.data.non_field_errors[0]);  // Display non-field error as alert
+                }
             } else if (error.request) {
-                // The request was made but no response was received
                 alert("Error: No response was received from the server.");
             } else {
-                // Something happened in setting up the request that triggered an Error
                 alert("Error: An error occurred while setting up the request.");
             }
         } finally {
@@ -94,9 +91,9 @@ function LoginRegistrationForm({ route, method }) {
     };
 
     return (
-        <div className = "container">
+        <div className="container">
             <form onSubmit={handleSubmit} className="form-container">
-                <p class="form-title">{name.toUpperCase()}</p>
+                <p className="form-title">{name.toUpperCase()}</p>
                 {!isLogin && (
                     <div className="form-group">
                         <input
@@ -141,17 +138,17 @@ function LoginRegistrationForm({ route, method }) {
                     </div>
                 )}
                 <div className="button-container">
-                        <Button
-                            className="button cancel switch"
-                            type="button"
-                            onClick={TottleLoginRegistration}
-                        >
-                            {isLogin ? 'Switch to Register' : 'Switch to Login'}
-                        </Button>
-                        <Button className="button submit" type="submit">
-                            {isLogin ? 'Login' : 'Register'}
-                        </Button>
-                    </div>
+                    <Button
+                        className="button cancel switch"
+                        type="button"
+                        onClick={TottleLoginRegistration}
+                    >
+                        {isLogin ? 'Switch to Register' : 'Switch to Login'}
+                    </Button>
+                    <Button className="button submit" type="submit">
+                        {isLogin ? 'Login' : 'Register'}
+                    </Button>
+                </div>
             </form>
         </div>
     );

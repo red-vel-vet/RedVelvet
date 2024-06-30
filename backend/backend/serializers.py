@@ -1,7 +1,6 @@
-# backend/serializers.py
 from django.contrib.auth import authenticate, get_user_model
-from django.core.exceptions import ValidationError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -14,6 +13,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         user = User.objects.filter(email=identifier).first() or User.objects.filter(username=identifier).first()
 
         if user:
+            # Check if the user is active
+            if not user.is_active:
+                raise ValidationError('Email not verified. Please check your email to verify your account.')
+            
             # Authenticate the user using username and password
             auth_user = authenticate(username=user.username, password=password)
             if auth_user:

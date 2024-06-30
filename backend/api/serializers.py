@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Host, Membership, Event, Price
+from django.utils.crypto import get_random_string
+from django.core.mail import send_mail
+from .models import Host, Membership, Event, Price, EmailVerificationToken
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,9 +23,22 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        print("Creating user with data:", validated_data)
+        validated_data['is_active'] = False
         user = User.objects.create_user(**validated_data)
+        token = get_random_string(length=32)
+        EmailVerificationToken.objects.create(user=user, token=token)
+        self.send_verification_email(user.email, token)
         return user
+    
+    def send_verification_email(self, email, token):
+        verification_link = f"http://localhost:5173/verify-email/?token={token}"  # Points to frontend
+        send_mail(
+            'Verify your email address',
+            f'Please click the link to verify your email address: {verification_link}',
+            'info@red-vel.vet',
+            [email],
+            fail_silently=False,
+        )
 
 class HostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')

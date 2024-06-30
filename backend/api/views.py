@@ -5,6 +5,8 @@ from .models import Host, Membership, Event, Price
 from .serializers import *
 from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
+from .models import EmailVerificationToken
 
 
 class CreateUser(generics.CreateAPIView):
@@ -20,6 +22,20 @@ class CreateUser(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    
+
+class VerifyEmail(generics.GenericAPIView):
+    permission_classes = [permissions.AllowAny]
+    
+    def post(self, request, *args, **kwargs):
+        token = request.data.get('token')
+        verification_token = get_object_or_404(EmailVerificationToken, token=token)
+        user = verification_token.user
+        user.is_active = True
+        user.save()
+        verification_token.delete()
+        return Response({'message': 'Email verified successfully!'}, status=status.HTTP_200_OK)
+
 
 class ViewUser(generics.RetrieveAPIView):
     queryset = User.objects.all()
@@ -29,6 +45,7 @@ class ViewUser(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
+
 class UpdateUser(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -37,6 +54,7 @@ class UpdateUser(generics.UpdateAPIView):
     def get_object(self):
         return self.request.user
 
+
 class DeleteUser(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -44,6 +62,7 @@ class DeleteUser(generics.DestroyAPIView):
 
     def get_object(self):
         return self.request.user
+
 
 class ListHosts(generics.ListAPIView):
     queryset = Host.objects.filter(is_active=True)

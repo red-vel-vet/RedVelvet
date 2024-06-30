@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Button.css';
 
-function Button({ className, onClick, children }) {
+function Button({ className, type, onClick, children }) {
     return (
-        <button className={className} onClick={onClick}>
+        <button className={className} type={type} onClick={onClick}>
             {children}
         </button>
     );
@@ -12,7 +12,8 @@ function Button({ className, onClick, children }) {
 
 Button.propTypes = {
     className: PropTypes.string,
-    onClick: PropTypes.func.isRequired,
+    type: PropTypes.oneOf(['button', 'submit', 'reset']).isRequired,
+    onClick: PropTypes.func,  // Make onClick optional
     children: PropTypes.node.isRequired,
 };
 

@@ -7,6 +7,7 @@ import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
+import VerifyEmail from './pages/VerifyEmail';
 
 function Logout() {
   localStorage.clear()
@@ -37,6 +38,7 @@ function App() {
             <Route path="/login" element = {<Login />}/>
             <Route path="/logout" element = {<Logout />}/>
             <Route path="/register" element = {<Register />}/>
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="*" element = {<NotFound />}/>
           </Routes>
         </Layout>
