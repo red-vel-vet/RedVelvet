@@ -44,9 +44,13 @@ function Home() {
         let filtered = events;
         
         if (searchQuery) {
+            const lowerCaseQuery = searchQuery.toLowerCase();
             filtered = filtered.filter(event => 
-                event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                (event.description && event.description.toLowerCase().includes(searchQuery.toLowerCase()))
+                event.title.toLowerCase().includes(lowerCaseQuery) ||
+                (event.description && event.description.toLowerCase().includes(lowerCaseQuery)) ||
+                event.host.toLowerCase().includes(lowerCaseQuery) ||
+                event.city.toLowerCase().includes(lowerCaseQuery) ||
+                event.state.toLowerCase().includes(lowerCaseQuery)
             );
         }
 
