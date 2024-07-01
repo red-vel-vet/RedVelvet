@@ -1,9 +1,10 @@
 /* ../styles/Home.css */
+
 .home-container {
-  top: 60px;
+  top: 50px;
   padding-left: 10px;
   padding-right: 10px;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 0px);
   overflow-y: auto;
   z-index: 0;
   position: relative;
@@ -20,10 +21,10 @@
 
 @keyframes coin-spin {
   0%, 100% {
-    transform: rotateY(360deg) scaleX(1);
+      transform: rotateY(360deg) scaleX(1);
   }
   50% {
-    transform: rotateY(360deg) scaleX(0);
+      transform: rotateY(360deg) scaleX(0);
   }
 }
 
@@ -69,10 +70,10 @@
 
 @keyframes slideDown {
   from {
-    transform: translateY(0);
+      transform: translateY(0);
   }
   to {
-    transform: translateY(100%);
+      transform: translateY(100%);
   }
 }
 
@@ -100,4 +101,38 @@
 .modal-content {
   animation: slideUp 0.3s ease-out forwards;
   transform: translateY(100%);
+}
+
+.search-filter-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background-color: #800020;
+  position: fixed;
+  top: 40px; /* Adjust according to your header height */
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.search-bar {
+  padding: 5px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  flex-grow: 1;
+  margin-right: 10px; /* Gap between the search bar and the button */
+  width: calc(100% - 160px); /* Ensure the search bar scales correctly */
+}
+
+.date-filter-button {
+  width: 100px; 
+  border-radius: 4px;
+  background-color: #DC143C;
+  font-size: 16px;
+  border: 3px solid #DC143C;
+}
+
+.events-container {
+  padding-top: 55px; /* Adjust according to your header and search bar height */
 }
