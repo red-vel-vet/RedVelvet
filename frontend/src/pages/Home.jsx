@@ -28,7 +28,7 @@ function Home() {
     }, [events, searchQuery, startDate, endDate]);
 
     const getEvents = () => {
-        setIsLoading(true); // Start loading
+        setIsLoading(true); 
         api.get('/api/events/')
             .then((res) => res.data)
             .then((data) => {
@@ -37,7 +37,7 @@ function Home() {
                 setFilteredEvents(sortedData);
             })
             .catch((err) => alert(err))
-            .finally(() => setIsLoading(false)); // Stop loading regardless of result
+            .finally(() => setIsLoading(false)); 
     };
 
     const filterEvents = () => {
@@ -74,16 +74,23 @@ function Home() {
             .catch((err) => alert(err));
     };
 
+    const clearSearch = () => {
+        setSearchQuery('');
+    };
+
     return (
         <>
             <div className="search-filter-container">
-                <input 
-                    type="text" 
-                    placeholder="Search events..." 
-                    value={searchQuery} 
-                    onChange={(e) => setSearchQuery(e.target.value)} 
-                    className="search-bar"
-                />
+                <div className="search-bar-container">
+                    <input 
+                        type="text" 
+                        placeholder="Search events..." 
+                        value={searchQuery} 
+                        onChange={(e) => setSearchQuery(e.target.value)} 
+                        className="search-bar"
+                    />
+                    {searchQuery && <button className="clear-button" onClick={clearSearch}>×</button>}
+                </div>
                 <Button 
                     className="button date-filter-button" 
                     type="button" 

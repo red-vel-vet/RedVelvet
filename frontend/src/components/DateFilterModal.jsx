@@ -7,10 +7,16 @@ import Button from './Button';
 function DateFilterModal({ startDate, endDate, setStartDate, setEndDate, dateModalVisible, onCancel }) {
     if (!dateModalVisible) return null;
 
+    const clearDateFilter = () => {
+        setStartDate(null);
+        setEndDate(null);
+    };
+
     return (
         <div className="modal-background">
             <div className="modal-content">
                 <p className="datepicker-title">Select Date Range</p>
+                <a className="clear-link" onClick={clearDateFilter}>Clear Dates</a>
                 <DatePicker
                     selected={startDate}
                     onChange={(dates) => {
