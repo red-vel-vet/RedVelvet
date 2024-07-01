@@ -121,8 +121,15 @@
   border-radius: 4px;
   font-size: 16px;
   flex-grow: 1;
-  margin-right: 10px; /* Gap between the search bar and the button */
-  width: calc(100% - 160px); /* Ensure the search bar scales correctly */
+  margin-right: 10px; 
+  width: calc(100% - 160px); 
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.search-bar:focus {
+  outline: 2px solid #FDF3E7; /* Custom border color on focus */
+  box-shadow: 0 0 5px rgba(128, 0, 32, 0.5); /* Optional: add a shadow effect */
 }
 
 .date-filter-button {

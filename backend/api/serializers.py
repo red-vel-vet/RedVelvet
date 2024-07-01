@@ -74,7 +74,7 @@ class ListEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'title', 'host', 'start', 'city', 'state', 'image_url')
+        fields = ('id', 'title', 'host', 'start', 'city', 'state', 'image_url', 'description')
 
 class PriceSerializer(serializers.ModelSerializer):
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())

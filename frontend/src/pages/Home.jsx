@@ -45,7 +45,8 @@ function Home() {
         
         if (searchQuery) {
             filtered = filtered.filter(event => 
-                event.name.toLowerCase().includes(searchQuery.toLowerCase())
+                event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (event.description && event.description.toLowerCase().includes(searchQuery.toLowerCase()))
             );
         }
 
