@@ -53,6 +53,16 @@
   align-items: center;
 }
 
-/* .switch {
-  font-size: 14px;
-} */
+.email-sent {
+  color: #DC143C;
+  margin: 10px 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-container.center {
+  justify-content: center;
+}

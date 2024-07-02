@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
-from .models import Host, Membership, Event, Price, EmailVerificationToken
+from .models import Host, Membership, Event, Price, EmailVerificationToken, PasswordResetToken
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,6 +39,31 @@ class UserSerializer(serializers.ModelSerializer):
             [email],
             fail_silently=False,
         )
+
+    def send_reset_password_email(self, email, token):
+        reset_link = f"https://www.red-vel.vet/reset-password/?token={token}"  # Points to frontend
+        send_mail(
+            'Reset your password',
+            f'Please click the link to reset your password: {reset_link}',
+            'info@red-vel.vet',
+            [email],
+            fail_silently=False,
+        )
+
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    token = serializers.UUIDField()
+    password = serializers.CharField(write_only=True, min_length=8)
+
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long.")
+        return value
+    
 
 class HostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')

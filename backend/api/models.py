@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from enum import Enum
+import uuid
 
 class Host(models.Model):
     
@@ -103,6 +104,14 @@ class Price(models.Model):
 class EmailVerificationToken(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='email_verification_token')
     token = models.CharField(max_length=255, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.token}"
+    
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
