@@ -45,15 +45,15 @@ function ForgotPassword() {
                     />
                 </div>
                 <div className="button-container">
-                    <Button className="button submit" type="submit" disabled={loading}>
-                        {loading ? 'Sending...' : 'Reset'}
-                    </Button>
                     <Button 
                         className="button cancel" 
                         type="button" 
                         onClick={() => navigate('/login')}
                     >
                         Back to Login
+                    </Button>
+                    <Button className="button submit" type="submit" disabled={loading}>
+                        {loading ? 'Sending...' : 'Reset'}
                     </Button>
                 </div>
                 {message && <p className="email-sent">{message}</p>}

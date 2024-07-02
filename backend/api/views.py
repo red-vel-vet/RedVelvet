@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from .models import EmailVerificationToken, PasswordResetToken
 import logging
+from rest_framework.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +75,24 @@ class PasswordResetView(generics.GenericAPIView):
         user.save()
         reset_token.delete()
         return Response({"message": "Password has been reset successfully."}, status=status.HTTP_200_OK)
+    
+class ChangePasswordView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        current_password = serializer.validated_data['currentPassword']
+        new_password = serializer.validated_data['password']
+        user = request.user
+
+        if not user.check_password(current_password):
+            raise ValidationError("Current password is incorrect.")
+
+        user.set_password(new_password)
+        user.save()
+        return Response({"message": "Password has been changed successfully."}, status=status.HTTP_200_OK)
 
 
 class ViewUser(generics.RetrieveAPIView):

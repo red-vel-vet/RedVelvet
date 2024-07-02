@@ -67,7 +67,7 @@ function LoginRegistrationForm({ route, method }) {
             if (isLogin) {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/");
+                navigate("/account");
             } else {
                 alert("Please check your email to verify your account.");
                 navigate("/login");

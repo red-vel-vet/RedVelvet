@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import userIcon from '../assets/icons/user.svg';
 import navIcon from '../assets/icons/nav.svg';
 import '../styles/Header.css';
@@ -9,7 +10,9 @@ const Header = () => (
             <h1 className="header-title">RED VELVET</h1>
         </div>
         <div className="header-right">
-            <img src={userIcon} alt="User Icon" className="header-icon" />
+            <Link to="/account">
+                <img src={userIcon} alt="User Icon" className="header-icon" />
+            </Link>
         </div>
     </header>
 );

@@ -64,6 +64,15 @@ class PasswordResetSerializer(serializers.Serializer):
             raise serializers.ValidationError("Password must be at least 8 characters long.")
         return value
     
+class ChangePasswordSerializer(serializers.Serializer):
+    currentPassword = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, min_length=8)
+
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long.")
+        return value
+    
 
 class HostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')

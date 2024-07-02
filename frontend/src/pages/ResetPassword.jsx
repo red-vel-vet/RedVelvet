@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../api';
 import Button from '../components/Button';
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/Form.css';
 
 function ResetPassword() {
+    const [currentPassword, setCurrentPassword] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -12,19 +14,14 @@ function ResetPassword() {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+    const isReset = Boolean(token);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setMessage('');
-
-        const params = new URLSearchParams(location.search);
-        const token = params.get('token');
-
-        if (!token) {
-            setMessage('Invalid or missing token.');
-            setLoading(false);
-            return;
-        }
 
         if (password !== confirmPassword) {
             setMessage('Passwords do not match.');
@@ -33,20 +30,44 @@ function ResetPassword() {
         }
 
         try {
-            await api.post('/api/user/password-reset/', { token, password });
-            setMessage('Password reset successfully. Redirecting to login...');
-            setTimeout(() => navigate('/login'), 3000);
+            if (isReset) {
+                await api.post('/api/user/password-reset/', { token, password });
+                setMessage('Password reset successfully.');
+                setTimeout(() => {
+                    setLoading(false);
+                    navigate('/login');
+                }, 1000); // Short delay before redirecting
+            } else {
+                await api.post('/api/user/change-password/', { currentPassword, password });
+                setMessage('Password changed successfully.');
+                setTimeout(() => {
+                    setLoading(false);
+                    navigate('/');
+                }, 1000); // Short delay before redirecting
+            }
         } catch (error) {
-            setMessage('Failed to reset password. Please try again.');
-        } finally {
+            setMessage('Failed to reset/change password. Please try again.');
             setLoading(false);
         }
     };
 
     return (
         <div className="container">
+            {loading && <LoadingSpinner />}
             <form onSubmit={handleSubmit} className="form-container">
-                <p className="form-title">Reset Password</p>
+                <p className="form-title">{isReset ? 'Reset Password' : 'Change Password'}</p>
+                {!isReset && (
+                    <div className="form-group">
+                        <input
+                            className="form-input"
+                            type="password"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                            placeholder="Current Password"
+                            required
+                        />
+                    </div>
+                )}
                 <div className="form-group">
                     <input
                         className="form-input"
@@ -67,9 +88,18 @@ function ResetPassword() {
                         required
                     />
                 </div>
-                <div className={`button-container ${!message && 'center'}`}>
+                <div className="button-container">
+                    {!isReset && (
+                        <Button 
+                            className="button cancel" 
+                            type="button" 
+                            onClick={() => navigate('/')}
+                        >
+                            Back to Home
+                        </Button>
+                        )}
                     <Button className="button submit" type="submit" disabled={loading}>
-                        {loading ? 'Resetting...' : 'Reset Password'}
+                        {loading ? (isReset ? 'Resetting...' : 'Changing...') : (isReset ? 'Reset Password' : 'Change Password')}
                     </Button>
                 </div>
                 {message && <p>{message}</p>}
