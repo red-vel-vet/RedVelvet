@@ -10,6 +10,7 @@ import Account from './pages/Account'
 import VerifyEmail from './pages/VerifyEmail';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import FeedbackForm from './pages/FeedbackForm';
 
 function Logout() {
   localStorage.clear()
@@ -36,6 +37,7 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/feedback" element={<FeedbackForm />} />
             <Route path="*" element = {<NotFound />}/>
           </Routes>
         </Layout>

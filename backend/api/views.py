@@ -7,9 +7,10 @@ from .serializers import *
 from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-from .models import EmailVerificationToken, PasswordResetToken
+from .models import EmailVerificationToken, PasswordResetToken, Feedback
 import logging
 from rest_framework.exceptions import ValidationError
+from django.core.mail import send_mail
 
 logger = logging.getLogger(__name__)
 
@@ -259,3 +260,25 @@ class DeletePrice(generics.DestroyAPIView):
     def perform_destroy(self, instance):
         instance.is_active = False
         instance.save()
+
+class CreateFeedback(generics.CreateAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+    permission_classes = [permissions.AllowAny]  
+
+    def perform_create(self, serializer):
+        user = self.request.user if self.request.user.is_authenticated else None
+        feedback = serializer.save(user=user)
+        self.send_feedback_email(feedback)
+
+    def send_feedback_email(self, feedback):
+        subject = f"New Feedback: {feedback.get_feedback_type_display()}"
+        message = f"""
+        Feedback Type: {feedback.get_feedback_type_display()}
+        Feedback: {feedback.feedback}
+        User: {feedback.user.username if feedback.user else 'Anonymous'}
+        Name: {feedback.name if feedback.name else 'N/A'}
+        Email: {feedback.email if feedback.email else 'N/A'}
+        Contact Permission: {'Yes' if feedback.contact_permission else 'No'}
+        """
+        send_mail(subject, message, 'info@red-vel.vet', ['info@red-vel.vet'], fail_silently=False)

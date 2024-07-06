@@ -31,4 +31,5 @@ urlpatterns = [
     path('prices/<int:pk>/', views.ViewPrice.as_view(), name='price-detail'),
     path('prices/update/<int:pk>/', views.UpdatePrice.as_view(), name='price-update'),
     path('prices/delete/<int:pk>/', views.DeletePrice.as_view(), name='price-delete'),
+    path('feedback/', views.CreateFeedback.as_view(), name='create-feedback')
 ]

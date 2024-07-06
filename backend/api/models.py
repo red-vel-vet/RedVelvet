@@ -101,6 +101,26 @@ class Price(models.Model):
     def __str__(self):
         return f'{self.get_ticket_type_display()} - {self.event.name}'
     
+from django.db import models
+from django.contrib.auth.models import User
+
+class Feedback(models.Model):
+    FEEDBACK_TYPES = (
+        ('bug', 'Bug'),
+        ('feature', 'Feature Request'),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    feedback_type = models.CharField(max_length=10, choices=FEEDBACK_TYPES)
+    feedback = models.TextField()
+    contact_permission = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.feedback_type} - {self.feedback[:20]}"
+    
 class EmailVerificationToken(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='email_verification_token')
     token = models.CharField(max_length=255, unique=True)

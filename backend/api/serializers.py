@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
-from .models import Host, Membership, Event, Price, EmailVerificationToken, PasswordResetToken
+from .models import Host, Membership, Event, Price, EmailVerificationToken, PasswordResetToken, Feedback
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -115,4 +115,9 @@ class PriceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Price
+        fields = '__all__'
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
         fields = '__all__'
