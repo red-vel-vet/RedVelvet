@@ -2,7 +2,7 @@ import uuid
 from rest_framework import generics, permissions, status
 from django.contrib.auth.models import User
 from rest_framework.response import Response
-from .models import Host, Membership, Event, Price
+from .models import Host, Membership, Event, Price, HostApplication, ApplicationStatus
 from .serializers import *
 from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
@@ -222,22 +222,33 @@ class DeleteMembership(generics.DestroyAPIView):
 
 class ListEvents(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-    def get_serializer_class(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return ListEventSerializer
-        else:
-            return LimitedEventSerializer
+    serializer_class = EventSerializer  # Default serializer class
 
     def get_queryset(self):
+        # Filter for active events that end in the future
+        return Event.objects.filter(is_active=True, end__gte=timezone.now())
+
+    def get_serializer(self, *args, **kwargs):
+        # Determine the appropriate serializer based on user approval and event requirements
         user = self.request.user
-        events = Event.objects.filter(is_active=True, end__gte=timezone.now())
-        if user.is_authenticated:
-            approved_hosts = HostApplication.objects.filter(user=user, status=ApplicationStatus.APPROVED).values_list('host', flat=True)
-            return events.filter(models.Q(requires_approval_for_view=False) | models.Q(host__in=approved_hosts))
-        else:
-            return events.filter(requires_approval_for_view=False)
+        queryset = self.filter_queryset(self.get_queryset())
+
+        # Map each event to its appropriate serializer
+        event_serializers = []
+        for event in queryset:
+            if not event.requires_approval_for_view:
+                serializer = EventSerializer(event, context={'request': self.request})
+            elif user.is_authenticated:
+                host_application = HostApplication.objects.filter(user=user, host=event.host).first()
+                if host_application and host_application.status == ApplicationStatus.APPROVED:
+                    serializer = EventSerializer(event, context={'request': self.request})
+                else:
+                    serializer = LimitedEventSerializer(event, context={'request': self.request})
+            else:
+                serializer = LimitedEventSerializer(event, context={'request': self.request})
+            event_serializers.append(serializer.data)
+
+        return Response(event_serializers)
 
 class CreateEvent(generics.CreateAPIView):
     queryset = Event.objects.all()
@@ -257,11 +268,27 @@ class ViewEvent(generics.RetrieveAPIView):
     def get_serializer_class(self):
         user = self.request.user
         event = self.get_object()
+        if not event.requires_approval_for_view:
+            return EventSerializer
         if user.is_authenticated:
             host_application = HostApplication.objects.filter(user=user, host=event.host).first()
             if host_application and host_application.status == ApplicationStatus.APPROVED:
                 return EventSerializer
         return LimitedEventSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = request.user
+        if instance.requires_approval_for_view:
+            if not user.is_authenticated:
+                serializer = LimitedEventSerializer(instance)
+                return Response(serializer.data)
+            host_application = HostApplication.objects.filter(user=user, host=instance.host).first()
+            if not host_application or host_application.status != ApplicationStatus.APPROVED:
+                serializer = LimitedEventSerializer(instance)
+                return Response(serializer.data)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 class UpdateEvent(generics.UpdateAPIView):
     queryset = Event.objects.all()
