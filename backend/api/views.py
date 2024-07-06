@@ -6,6 +6,7 @@ from .models import Host, Membership, Event, Price
 from .serializers import *
 from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from .models import EmailVerificationToken, PasswordResetToken, Feedback
 import logging
@@ -162,6 +163,34 @@ class DeleteHost(generics.DestroyAPIView):
         instance.is_active = False
         instance.save()
 
+class ListHostApplications(generics.ListAPIView):
+    queryset = HostApplication.objects.all()
+    serializer_class = HostApplicationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class CreateHostApplication(generics.CreateAPIView):
+    queryset = HostApplication.objects.all()
+    serializer_class = HostApplicationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class ViewHostApplication(generics.RetrieveAPIView):
+    queryset = HostApplication.objects.all()
+    serializer_class = HostApplicationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class UpdateHostApplication(generics.UpdateAPIView):
+    queryset = HostApplication.objects.all()
+    serializer_class = HostApplicationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class DeleteHostApplication(generics.DestroyAPIView):
+    queryset = HostApplication.objects.all()
+    serializer_class = HostApplicationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 class ListMemberships(generics.ListAPIView):
     queryset = Membership.objects.filter(is_active=True)
     serializer_class = MembershipSerializer
@@ -192,9 +221,23 @@ class DeleteMembership(generics.DestroyAPIView):
         instance.save()
 
 class ListEvents(generics.ListAPIView):
-    queryset = Event.objects.filter(is_active=True, end__gte=timezone.now())
-    serializer_class = ListEventSerializer  
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_serializer_class(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return ListEventSerializer
+        else:
+            return LimitedEventSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        events = Event.objects.filter(is_active=True, end__gte=timezone.now())
+        if user.is_authenticated:
+            approved_hosts = HostApplication.objects.filter(user=user, status=ApplicationStatus.APPROVED).values_list('host', flat=True)
+            return events.filter(models.Q(requires_approval_for_view=False) | models.Q(host__in=approved_hosts))
+        else:
+            return events.filter(requires_approval_for_view=False)
 
 class CreateEvent(generics.CreateAPIView):
     queryset = Event.objects.all()
@@ -209,8 +252,16 @@ class CreateEvent(generics.CreateAPIView):
 
 class ViewEvent(generics.RetrieveAPIView):
     queryset = Event.objects.all()
-    serializer_class = EventSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_serializer_class(self):
+        user = self.request.user
+        event = self.get_object()
+        if user.is_authenticated:
+            host_application = HostApplication.objects.filter(user=user, host=event.host).first()
+            if host_application and host_application.status == ApplicationStatus.APPROVED:
+                return EventSerializer
+        return LimitedEventSerializer
 
 class UpdateEvent(generics.UpdateAPIView):
     queryset = Event.objects.all()

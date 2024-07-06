@@ -33,6 +33,20 @@ class Host(models.Model):
     def __str__(self):
         return self.name
 
+class ApplicationStatus(models.TextChoices):
+    NOT_SUBMITTED = 'Not Submitted'
+    SUBMITTED = 'Submitted'
+    APPROVED = 'Approved'
+    REJECTED = 'Rejected'
+
+class HostApplication(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    host = models.ForeignKey(Host, on_delete=models.CASCADE)
+    status = models.CharField(max_length=13, choices=ApplicationStatus.choices, default=ApplicationStatus.NOT_SUBMITTED)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.host.name} - {self.status}"
+
 class DurationType(Enum):
     D = 'days'
     W = 'weeks'
@@ -72,6 +86,7 @@ class Event(models.Model):
     zip = models.CharField(max_length=10, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     membership_required = models.BooleanField(default=False)
+    requires_approval_for_view = models.BooleanField(default=False)
     host = models.ForeignKey(Host, on_delete=models.CASCADE, related_name='events')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)

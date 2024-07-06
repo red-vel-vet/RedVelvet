@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
-from .models import Host, Membership, Event, Price, EmailVerificationToken, PasswordResetToken, Feedback
+from .models import Host, Membership, Event, Price, EmailVerificationToken, Feedback, HostApplication
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,6 +81,16 @@ class HostSerializer(serializers.ModelSerializer):
         model = Host
         fields = '__all__'
 
+from .models import HostApplication
+
+class HostApplicationSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    host = serializers.ReadOnlyField(source='host.name')
+
+    class Meta:
+        model = HostApplication
+        fields = ['id', 'user', 'host', 'status']
+
 class MembershipSerializer(serializers.ModelSerializer):
     host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all())
 
@@ -108,7 +118,14 @@ class ListEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'title', 'host', 'start', 'city', 'state', 'image_url', 'description')
+        fields = ('id', 'title', 'host', 'start', 'city', 'state', 'image_url', 'description', 'requires_approval_for_view')
+
+class LimitedEventSerializer(serializers.ModelSerializer):
+    host = serializers.StringRelatedField()
+
+    class Meta:
+        model = Event
+        fields = ('id', 'host', 'start', 'city', 'state', 'requires_approval_for_view')
 
 class PriceSerializer(serializers.ModelSerializer):
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())
