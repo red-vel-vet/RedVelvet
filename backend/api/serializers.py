@@ -3,28 +3,39 @@ from rest_framework import serializers
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
 from .models import Host, Membership, Event, Price, EmailVerificationToken, Feedback, HostApplication, UserProfile
+from datetime import date
 
 class UserSerializer(serializers.ModelSerializer):
+    dob = serializers.DateField(write_only=True)  # Add DOB field
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email']
+        fields = ['id', 'username', 'password', 'email', 'dob']
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate_username(self, value):
-        print("Checking if username exists:", value)
         if User.objects.filter(username__iexact=value).exists():
             raise serializers.ValidationError("A user with that username already exists.")
         return value
 
     def validate_email(self, value):
-        print("Checking if email exists:", value)
         if User.objects.filter(email__iexact=value).exists():
             raise serializers.ValidationError("A user with that email already exists.")
         return value
 
+    def validate_dob(self, value):
+        # Ensure the user is at least 21 years old
+        today = date.today()
+        age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
+        if age < 21:
+            raise serializers.ValidationError("You must be at least 21 years old to register.")
+        return value
+
     def create(self, validated_data):
+        dob = validated_data.pop('dob')
         validated_data['is_active'] = False
         user = User.objects.create_user(**validated_data)
+        UserProfile.objects.create(user=user, dob=dob)  # Create UserProfile with DOB
         token = get_random_string(length=32)
         EmailVerificationToken.objects.create(user=user, token=token)
         self.send_verification_email(user.email, token)
@@ -60,6 +71,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'about_you', 'relationship_status', 'personal_background', 'experience',
             'community_contribution', 'philosophy_views', 'fantasy_preferences', 'age_display_value'
         ]
+
+    def validate_first_name(self, value):
+        # Ensure first_name can only be set once
+        if self.instance and self.instance.first_name and self.instance.first_name != value:
+            raise serializers.ValidationError("First name cannot be changed once set.")
+        return value
+
+    def validate_last_name(self, value):
+        # Ensure last_name can only be set once
+        if self.instance and self.instance.last_name and self.instance.last_name != value:
+            raise serializers.ValidationError("Last name cannot be changed once set.")
+        return value
 
     def validate_dob(self, value):
         # Ensure the DOB cannot be changed once set

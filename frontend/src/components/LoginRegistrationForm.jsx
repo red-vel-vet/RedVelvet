@@ -1,4 +1,3 @@
-// LoginRegistrationForm.jsx
 import { useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +12,7 @@ function LoginRegistrationForm({ route, method }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [dob, setDob] = useState("");
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -27,6 +27,17 @@ function LoginRegistrationForm({ route, method }) {
         } else if (currentPath.includes('/register')) {
             navigate('/login'); // Redirect to login if on register
         }
+    };
+
+    const calculateAge = (dob) => {
+        const today = new Date();
+        const birthDate = new Date(dob);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
     };
 
     const handleSubmit = async (e) => {
@@ -60,14 +71,20 @@ function LoginRegistrationForm({ route, method }) {
                 setLoading(false);
                 return;
             }
+
+            if (calculateAge(dob) < 21) {
+                alert("You must be at least 21 years old to register.");
+                setLoading(false);
+                return;
+            }
         }
 
         try {
-            const res = await api.post(route, { email, username, password });
+            const res = await api.post(route, { email, username, password, dob });
             if (isLogin) {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/account");
+                navigate("/user/account");
             } else {
                 alert("Please check your email to verify your account.");
                 navigate("/login");
@@ -98,16 +115,28 @@ function LoginRegistrationForm({ route, method }) {
             <form onSubmit={handleSubmit} className="form-container">
                 <p className="form-title">{name.toUpperCase()}</p>
                 {!isLogin && (
-                    <div className="form-group">
-                        <input
-                            className="form-input"
-                            type="text"
-                            value={email.toLowerCase()}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email Address"
-                        />
-                        {errors.email && <p className="error-text">{errors.email}</p>}
-                    </div>
+                    <>
+                        <div className="form-group">
+                            <input
+                                className="form-input"
+                                type="text"
+                                value={email.toLowerCase()}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Email Address"
+                            />
+                            {errors.email && <p className="error-text">{errors.email}</p>}
+                        </div>
+                        <div className="form-group">
+                            <input
+                                className="form-input"
+                                type="date"
+                                value={dob}
+                                onChange={(e) => setDob(e.target.value)}
+                                placeholder="Date of Birth"
+                            />
+                            {errors.dob && <p className="error-text">{errors.dob}</p>}
+                        </div>
+                    </>
                 )}
                 <div className="form-group">
                     <input

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from enum import Enum
 import uuid
+from datetime import date
 
 class Host(models.Model):
     
@@ -141,8 +142,8 @@ class SexualityType(Enum):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30, blank=True, default='')
+    last_name = models.CharField(max_length=30, blank=True, default='')
     dob = models.DateField()
     age_display = models.CharField(
         max_length=10,
@@ -151,11 +152,13 @@ class UserProfile(models.Model):
     )
     gender = models.CharField(
         max_length=10,
-        choices=[(tag.name, tag.value) for tag in GenderType]
+        choices=[(tag.name, tag.value) for tag in GenderType],
+        default=GenderType.OTHER.name
     )
     sexuality = models.CharField(
         max_length=20,
-        choices=[(tag.name, tag.value) for tag in SexualityType]
+        choices=[(tag.name, tag.value) for tag in SexualityType],
+        default=SexualityType.OTHER.name
     )
     about_you = models.TextField(null=True, blank=True)
     relationship_status = models.TextField(null=True, blank=True)

@@ -8,7 +8,8 @@ from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
 # from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from .models import EmailVerificationToken, PasswordResetToken, Feedback, UserProfile
+# from .models import EmailVerificationToken, PasswordResetToken, Feedback, UserProfile
+from .models import *
 import logging
 from rest_framework.exceptions import ValidationError
 from django.core.mail import send_mail
@@ -22,13 +23,11 @@ class CreateUser(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        if not serializer.is_valid():
-            print("Validation errors: ", serializer.errors)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        user = serializer.save()
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-    
+
 class UserProfileView(generics.RetrieveUpdateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
