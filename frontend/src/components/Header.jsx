@@ -26,7 +26,7 @@ const Header = () => {
                     <h1 className="header-title">RED VELVET</h1>
                 </div>
                 <div className="header-right">
-                    <Link to="/account">
+                    <Link to="/user/account">
                         <img src={userIcon} alt="User Icon" className="header-icon" />
                     </Link>
                 </div>

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
-from .models import Host, Membership, Event, Price, EmailVerificationToken, Feedback, HostApplication
+from .models import Host, Membership, Event, Price, EmailVerificationToken, Feedback, HostApplication, UserProfile
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,6 +50,22 @@ class UserSerializer(serializers.ModelSerializer):
             fail_silently=False,
         )
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    age_display_value = serializers.ReadOnlyField()
+
+    class Meta:
+        model = UserProfile
+        fields = [
+            'first_name', 'last_name', 'dob', 'age_display', 'gender', 'sexuality',
+            'about_you', 'relationship_status', 'personal_background', 'experience',
+            'community_contribution', 'philosophy_views', 'fantasy_preferences', 'age_display_value'
+        ]
+
+    def validate_dob(self, value):
+        # Ensure the DOB cannot be changed once set
+        if self.instance and self.instance.dob != value:
+            raise serializers.ValidationError("DOB cannot be changed once set.")
+        return value
 
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()

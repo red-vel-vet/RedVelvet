@@ -116,8 +116,90 @@ class Price(models.Model):
     def __str__(self):
         return f'{self.get_ticket_type_display()} - {self.event.name}'
     
-from django.db import models
-from django.contrib.auth.models import User
+class AgeDisplayType(Enum):
+    NUMBER = 'Number'
+    GENERATION = 'Generation'
+    RANGE = 'Range'
+    NONE = 'None'
+
+class GenderType(Enum):
+    CIS_M = 'CIS M'
+    CIS_F = 'CIS F'
+    TRANS_M = 'Trans M'
+    TRANS_F = 'Trans F'
+    NON_BINARY = 'Non-Binary'
+    OTHER = 'Other'
+
+class SexualityType(Enum):
+    STRAIGHT = 'Straight'
+    HETERO = 'Heteroflexible'
+    BI_CURIOUS = 'Bi-curious'
+    BISEXUAL = 'Bisexual'
+    HOMO = 'Homoflexible'
+    GAY = 'Gay/Lesbian'
+    OTHER = 'Other'
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    dob = models.DateField()
+    age_display = models.CharField(
+        max_length=10,
+        choices=[(tag.name, tag.value) for tag in AgeDisplayType],
+        default=AgeDisplayType.NONE.name
+    )
+    gender = models.CharField(
+        max_length=10,
+        choices=[(tag.name, tag.value) for tag in GenderType]
+    )
+    sexuality = models.CharField(
+        max_length=20,
+        choices=[(tag.name, tag.value) for tag in SexualityType]
+    )
+    about_you = models.TextField(null=True, blank=True)
+    relationship_status = models.TextField(null=True, blank=True)
+    personal_background = models.TextField(null=True, blank=True)
+    experience = models.TextField(null=True, blank=True)
+    community_contribution = models.TextField(null=True, blank=True)
+    philosophy_views = models.TextField(null=True, blank=True)
+    fantasy_preferences = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+    @property
+    def age(self):
+        today = date.today()
+        return today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
+
+    @property
+    def age_display_value(self):
+        age = self.age
+        year_born = self.dob.year
+        if self.age_display == AgeDisplayType.NUMBER.name:
+            return age
+        elif self.age_display == AgeDisplayType.GENERATION.name:
+            if year_born <= 1924:
+                return 'Greatest Generation'
+            elif 1925 <= year_born <= 1945:
+                return 'Silent Generation'
+            elif 1946 <= year_born <= 1964:
+                return 'Baby Boomer'
+            elif 1965 <= year_born <= 1976:
+                return 'Gen X'
+            elif 1977 <= year_born <= 1983:
+                return 'Xennial'
+            elif 1984 <= year_born <= 1994:
+                return 'Millennial'
+            elif 1995 <= year_born <= 2012:
+                return 'Gen Z'
+            else:
+                return 'Gen Alpha'
+        elif self.age_display == AgeDisplayType.RANGE.name:
+            return f'{age // 10 * 10}s'
+        else:
+            return ''
 
 class Feedback(models.Model):
     FEEDBACK_TYPES = (

@@ -6,9 +6,9 @@ from .models import Host, Membership, Event, Price, HostApplication, Application
 from .serializers import *
 from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
-from django.db.models import Q
+# from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from .models import EmailVerificationToken, PasswordResetToken, Feedback
+from .models import EmailVerificationToken, PasswordResetToken, Feedback, UserProfile
 import logging
 from rest_framework.exceptions import ValidationError
 from django.core.mail import send_mail
@@ -29,6 +29,13 @@ class CreateUser(generics.CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user.profile
 
 class VerifyEmail(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
