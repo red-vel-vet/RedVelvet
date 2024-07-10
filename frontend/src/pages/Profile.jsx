@@ -86,6 +86,11 @@ function Profile() {
         return `${Math.floor(age / 10) * 10}s`;
     };
 
+    const formatDate = (date) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString(undefined, options);
+    };
+
     if (loading) {
         return <LoadingSpinner />;
     }
@@ -93,7 +98,7 @@ function Profile() {
     const age = calculateAge(profile.dob);
     const generation = getGeneration(profile.dob);
     const ageRange = getAgeRange(age);
-    
+
     return (
         <div className="scrollable-container">
             <form onSubmit={handleSubmit} className="form-container-scrollable">
@@ -126,10 +131,9 @@ function Profile() {
                     <label>Birthdate</label>
                     <input
                         className="form-input"
-                        type="date"
+                        type="text"
                         name="dob"
-                        value={profile.dob || ''}
-                        onChange={handleChange}
+                        value={formatDate(profile.dob) || ''}
                         placeholder="Date of Birth"
                         disabled
                     />
@@ -213,7 +217,7 @@ function Profile() {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Experience with Erotic Parties and Events</label>
+                    <label>Experience with Erotic Events</label>
                     <textarea
                         className="form-input"
                         name="experience"
