@@ -1,5 +1,5 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -14,44 +14,43 @@ import VerifyEmail from './pages/VerifyEmail';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import FeedbackForm from './pages/FeedbackForm';
-import UserNavFooter from './components/UserNavFooter';
+import UserLayout from './components/UserLayout';
 
 function Logout() {
-  localStorage.clear()
-  return <Navigate to="/login" />
+  localStorage.clear();
+  return <Navigate to="/login" />;
 }
 
 function RegisterAndLogout() {
-  localStorage.clear()
-  return <Register />
+  localStorage.clear();
+  return <Register />;
 }
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/verify-email" element={<VerifyEmail />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/feedback" element={<FeedbackForm />} />
-            <Route path="/user" element={<ProtectedRoute />}>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/feedback" element={<FeedbackForm />} />
+          <Route path="/user/*" element={<ProtectedRoute />}>
+            <Route path="*" element={<UserLayout />}>
               <Route path="account" element={<Account />} />
               <Route path="profile" element={<Profile />} />
               <Route path="quiz" element={<Quiz />} />
               <Route path="connections" element={<Connections />} />
             </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <UserNavFooter /> {/* Adding the UserNavFooter component */}
-        </Layout>
-      </BrowserRouter>
-    </>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
