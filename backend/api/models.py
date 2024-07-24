@@ -27,9 +27,9 @@ class Host(models.Model):
     physical_zip = models.CharField(max_length=10, null=True, blank=True)
     phone = models.CharField(max_length=15, null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hosts', null=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, null=True)
+    is_active = models.BooleanField(default=True, null=True)
 
     def __str__(self):
         return self.name
