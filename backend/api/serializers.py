@@ -42,7 +42,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
     
     def send_verification_email(self, email, token):
-        verification_link = f"https://www.red-vel.vet/verify-email/?token={token}"  # Points to frontend
+        verification_link = f"https://red-vel.vet/verify-email/?token={token}"  # Points to frontend
         send_mail(
             'Verify your email address',
             f'Please click the link to verify your email address: {verification_link}',
@@ -52,7 +52,7 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
     def send_reset_password_email(self, email, token):
-        reset_link = f"https://www.red-vel.vet/reset-password/?token={token}"  # Points to frontend
+        reset_link = f"https://red-vel.vet/reset-password/?token={token}"  # Points to frontend
         send_mail(
             'Reset your password',
             f'Please click the link to reset your password: {reset_link}',

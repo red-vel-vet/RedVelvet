@@ -1,11 +1,11 @@
 import axios from "axios";
 import { ACCESS_TOKEN } from "./constants";
 
-const apiURL = "/choreo-apis/red-velvet/backend/v1"
+const apiURL = import.meta.env.VITE_API_URL || "https://rv-backend.fly.dev";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL : apiURL,
-    });
+    baseURL: apiURL,
+});
 
 api.interceptors.request.use(
     (config) => {
