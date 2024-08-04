@@ -1,4 +1,3 @@
-// VerifyEmail.jsx
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../api';
@@ -18,12 +17,13 @@ const VerifyEmail = () => {
         if (token) {
             api.post('/api/verify-email/', { token })
                 .then(response => {
-                    console.log(response.data.message);
-                    setMessage('Success! Redirecting to login...');
+                    localStorage.setItem('access', response.data.access);
+                    localStorage.setItem('refresh', response.data.refresh);
+                    setMessage('Success! Redirecting...');
                     setLoading(false);
                     // Optionally redirect to login after a delay
                     setTimeout(() => {
-                        navigate('/login');
+                        navigate('/user/account');
                     }, 3000);
                 })
                 .catch(error => {

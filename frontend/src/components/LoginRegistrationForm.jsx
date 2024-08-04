@@ -10,8 +10,6 @@ import "../styles/Form.css";
 function LoginRegistrationForm({ route, method }) {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [dob, setDob] = useState("");
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
@@ -20,7 +18,7 @@ function LoginRegistrationForm({ route, method }) {
     const isLogin = method === "login";
     const name = isLogin ? "Login" : "Register";
 
-    const TottleLoginRegistration = () => {
+    const toggleLoginRegistration = () => {
         const currentPath = window.location.pathname;
         if (currentPath.includes('/login')) {
             navigate('/register'); // Redirect to register if on login
@@ -53,25 +51,6 @@ function LoginRegistrationForm({ route, method }) {
                 return;
             }
 
-            const disallowedCharactersPattern = /[^\w.-]/; // Allows only letters, numbers, underscores, hyphens, and dots
-            if (disallowedCharactersPattern.test(username)) {
-                alert("Sorry, but that username is invalid. Usernames may only contain letters, numbers, and the following characters: _ - .");
-                setLoading(false);
-                return;
-            }
-
-            if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/\d/.test(password) || !/[!@#$%^&*]/.test(password)) {
-                alert("Password must be at least 8 characters long and contain at least one letter, one number, and one special character.");
-                setLoading(false);
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                alert("Passwords do not match.");
-                setLoading(false);
-                return;
-            }
-
             if (calculateAge(dob) < 21) {
                 alert("You must be at least 21 years old to register.");
                 setLoading(false);
@@ -80,11 +59,9 @@ function LoginRegistrationForm({ route, method }) {
         }
 
         try {
-            const res = await api.post(route, { email, username, password, dob });
+            const res = await api.post(route, { email, username, dob });
             if (isLogin) {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/user/account");
+                alert("Please check your email to log in.");
             } else {
                 alert("Please check your email to verify your account.");
                 navigate("/login");
@@ -114,66 +91,35 @@ function LoginRegistrationForm({ route, method }) {
             {loading && <LoadingSpinner />}
             <form onSubmit={handleSubmit} className="form-container">
                 <p className="form-title">{name.toUpperCase()}</p>
-                {!isLogin && (
-                    <>
-                        <div className="form-group">
-                            <input
-                                className="form-input"
-                                type="text"
-                                value={email.toLowerCase()}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Email Address"
-                            />
-                            {errors.email && <p className="error-text">{errors.email}</p>}
-                        </div>
-                        <div className="form-group">
-                            <input
-                                className="form-input"
-                                type="date"
-                                value={dob}
-                                onChange={(e) => setDob(e.target.value)}
-                                placeholder="Date of Birth"
-                            />
-                            {errors.dob && <p className="error-text">{errors.dob}</p>}
-                        </div>
-                    </>
-                )}
                 <div className="form-group">
                     <input
                         className="form-input"
-                        type="text"
-                        value={username.toLowerCase()}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder={isLogin ? "Email or Username" : "Username"}
+                        type="email"
+                        value={email.toLowerCase()}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email Address"
+                        required
                     />
-                    {errors.username && <p className="error-text">{errors.username}</p>}
-                </div>
-                <div className="form-group">
-                    <input
-                        className="form-input"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                    />
-                    {errors.password && <p className="error-text">{errors.password}</p>}
+                    {errors.email && <p className="error-text">{errors.email}</p>}
                 </div>
                 {!isLogin && (
                     <div className="form-group">
                         <input
                             className="form-input"
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Confirm Password"
+                            type="date"
+                            value={dob}
+                            onChange={(e) => setDob(e.target.value)}
+                            placeholder="Date of Birth"
+                            required
                         />
+                        {errors.dob && <p className="error-text">{errors.dob}</p>}
                     </div>
                 )}
                 <div className="button-container">
                     <Button
                         className="button cancel switch"
                         type="button"
-                        onClick={TottleLoginRegistration}
+                        onClick={toggleLoginRegistration}
                     >
                         {isLogin ? 'Switch to Register' : 'Switch to Login'}
                     </Button>

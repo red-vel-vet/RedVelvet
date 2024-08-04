@@ -11,19 +11,12 @@ import Profile from './pages/Profile';
 import Quiz from './pages/Quiz';
 import Connections from './pages/Connections';
 import VerifyEmail from './pages/VerifyEmail';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
 import FeedbackForm from './pages/FeedbackForm';
 import UserLayout from './components/UserLayout';
 
 function Logout() {
   localStorage.clear();
   return <Navigate to="/login" />;
-}
-
-function RegisterAndLogout() {
-  localStorage.clear();
-  return <Register />;
 }
 
 function App() {
@@ -36,8 +29,6 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/feedback" element={<FeedbackForm />} />
           <Route path="/user/*" element={<ProtectedRoute />}>
             <Route path="*" element={<UserLayout />}>

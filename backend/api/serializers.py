@@ -6,17 +6,12 @@ from .models import Host, Membership, Event, Price, EmailVerificationToken, Feed
 from datetime import date
 
 class UserSerializer(serializers.ModelSerializer):
-    dob = serializers.DateField(write_only=True)  # Add DOB field
+    dob = serializers.DateField(write_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email', 'dob']
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def validate_username(self, value):
-        if User.objects.filter(username__iexact=value).exists():
-            raise serializers.ValidationError("A user with that username already exists.")
-        return value
+        fields = ['id', 'username', 'email', 'dob']
+        extra_kwargs = {'username': {'required': False}}
 
     def validate_email(self, value):
         if User.objects.filter(email__iexact=value).exists():
@@ -24,7 +19,6 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
     def validate_dob(self, value):
-        # Ensure the user is at least 21 years old
         today = date.today()
         age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
         if age < 21:
@@ -34,28 +28,24 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         dob = validated_data.pop('dob')
         validated_data['is_active'] = False
-        user = User.objects.create_user(**validated_data)
-        UserProfile.objects.create(user=user, dob=dob)  # Create UserProfile with DOB
+        user = User.objects.create(**validated_data)
+        UserProfile.objects.create(user=user, dob=dob)
         token = get_random_string(length=32)
         EmailVerificationToken.objects.create(user=user, token=token)
-        self.send_verification_email(user.email, token)
+        self.send_verification_email(user.email, token, is_registration=True)
         return user
-    
-    def send_verification_email(self, email, token):
-        verification_link = f"https://red-vel.vet/verify-email/?token={token}"  # Points to frontend
-        send_mail(
-            'Verify your email address',
-            f'Please click the link to verify your email address: {verification_link}',
-            'info@red-vel.vet',
-            [email],
-            fail_silently=False,
-        )
 
-    def send_reset_password_email(self, email, token):
-        reset_link = f"https://red-vel.vet/reset-password/?token={token}"  # Points to frontend
+    def send_verification_email(self, email, token, is_registration):
+        if is_registration:
+            subject = 'Verify your email address'
+            message = f'Please click the link to verify your email address: https://red-vel.vet/verify-email/?token={token}'
+        else:
+            subject = 'Log in to your account'
+            message = f'Please click the link to log in: https://red-vel.vet/verify-email/?token={token}'
+
         send_mail(
-            'Reset your password',
-            f'Please click the link to reset your password: {reset_link}',
+            subject,
+            message,
             'info@red-vel.vet',
             [email],
             fail_silently=False,
