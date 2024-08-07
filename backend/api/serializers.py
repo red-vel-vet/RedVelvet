@@ -21,8 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
     def validate_dob(self, value):
         today = date.today()
         age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
-        if age < 21:
-            raise serializers.ValidationError("You must be at least 21 years old to register.")
+        if age < 18:
+            raise serializers.ValidationError("You must be at least 18 years old to register.")
         return value
 
     def create(self, validated_data):

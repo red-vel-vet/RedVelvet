@@ -40,7 +40,7 @@ const Header = () => {
                 />
                 <ul>
                     <li className={location.pathname === '/' ? 'active' : ''}>
-                        <Link to="/" onClick={toggleMenu}>Events</Link>
+                        <Link to="/" onClick={toggleMenu}>Quiz</Link>
                     </li>
                     <li className={location.pathname === '/feedback' ? 'active' : ''}>
                         <Link to="/feedback" onClick={toggleMenu}>Feedback</Link>

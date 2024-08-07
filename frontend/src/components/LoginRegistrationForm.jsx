@@ -66,6 +66,8 @@ function LoginRegistrationForm({ route, method }) {
                 alert("Please check your email to verify your account.");
                 navigate("/login");
             }
+            // Redirect to EmailLogin page after email is sent
+            navigate('/email-login');
         } catch (error) {
             if (error.response) {
                 console.log('Error response data:', error.response.data);
@@ -91,6 +93,9 @@ function LoginRegistrationForm({ route, method }) {
             {loading && <LoadingSpinner />}
             <form onSubmit={handleSubmit} className="form-container">
                 <p className="form-title">{name.toUpperCase()}</p>
+                <div className="description">
+                    <p>Red Velvet is designed to help partners come closer together by identifying shared sexual interests. Our quiz allows partners to explore and discover mutual interests in a safe and private manner.</p>
+                </div>
                 <div className="form-group">
                     <input
                         className="form-input"
@@ -103,17 +108,30 @@ function LoginRegistrationForm({ route, method }) {
                     {errors.email && <p className="error-text">{errors.email}</p>}
                 </div>
                 {!isLogin && (
-                    <div className="form-group">
-                        <input
-                            className="form-input"
-                            type="date"
-                            value={dob}
-                            onChange={(e) => setDob(e.target.value)}
-                            placeholder="Date of Birth"
-                            required
-                        />
-                        {errors.dob && <p className="error-text">{errors.dob}</p>}
-                    </div>
+                    <>
+                        <div className="form-group">
+                            <input
+                                className="form-input"
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                placeholder="Username"
+                                required
+                            />
+                            {errors.username && <p className="error-text">{errors.username}</p>}
+                        </div>
+                        <div className="form-group">
+                            <input
+                                className="form-input"
+                                type="date"
+                                value={dob}
+                                onChange={(e) => setDob(e.target.value)}
+                                placeholder="Date of Birth"
+                                required
+                            />
+                            {errors.dob && <p className="error-text">{errors.dob}</p>}
+                        </div>
+                    </>
                 )}
                 <div className="button-container">
                     <Button

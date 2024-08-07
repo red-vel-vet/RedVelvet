@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Button from '../components/Button';
@@ -9,6 +10,7 @@ function Profile() {
     const [loading, setLoading] = useState(true);
     const [errors, setErrors] = useState({});
     const [editable, setEditable] = useState({ first_name: true, last_name: true });
+    const navigate = useNavigate(); // Use navigate for redirection
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -48,6 +50,7 @@ function Profile() {
                 last_name: !response.data.last_name,
             });
             alert('Profile updated successfully');
+            navigate('/user/quiz'); // Redirect to Quiz page
         } catch (error) {
             if (error.response && error.response.data) {
                 setErrors(error.response.data);
@@ -128,18 +131,6 @@ function Profile() {
                     {errors.last_name && <p className="error-text">{errors.last_name}</p>}
                 </div>
                 <div className="form-group">
-                    <label>Birthdate</label>
-                    <input
-                        className="form-input"
-                        type="text"
-                        name="dob"
-                        value={formatDate(profile.dob) || ''}
-                        placeholder="Date of Birth"
-                        disabled
-                    />
-                    {errors.dob && <p className="error-text">{errors.dob}</p>}
-                </div>
-                <div className="form-group">
                     <label>Age Display</label>
                     <select
                         className="form-input"
@@ -185,76 +176,6 @@ function Profile() {
                         <option value="GAY">Gay/Lesbian</option>
                         <option value="OTHER">Other</option>
                     </select>
-                </div>
-                <div className="form-group">
-                    <label>About You</label>
-                    <textarea
-                        className="form-input"
-                        name="about_you"
-                        value={profile.about_you || ''}
-                        onChange={handleChange}
-                        placeholder="Describe yourself in a few sentences. What are your passions, interests, and what excites you most about life?"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Relationship Status</label>
-                    <textarea
-                        className="form-input"
-                        name="relationship_status"
-                        value={profile.relationship_status || ''}
-                        onChange={handleChange}
-                        placeholder="If you are single, tell us how you feel about that. If you are in a committed relationship, tell us about it."
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Professional Background</label>
-                    <textarea
-                        className="form-input"
-                        name="personal_background"
-                        value={profile.personal_background || ''}
-                        onChange={handleChange}
-                        placeholder="Share more details about your professional life, education, and any significant experiences or milestones that have shaped who you are today."
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Experience with Erotic Events</label>
-                    <textarea
-                        className="form-input"
-                        name="experience"
-                        value={profile.experience || ''}
-                        onChange={handleChange}
-                        placeholder="Have you been to erotic parties or sex-positive events before? What did you like or dislike about them?"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Community Contribution</label>
-                    <textarea
-                        className="form-input"
-                        name="community_contribution"
-                        value={profile.community_contribution || ''}
-                        onChange={handleChange}
-                        placeholder="Why are you interested in joining, and what positive traits will you bring to the community?"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Philosophy and Views on Sexuality</label>
-                    <textarea
-                        className="form-input"
-                        name="philosophy_views"
-                        value={profile.philosophy_views || ''}
-                        onChange={handleChange}
-                        placeholder="What is your philosophy on sex, and what role does sexuality play in your life?"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Fantasy and Preferences</label>
-                    <textarea
-                        className="form-input"
-                        name="fantasy_preferences"
-                        value={profile.fantasy_preferences || ''}
-                        onChange={handleChange}
-                        placeholder="Describe your ideal night at an erotic party and what most turns you on."
-                    />
                 </div>
                 <div className="button-container">
                     <Button className="button submit" type="submit">

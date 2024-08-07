@@ -13,6 +13,7 @@ import Connections from './pages/Connections';
 import VerifyEmail from './pages/VerifyEmail';
 import FeedbackForm from './pages/FeedbackForm';
 import UserLayout from './components/UserLayout';
+import EmailLogin from './pages/EmailLogin';
 
 function Logout() {
   localStorage.clear();
@@ -30,6 +31,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/feedback" element={<FeedbackForm />} />
+          <Route path="/email-login" element={<EmailLogin />} />
           <Route path="/user/*" element={<ProtectedRoute />}>
             <Route path="*" element={<UserLayout />}>
               <Route path="account" element={<Account />} />

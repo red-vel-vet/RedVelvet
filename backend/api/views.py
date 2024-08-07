@@ -22,7 +22,10 @@ class CreateUser(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
+        logger.info(f"Received registration data: {request.data}")
         serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            logger.error(f"Registration data validation errors: {serializer.errors}")
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         headers = self.get_success_headers(serializer.data)
