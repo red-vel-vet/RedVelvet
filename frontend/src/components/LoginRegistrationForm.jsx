@@ -51,8 +51,8 @@ function LoginRegistrationForm({ route, method }) {
                 return;
             }
 
-            if (calculateAge(dob) < 21) {
-                alert("You must be at least 21 years old to register.");
+            if (calculateAge(dob) < 18) {
+                alert("You must be at least 18 years old to register.");
                 setLoading(false);
                 return;
             }
@@ -121,12 +121,15 @@ function LoginRegistrationForm({ route, method }) {
                             {errors.username && <p className="error-text">{errors.username}</p>}
                         </div>
                         <div className="form-group">
+                            <label htmlFor="dob" className={`form-label ${dob ? 'has-value' : ''}`}>
+                                Date of Birth
+                            </label>
                             <input
                                 className="form-input"
                                 type="date"
+                                id="dob"
                                 value={dob}
                                 onChange={(e) => setDob(e.target.value)}
-                                placeholder="Date of Birth"
                                 required
                             />
                             {errors.dob && <p className="error-text">{errors.dob}</p>}

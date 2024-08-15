@@ -1,0 +1,28 @@
+.category-item {
+  background-color: rgba(253, 243, 231, 1);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 1px 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+/* .category-item:hover {
+  background-color: rgba(253, 243, 231, 0.8);
+} */
+
+.category-name {
+  color: #333333; 
+  /* font-size: .55em; */
+  margin: 5px 0;
+  letter-spacing: 2px;
+  font-weight: 400;
+}
+
+.category-description {
+  font-size: 0.95em;
+  margin: 0;
+  color: crimson;
+  font-weight: 400;
+}

@@ -30,5 +30,8 @@ urlpatterns = [
     path('prices/<int:pk>/', views.ViewPrice.as_view(), name='price-detail'),
     path('prices/update/<int:pk>/', views.UpdatePrice.as_view(), name='price-update'),
     path('prices/delete/<int:pk>/', views.DeletePrice.as_view(), name='price-delete'),
-    path('feedback/', views.CreateFeedback.as_view(), name='create-feedback')
+    path('feedback/', views.CreateFeedback.as_view(), name='create-feedback'),
+    path('quiz-categories/', views.QuizCategoryList.as_view(), name='quiz-categories'),
+    path('quiz-questions/', views.QuizQuestionList.as_view(), name='quiz-questions'),
+    path('user-responses/', views.UserResponseView.as_view(), name='user-responses'),
 ]

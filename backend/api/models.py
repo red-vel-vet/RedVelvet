@@ -236,3 +236,51 @@ class PasswordResetToken(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.token}"
+    
+class QuizCategory(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+class QuizQuestion(models.Model):
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    category = models.ForeignKey(QuizCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
+    
+class UserResponse(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey('QuizQuestion', on_delete=models.CASCADE)
+    response_value = models.IntegerField()
+    response_text = models.TextField(null=True, blank=True)
+    response_version = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.question.text} - {self.response_value}"
+
+    @classmethod
+    def get_latest_responses(cls, user):
+        return (
+            cls.objects.filter(user=user)
+            .order_by('question_id', '-response_version')
+            .distinct('question_id')
+        )
+
+    @classmethod
+    def create_or_get_neutral(cls, user, question):
+        response, created = cls.objects.get_or_create(
+            user=user,
+            question=question,
+            response_version=1,
+            defaults={'response_value': 2}
+        )
+        return response

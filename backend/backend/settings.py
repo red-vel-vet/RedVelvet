@@ -72,6 +72,8 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://rv-backend.fly.dev']
+
 ROOT_URLCONF = "backend.urls"
 
 TEMPLATES = [

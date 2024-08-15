@@ -1,5 +1,5 @@
-import uuid
 from rest_framework import generics, permissions, status
+from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from .models import Host, Membership, Event, Price, HostApplication, ApplicationStatus
@@ -11,7 +11,6 @@ from django.utils.crypto import get_random_string
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
 import logging
-from rest_framework.exceptions import ValidationError
 from django.core.mail import send_mail
 
 logger = logging.getLogger(__name__)
@@ -58,7 +57,7 @@ class VerifyEmail(generics.GenericAPIView):
     
 class LoginRequestView(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
-    serializer_class = PasswordResetRequestSerializer  # Reuse the same serializer
+    serializer_class = EmailLoginRequestSerializer  # Updated serializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -83,6 +82,45 @@ class LoginRequestView(generics.GenericAPIView):
             fail_silently=False,
         )
 
+class QuizCategoryList(generics.ListAPIView):
+    queryset = QuizCategory.objects.all()
+    serializer_class = QuizCategorySerializer
+
+class QuizQuestionList(generics.ListAPIView):
+    queryset = QuizQuestion.objects.all()
+    serializer_class = QuizQuestionSerializer
+
+class UserResponseView(APIView):
+    def get(self, request):
+        user = request.user
+        responses = UserResponse.get_latest_responses(user)
+        serialized_responses = [
+            {"question_id": r.question.id, "response_value": r.response_value}
+            for r in responses
+        ]
+        return Response(serialized_responses)
+
+    def post(self, request):
+        user = request.user
+        serializer = UserResponseSerializer(data=request.data, many=True)
+
+        if serializer.is_valid():
+            for response_data in serializer.validated_data:
+                question = response_data['question']
+                last_response = UserResponse.get_latest_responses(user).filter(question=question).first()
+
+                new_version = last_response.response_version + 1 if last_response else 1
+                UserResponse.objects.create(
+                    user=user,
+                    question=question,
+                    response_value=response_data['response_value'],
+                    response_version=new_version
+                )
+            return Response({"status": "success"}, status=status.HTTP_201_CREATED)
+        else:
+            # print("Serializer errors:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class ViewUser(generics.RetrieveAPIView):
     queryset = User.objects.all()

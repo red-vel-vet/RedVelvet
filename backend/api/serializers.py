@@ -2,9 +2,12 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils.crypto import get_random_string
 from django.core.mail import send_mail
-from .models import Host, Membership, Event, Price, EmailVerificationToken, Feedback, HostApplication, UserProfile
+from .models import *
 from datetime import date
 
+class EmailLoginRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    
 class UserSerializer(serializers.ModelSerializer):
     dob = serializers.DateField(write_only=True)
 
@@ -80,28 +83,25 @@ class UserProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("DOB cannot be changed once set.")
         return value
 
-class PasswordResetRequestSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+class UserResponseSerializer(serializers.ModelSerializer):
+    question_id = serializers.PrimaryKeyRelatedField(
+        queryset=QuizQuestion.objects.all(),
+        source='question'
+    )
 
+    class Meta:
+        model = UserResponse
+        fields = ['question_id', 'response_value']
 
-class PasswordResetSerializer(serializers.Serializer):
-    token = serializers.UUIDField()
-    password = serializers.CharField(write_only=True, min_length=8)
+class QuizCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuizCategory
+        fields = ['id', 'name', 'description']
 
-    def validate_password(self, value):
-        if len(value) < 8:
-            raise serializers.ValidationError("Password must be at least 8 characters long.")
-        return value
-    
-class ChangePasswordSerializer(serializers.Serializer):
-    currentPassword = serializers.CharField(write_only=True)
-    password = serializers.CharField(write_only=True, min_length=8)
-
-    def validate_password(self, value):
-        if len(value) < 8:
-            raise serializers.ValidationError("Password must be at least 8 characters long.")
-        return value
-    
+class QuizQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuizQuestion
+        fields = ['id', 'text', 'category']    
 
 class HostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')

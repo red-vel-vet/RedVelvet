@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/EmailLogin.css';
 
 function EmailLogin() {
