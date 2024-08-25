@@ -104,11 +104,12 @@ class QuizQuestionSerializer(serializers.ModelSerializer):
         fields = ['id', 'text', 'category']    
 
 class HostSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
-
     class Meta:
         model = Host
-        fields = '__all__'
+        fields = '__all__'  
+
+    def validate(self, data):
+        return data
 
 from .models import HostApplication
 

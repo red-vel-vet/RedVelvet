@@ -246,11 +246,21 @@ class QuizCategory(models.Model):
     def __str__(self):
         return self.name
 
+class QuizType(models.TextChoices):
+    STANDARD = 'Standard', 'Standard'
+    EXTENDED = 'Extended', 'Extended'
+    ARCHIVED = 'Archived', 'Archived'
+
 class QuizQuestion(models.Model):
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(QuizCategory, on_delete=models.CASCADE)
+    quiz_type = models.CharField(
+        max_length=10,
+        choices=QuizType.choices,
+        default=QuizType.STANDARD
+    )
 
     def __str__(self):
         return self.text

@@ -94,7 +94,7 @@ function LoginRegistrationForm({ route, method }) {
             <form onSubmit={handleSubmit} className="form-container">
                 <p className="form-title">{name.toUpperCase()}</p>
                 <div className="description">
-                    <p>Red Velvet is designed to help partners come closer together by identifying shared sexual interests. Our quiz allows partners to explore and discover mutual interests in a safe and private manner.</p>
+                    {/* <p>Red Velvet is designed to help partners come closer together by identifying shared sexual interests. Our quiz allows partners to explore and discover mutual interests in a safe and private manner.</p> */}
                 </div>
                 <div className="form-group">
                     <input

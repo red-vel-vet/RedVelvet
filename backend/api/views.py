@@ -177,7 +177,15 @@ class UserHosts(generics.ListAPIView):
 class UpdateHost(generics.UpdateAPIView):
     queryset = Host.objects.all()
     serializer_class = HostSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', True) 
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data) 
 
 class DeleteHost(generics.DestroyAPIView):
     queryset = Host.objects.all()

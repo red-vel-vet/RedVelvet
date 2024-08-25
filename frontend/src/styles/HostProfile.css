@@ -1,0 +1,52 @@
+.host-profile-container {
+    padding: 20px 20px 60px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    overflow-y: auto; 
+    height: 100vh; 
+}
+
+.host-logo {
+    padding-top: 35px;
+    max-height: 150px;
+    max-width: 250px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.host-name {
+    font-size: 28px;
+    color: #FDF3E7;
+    margin-bottom: 20px;
+}
+
+.host-tagline {
+    font-size: 20px;
+    color: #FDF3E7;
+    margin-bottom: 10px;
+}
+
+.host-email {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #FDF3E7;
+}
+
+.host-email a {
+    color: #FDF3E7;
+    text-decoration: none;
+}
+
+.host-email a:hover {
+    text-decoration: underline;
+}
+
+.host-description {
+    font-size: 16px;
+    color: #FDF3E7;
+    line-height: 1.6;
+    text-align: left; 
+    margin: 20px; 
+}

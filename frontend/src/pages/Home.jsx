@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../styles/styles.css'; 
 import '../styles/Home.css';   
 import logo from '../assets/images/token.png';
@@ -8,7 +7,6 @@ import EventItem from '../components/EventItem';
 import EventDetails from '../components/EventDetails'; 
 import DateFilterModal from '../components/DateFilterModal';
 import Button from '../components/Button';
-import { ACCESS_TOKEN } from '../constants'; // Import your access token constant
 
 function Home() {
     const [events, setEvents] = useState([]);
@@ -20,25 +18,14 @@ function Home() {
     const [searchQuery, setSearchQuery] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const navigate = useNavigate(); // Use navigate for redirection
 
     useEffect(() => {
-        checkAuthStatus();
         getEvents();
     }, []);
 
     useEffect(() => {
         filterEvents();
     }, [events, searchQuery, startDate, endDate]);
-
-    const checkAuthStatus = () => {
-        const token = localStorage.getItem(ACCESS_TOKEN);
-        if (token) {
-            navigate('/user/quiz'); // Redirect to quiz if logged in
-        } else {
-            navigate('/register'); // Redirect to register if not logged in
-        }
-    };
 
     const getEvents = () => {
         setIsLoading(true); 

@@ -10,6 +10,6 @@ class QuizCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(QuizQuestion)
 class QuizQuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'category', 'created_at', 'updated_at')
+    list_display = ('text', 'category', 'quiz_type', 'created_at', 'updated_at')
     search_fields = ('text', 'category__name')
     list_filter = ('category',)

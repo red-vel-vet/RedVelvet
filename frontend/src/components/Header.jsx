@@ -26,7 +26,7 @@ const Header = () => {
                     <h1 className="header-title">RED VELVET</h1>
                 </div>
                 <div className="header-right">
-                    <Link to="/user/account">
+                    <Link to="/user">
                         <img src={userIcon} alt="User Icon" className="header-icon" />
                     </Link>
                 </div>
@@ -40,7 +40,10 @@ const Header = () => {
                 />
                 <ul>
                     <li className={location.pathname === '/' ? 'active' : ''}>
-                        <Link to="/" onClick={toggleMenu}>Quiz</Link>
+                        <Link to="/" onClick={toggleMenu}>Home</Link>
+                    </li>
+                    <li className={location.pathname === '/events-management' ? 'active' : ''}>
+                        <Link to="/events-management" onClick={toggleMenu}>Event Management</Link>
                     </li>
                     <li className={location.pathname === '/feedback' ? 'active' : ''}>
                         <Link to="/feedback" onClick={toggleMenu}>Feedback</Link>
