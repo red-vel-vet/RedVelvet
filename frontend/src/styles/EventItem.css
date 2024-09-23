@@ -1,105 +1,49 @@
-/* ../styles/EventItem.css */
 .event-item {
-  display: flex;
-  flex-wrap: nowrap;
-  background-color: rgba(253, 243, 231, 0.45);
-  padding: 12px;
-  margin: 0px 5px 16px 5px;
-  border-radius: 8px;
-  cursor: pointer;
-  overflow: hidden;
+  position: relative;
+  margin-bottom: 15px;
 }
 
-.event-item:active {
-  transform: scale(0.98);
-  transition: transform 0.1s ease;
-}
-
-.event-date-container {
-  flex: none;
-  width: 65px;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centers items horizontally */
-  justify-content: flex-start; /* Aligns items to the top vertically */
-  text-align: center;
-  background-color: #800020;
-  padding: 3px;
-  border-radius: 8px 0 0 8px;
-}
-
-.event-date-container > p {
-  margin-top: 5px;
-  margin-bottom: 0; 
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.event-month {
-  font-size: 22px;
-  font-weight: normal;
-}
-
-.event-day {
-  font-size: 30px;
-}
-
-.event-details {
-  flex: 3;
-  flex-grow: 1;
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 10px;
-  align-self: flex-start;
-  padding-top: 5px;
-  letter-spacing: 1px;
-}
-
-.event-details > p {
-  margin-top: 0px;
-  margin-bottom: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.event-list-name {
-  color: white;
-  font-weight: 400;
-  font-size: 22px;
-  letter-spacing: 0;
-}
-
-.event-host {
-  font-weight: 600;
-  letter-spacing: 3px;
-  font-size: 14px;
-}
-
-.event-location {
-  font-size: 14px;
-}
-
-.event-time {
-  font-size: 14px;
-}
-
-.event-logo-container {
-  flex: none;
-  width: 75px;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  padding-left: 3px;
-  padding-right: 3px;
-  align-self: center;
+.selected-event {
+  background-color: #FDECEC;
+  scale: 1.01;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .event-logo {
-  height: 100px;
-  width: 65px;
-  border-radius: 8px;
+  width: 100%;
+  height: 175px;
   object-fit: cover;
+  object-position: center;
+}
+
+.event-info {
+  font-size: 10pt;
+  letter-spacing: 4pt;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 5px 0 15px 5px;
+  margin-bottom: 0px;
+}
+
+.event-info p {
+  margin-top: 3px;
+  margin-bottom: 0px;
+}
+
+.event-title {
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  width: 100%;
+}
+
+.host-name {
+  font-weight: bold;
+}
+
+.add-remove-icon {
+  position: absolute;
+  bottom: 15px; 
+  right: 10px; 
+  width: 20px; 
+  height: 20px; 
 }

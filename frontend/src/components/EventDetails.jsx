@@ -1,25 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../styles/EventDetails.css';
 import Button from './Button';
-import logo from '../assets/images/token.png';
 
-function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
-    if (!eventModalVisible) return null;
-
-    const [imageClass, setImageClass] = useState('');
-
-    useEffect(() => {
-        if (!selectedEvent.image_url) return;
-
-        const image = new Image();
-        image.onload = () => {
-            const aspectRatio = image.naturalWidth / image.naturalHeight;
-            setImageClass(aspectRatio > 1 ? 'event-image-wide' : 'event-image-tall');
-        };
-        if (selectedEvent.image_url) {
-            image.src = selectedEvent.image_url;
-        }
-    }, [selectedEvent.image_url]);
+function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel }) {
+    if (!selectedEvent) return null;
 
     const eventDate = new Date(selectedEvent.start);
     const eventEndDate = new Date(selectedEvent.end);
@@ -29,44 +13,57 @@ function EventDetails({ selectedEvent, eventModalVisible, onCancel }) {
     const startTime = eventDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
     const endTime = eventEndDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
 
+    const getButtonLabel = () => {
+        if (selectedEvent.membership_required) {
+            return 'Apply';
+        }
+        return isAdded ? 'Remove' : 'Add';
+    };
+
+    const handleButtonClick = () => {
+        if (selectedEvent.membership_required) {
+            alert("You need to apply for membership to attend this event.");
+        } else {
+            onToggleAddRemove();
+        }
+    };
+
     return (
         <div className="modal-background">
-            <div className="modal-content">
-
-                <div className="modal-header">
-                    <img src={logo} alt="Red Velvet Icon" className="event-icon" />
-                    <div className="event-header">
-                        <p className="modal-host">{selectedEvent.host.toUpperCase()}</p>
-                        <p className="modal-event-name">{selectedEvent.title.toUpperCase()}</p>
-                        <p className="details-text">{dayName}, {month} {day} • {startTime} - {endTime}</p>
-                        <p className="details-text">{selectedEvent.city}, {selectedEvent.state}</p>
-                    </div>
+            <div className="event-modal-content">
+                <div className="event-header">
+                    <p className="modal-host">{selectedEvent.host}</p>
+                    <p className="modal-event-name">{selectedEvent.title}</p>
                 </div>
                 
                 <div className="scroll-view-container">
                     <div className="scroll-view">
-                        { selectedEvent.image_url ? <img src={selectedEvent.image_url} alt="Event" className={imageClass} /> : null }
-                        <div className="text">
-                            {selectedEvent.description.trim().split('\n').map((line, index) => (
-                                <React.Fragment key={index}>
-                                {line}
-                                <br/><br/>
-                                </React.Fragment>
-                            ))}
-                            {selectedEvent.membershipRequired ? 'Membership Required.' : ''}
+                        { selectedEvent.image_url ? <img src={selectedEvent.image_url} alt="Event" className="event-image" /> : null }
+                        <div className="event-text">
+                            <p className="section-title">Description</p>
+                            <p className="section-content">
+                                {selectedEvent.description.trim().split('\n').map((line, index) => (
+                                    <React.Fragment key={index}>
+                                    {line}
+                                    <br/><br/>
+                                    </React.Fragment>
+                                ))}
+                            </p>
+                            <p className="section-title">Details</p>
+                            <p className="section-content">
+                                Location: {selectedEvent.city}, {selectedEvent.state}<br/>
+                                Date: {dayName}, {month} {day}<br/>
+                                Time: {startTime} - {endTime}<br/><br/>
+                            </p>
                         </div>
                     </div>
                 </div>
                 
                 <div className="button-container">
                     <Button className="button cancel" onClick={onCancel}>Back</Button>
-                    <Button className="button submit" onClick={() => {
-                        if (selectedEvent.event_url) {
-                            window.open(selectedEvent.event_url, '_blank');
-                        } else {
-                            window.open(selectedEvent.host_website_url, '_blank');
-                        }
-                    }}>Details</Button>
+                    <Button className="button submit" onClick={handleButtonClick}>
+                        {getButtonLabel()}
+                    </Button>
                 </div>
             </div>
         </div>

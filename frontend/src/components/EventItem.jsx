@@ -1,29 +1,42 @@
-import React from 'react';
-import '../styles/EventItem.css'; // Component-specific styles
+// import React, { useState } from 'react';
+import '../styles/EventItem.css'; 
+import addItem from '../assets/icons/add.svg';
+import removeItem from '../assets/icons/remove.svg';
 
-const EventItem = ({ event, onClick }) => {
+const EventItem = ({ event, isAdded, onToggleAddRemove, onClick }) => {
     const eventDate = new Date(event.start);
     const month = eventDate.toLocaleString('default', { month: 'short', timeZone: 'UTC' });
     const day = eventDate.getUTCDate();
     const dayName = eventDate.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' });
     const startTime = eventDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
 
-    const defaultImage = 'https://images.unsplash.com/photo-1571118027171-d2e2c56cc926?q=80&w=2371&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-
     return (
-        <li className="event-item" onClick={onClick}>
-            <div className="event-date-container">
-                <p className="event-month">{month.toUpperCase()}</p>
-                <p className="event-day">{day}</p>
-            </div>
-            <div className="event-details">
-                <p className="event-list-name">{event.title}</p>
-                <p className="event-host">{event.host.toUpperCase()}</p>
-                <p className="event-location">{event.city}, {event.state}</p>
-                <p className="event-time">{dayName} • {startTime}</p>
-            </div>
-            <div className="event-logo-container">
-                <img src={event.image_url || defaultImage} alt="Event logo" className="event-logo" />
+        <li 
+            className={`event-item ${isAdded ? 'selected-event' : ''}`}  // Add selected class
+            onClick={onClick}
+        >
+            {event.image_url && (
+                <img 
+                    src={event.image_url} 
+                    alt="Event logo" 
+                    className="event-logo" 
+                />
+            )}
+            <div className='event-info'>
+                <p className='event-title'>{event.title}</p>
+                <p className='host-name'>{event.host}</p>
+                <p className="event-date">{dayName}, {month} {day} - {startTime}</p>
+                {!event.membership_required && (
+                    <img 
+                        src={isAdded ? removeItem : addItem} 
+                        alt="Add/Remove Item" 
+                        className="add-remove-icon" 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onToggleAddRemove();  
+                        }}
+                    />
+                )}
             </div>
         </li>
     );

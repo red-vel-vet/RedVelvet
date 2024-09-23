@@ -6,7 +6,7 @@ import profileIcon from '../assets/icons/user_nav/profile.svg';
 import quizIcon from '../assets/icons/user_nav/quiz.svg';
 import connectionsIcon from '../assets/icons/user_nav/connections.svg';
 
-const UserNavFooter = () => {
+const Footer = () => {
   return (
     <div className="user-nav-footer">
       <NavLink to="/user/account" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
@@ -29,4 +29,4 @@ const UserNavFooter = () => {
   );
 };
 
-export default UserNavFooter;
+export default Footer;

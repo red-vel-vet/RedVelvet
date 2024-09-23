@@ -1,147 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/styles.css'; 
-import '../styles/Home.css';   
-import logo from '../assets/images/token.png';
-import api from '../api'; 
-import EventItem from '../components/EventItem'; 
-import EventDetails from '../components/EventDetails'; 
-import DateFilterModal from '../components/DateFilterModal';
+import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 import Button from '../components/Button';
+import '../styles/Home.css';
+import '../styles/Guests.css';
 
-function Home() {
-    const [events, setEvents] = useState([]);
-    const [filteredEvents, setFilteredEvents] = useState([]);
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const [eventModalVisible, setEventModalVisible] = useState(false);
-    const [dateModalVisible, setDateModalVisible] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-
-    useEffect(() => {
-        getEvents();
-    }, []);
-
-    useEffect(() => {
-        filterEvents();
-    }, [events, searchQuery, startDate, endDate]);
-
-    const getEvents = () => {
-        setIsLoading(true); 
-        api.get('/api/events/')
-            .then((res) => res.data)
-            .then((data) => {
-                const sortedData = data.sort((a, b) => new Date(a.start) - new Date(b.start));
-                setEvents(sortedData);
-                setFilteredEvents(sortedData);
-            })
-            .catch((err) => alert(err))
-            .finally(() => setIsLoading(false)); 
-    };
-
-    const filterEvents = () => {
-        let filtered = events;
-        
-        if (searchQuery) {
-            const lowerCaseQuery = searchQuery.toLowerCase();
-            filtered = filtered.filter(event => 
-                event.title.toLowerCase().includes(lowerCaseQuery) ||
-                (event.description && event.description.toLowerCase().includes(lowerCaseQuery)) ||
-                event.host.toLowerCase().includes(lowerCaseQuery) ||
-                event.city.toLowerCase().includes(lowerCaseQuery) ||
-                event.state.toLowerCase().includes(lowerCaseQuery)
-            );
-        }
-
-        if (startDate && endDate) {
-            filtered = filtered.filter(event => 
-                new Date(event.start) >= startDate && new Date(event.start) <= endDate
-            );
-        }
-
-        setFilteredEvents(filtered);
-    };
-
-    const handleEventClick = (event) => {
-        const url = `/api/events/${event.id}/`;
-
-        api.get(url)
-            .then((res) => {
-                setSelectedEvent(res.data);
-                setEventModalVisible(true);
-            })
-            .catch((err) => alert(err));
-    };
-
-    const clearSearch = () => {
-        setSearchQuery('');
-    };
+const Home = () => {
+    const navigate = useNavigate();
 
     return (
-        <>
-            <div className="search-filter-container">
-                <div className="search-bar-container">
-                    <input 
-                        type="text" 
-                        placeholder="Search events..." 
-                        value={searchQuery} 
-                        onChange={(e) => setSearchQuery(e.target.value)} 
-                        className="search-bar"
-                    />
-                    {searchQuery && <button className="clear-button" onClick={clearSearch}>×</button>}
-                </div>
+        <Layout>
+            <img
+                src="https://images.unsplash.com/photo-1571118027171-d2e2c56cc926?q=80&w=988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Girl Pineapple"
+                className="home-image"
+            />
+            <div className="tagline">
+                <p>Choose your events.</p>
+                <p>Find your people.</p>
+                <p>Orchestrate a takeover!</p>
+            </div>
+            <div className="button-container">
                 <Button 
-                    className="button date-filter-button" 
-                    type="button" 
-                    onClick={() => setDateModalVisible(true)}
+                    className="button submit" 
+                    onClick={() => {console.log("Button clicked!");}}
                 >
-                    Dates
+                    Hosts
                 </Button>
+                <Button 
+                    className="button submit" 
+                    onClick={() => navigate('/guests/events')}
+                >
+                    Guests
+                </Button>
+
             </div>
-            <div>
-                {isLoading ? (
-                    <div className="home-container">
-                        <div className="loading-container">
-                            <img src={logo} alt="Red Velvet Icon" className="loading-logo" />
-                        </div>
-                    </div>
-                ) : (
-                    <>
-                        <div className="home-container">
-                            <main className="events-container">
-                                <ul className="event-list">
-                                    {filteredEvents.map((event) => (
-                                        <EventItem
-                                            key={event.id} 
-                                            event={event} 
-                                            onClick={() => handleEventClick(event)} 
-                                        />
-                                    ))}
-                                </ul>
-                            </main>
-                        </div>
-                    </>
-                )}
-            </div>
-            {eventModalVisible && selectedEvent && (
-                <EventDetails 
-                    eventModalVisible={eventModalVisible}
-                    selectedEvent={selectedEvent}
-                    onCancel={() => setEventModalVisible(false)}
-                />
-            )}
-            {dateModalVisible && (
-                <DateFilterModal 
-                    startDate={startDate}
-                    endDate={endDate}
-                    setStartDate={setStartDate}
-                    setEndDate={setEndDate}
-                    dateModalVisible={dateModalVisible}
-                    onCancel={() => setDateModalVisible(false)}
-                />
-            )}
-        </>
+        </Layout>
     );
 }
 

@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/styles.css'; 
-import '../styles/Home.css';   
-import logo from '../assets/images/token.png';
-import api from '../api'; 
-import EventItem from '../components/EventItem'; 
-import EventDetails from '../components/EventDetails'; 
-import DateFilterModal from '../components/DateFilterModal';
-import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
+import api from '../../api'; 
+import Layout from '../../components/Layout';
+import EventItem from '../../components/EventItem'; 
+import DateFilterModal from '../../components/DateFilterModal';
+import Button from '../../components/Button';
+import EventDetails from '../../components/EventDetails';
+import logo from '../../assets/images/token.png';
+import '../../styles/styles.css'; 
+import '../../styles/Guests.css';
+import '../../styles/Events.css';   
 
-function Home() {
+
+function Events() {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -18,6 +22,9 @@ function Home() {
     const [searchQuery, setSearchQuery] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [addedEvents, setAddedEvents] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getEvents();
@@ -46,11 +53,11 @@ function Home() {
         if (searchQuery) {
             const lowerCaseQuery = searchQuery.toLowerCase();
             filtered = filtered.filter(event => 
-                event.title.toLowerCase().includes(lowerCaseQuery) ||
-                (event.description && event.description.toLowerCase().includes(lowerCaseQuery)) ||
-                event.host.toLowerCase().includes(lowerCaseQuery) ||
-                event.city.toLowerCase().includes(lowerCaseQuery) ||
-                event.state.toLowerCase().includes(lowerCaseQuery)
+                event.title?.toLowerCase().includes(lowerCaseQuery) ||
+                (event.description && event.description?.toLowerCase().includes(lowerCaseQuery)) ||
+                event.host?.toLowerCase().includes(lowerCaseQuery) ||
+                event.city?.toLowerCase().includes(lowerCaseQuery) ||
+                event.state?.toLowerCase().includes(lowerCaseQuery)
             );
         }
 
@@ -61,6 +68,16 @@ function Home() {
         }
 
         setFilteredEvents(filtered);
+    };
+
+    const onToggleAddRemove = (eventId) => {
+        setAddedEvents((prevAddedEvents) => {
+            if (prevAddedEvents.includes(eventId)) {
+                return prevAddedEvents.filter(id => id !== eventId);
+            } else {
+                return [...prevAddedEvents, eventId];
+            }
+        });
     };
 
     const handleEventClick = (event) => {
@@ -74,16 +91,27 @@ function Home() {
             .catch((err) => alert(err));
     };
 
+    const handleCreateTakeoverClick = () => {
+        if (addedEvents.length === 0) {
+            alert("Please add at least one event to create a takeover.");
+            return;
+        }
+        navigate('/guests/conditionalbooking', {
+            state: { selectedEvents: addedEvents }
+        });
+    };
+
     const clearSearch = () => {
         setSearchQuery('');
     };
 
     return (
-        <>
+        <Layout className="content-area">
             <div className="search-filter-container">
                 <div className="search-bar-container">
                     <input 
                         type="text" 
+                        id="searchBar"
                         placeholder="Search events..." 
                         value={searchQuery} 
                         onChange={(e) => setSearchQuery(e.target.value)} 
@@ -113,9 +141,11 @@ function Home() {
                                 <ul className="event-list">
                                     {filteredEvents.map((event) => (
                                         <EventItem
-                                            key={event.id} 
-                                            event={event} 
-                                            onClick={() => handleEventClick(event)} 
+                                            key={event.id}
+                                            event={event}
+                                            isAdded={addedEvents.includes(event.id)}
+                                            onToggleAddRemove={() => onToggleAddRemove(event.id)}
+                                            onClick={() => handleEventClick(event)}
                                         />
                                     ))}
                                 </ul>
@@ -124,10 +154,21 @@ function Home() {
                     </>
                 )}
             </div>
+            <div className="takeover-footer">
+                <Button
+                    className="takeover-button button submit"
+                    onClick={() => {
+                        handleCreateTakeoverClick();
+                    }}
+                >
+                    Create a Takeover!
+                </Button> 
+            </div>
             {eventModalVisible && selectedEvent && (
-                <EventDetails 
-                    eventModalVisible={eventModalVisible}
+                <EventDetails
                     selectedEvent={selectedEvent}
+                    isAdded={addedEvents.includes(selectedEvent.id)}
+                    onToggleAddRemove={() => onToggleAddRemove(selectedEvent.id)}
                     onCancel={() => setEventModalVisible(false)}
                 />
             )}
@@ -141,8 +182,8 @@ function Home() {
                     onCancel={() => setDateModalVisible(false)}
                 />
             )}
-        </>
+        </Layout>
     );
 }
 
-export default Home;
+export default Events;

@@ -1,11 +1,11 @@
 import React from 'react';
-import Header from './Header';
 import '../styles/styles.css'; 
+import Header from './Header';
 
 const Layout = ({ children }) => (
     <>
         <Header />
-        <main>{children}</main>
+        <main className="content-area">{children}</main>
     </>
 );
 

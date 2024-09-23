@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import userIcon from '../assets/icons/user.svg';
 import navIcon from '../assets/icons/nav.svg';
 import navCloseIcon from '../assets/icons/nav-close.svg';
 import '../styles/Header.css';
@@ -17,18 +16,15 @@ const Header = () => {
         <>
             <header className="header">
                 <div className="header-left">
+                    <h1 className="header-title">RED VELVET</h1>
+                </div>
+                <div className="header-right">
                     <img
                         src={navIcon}
                         alt="Navigation Icon"
                         className="header-icon"
                         onClick={toggleMenu}
                     />
-                    <h1 className="header-title">RED VELVET</h1>
-                </div>
-                <div className="header-right">
-                    <Link to="/user">
-                        <img src={userIcon} alt="User Icon" className="header-icon" />
-                    </Link>
                 </div>
             </header>
             <nav className={`nav-menu ${menuOpen ? 'open' : ''}`}>
@@ -42,12 +38,12 @@ const Header = () => {
                     <li className={location.pathname === '/' ? 'active' : ''}>
                         <Link to="/" onClick={toggleMenu}>Home</Link>
                     </li>
-                    <li className={location.pathname === '/events-management' ? 'active' : ''}>
+                    {/* <li className={location.pathname === '/events-management' ? 'active' : ''}>
                         <Link to="/events-management" onClick={toggleMenu}>Event Management</Link>
-                    </li>
-                    <li className={location.pathname === '/feedback' ? 'active' : ''}>
+                    </li> */}
+                    {/* <li className={location.pathname === '/feedback' ? 'active' : ''}>
                         <Link to="/feedback" onClick={toggleMenu}>Feedback</Link>
-                    </li>
+                    </li> */}
                 </ul>
             </nav>
         </>

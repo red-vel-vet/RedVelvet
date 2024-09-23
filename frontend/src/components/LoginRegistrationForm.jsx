@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import Button from './Button';
 import LoadingSpinner from './LoadingSpinner';
-import '../styles/styles.css';
+import '../styles/Guests.css';
 import "../styles/Form.css";
 
 function LoginRegistrationForm({ route, method }) {
@@ -92,14 +92,13 @@ function LoginRegistrationForm({ route, method }) {
         <div className="container">
             {loading && <LoadingSpinner />}
             <form onSubmit={handleSubmit} className="form-container">
-                <p className="form-title">{name.toUpperCase()}</p>
-                <div className="description">
-                    {/* <p>Red Velvet is designed to help partners come closer together by identifying shared sexual interests. Our quiz allows partners to explore and discover mutual interests in a safe and private manner.</p> */}
-                </div>
+                <p className="form-title">{name}</p>
                 <div className="form-group">
                     <input
                         className="form-input"
+                        id="email"
                         type="email"
+                        autocomplete="email"
                         value={email.toLowerCase()}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email Address"
@@ -112,6 +111,7 @@ function LoginRegistrationForm({ route, method }) {
                         <div className="form-group">
                             <input
                                 className="form-input"
+                                id="email-confirm"
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
@@ -138,13 +138,13 @@ function LoginRegistrationForm({ route, method }) {
                 )}
                 <div className="button-container">
                     <Button
-                        className="button cancel switch"
+                        className="button cancel switch lr-button"
                         type="button"
                         onClick={toggleLoginRegistration}
                     >
                         {isLogin ? 'Switch to Register' : 'Switch to Login'}
                     </Button>
-                    <Button className="button submit" type="submit">
+                    <Button className="button submit lr-button" type="submit">
                         {isLogin ? 'Login' : 'Register'}
                     </Button>
                 </div>

@@ -1,15 +1,14 @@
 .button {
-    width: 40%;
+    width: 115px;
     height: 40px;
-    margin: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
-    display: inline-block;
     text-align: center;
-    letter-spacing: 1px;
+    letter-spacing: 4px;
     transition: transform 0.1s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -18,13 +17,12 @@
 }
 
 .button.cancel {
-    background-color: #FFFFFF;
-    color: #DC143C;
+    background-color: #D9D9D9;
+    color: #333333;
 }
 
 .button.cancel:hover {
     background-color: #dc143c0c;
-    /* color: #FFFFFF;  */
 }
 
 .button.submit {

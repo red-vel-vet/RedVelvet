@@ -1,11 +1,12 @@
 import React from 'react';
+import Layout from '../components/Layout';
 import LoginRegistrationForm from "../components/LoginRegistrationForm";
 
 function Login() {
     return (
-        <div>
+        <Layout>
             <LoginRegistrationForm route="/api/login-request/" method="login" />
-        </div>
+        </Layout>
     );
 }
 
