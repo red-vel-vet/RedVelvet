@@ -1,8 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/EventDetails.css';
 import Button from './Button';
 
-function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel }) {
+function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isLoggedIn }) {
     if (!selectedEvent) return null;
 
     const eventDate = new Date(selectedEvent.start);
@@ -13,14 +14,28 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel }) {
     const startTime = eventDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
     const endTime = eventEndDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
 
+    const navigate = useNavigate();
+    
+    const isButtonInactive = selectedEvent.membership_status === 'Applied'
     const getButtonLabel = () => {
-        if (selectedEvent.membership_required) {
+        if (isButtonInactive) {
+            return 'Application Pending';
+        } else if (selectedEvent.membership_required) {
             return 'Apply';
+        } else {
+            return isAdded ? 'Remove' : 'Add';
         }
-        return isAdded ? 'Remove' : 'Add';
     };
 
     const handleButtonClick = () => {
+        if (isButtonInactive) {
+            // Do nothing if button is inactive
+            return;
+        }
+        if (!isLoggedIn) {
+            navigate('/login');
+            return;
+        }
         if (selectedEvent.membership_required) {
             alert("You need to apply for membership to attend this event.");
         } else {
@@ -32,16 +47,16 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel }) {
         <div className="modal-background">
             <div className="event-modal-content">
                 <div className="event-header">
-                    <p className="modal-host">{selectedEvent.host}</p>
-                    <p className="modal-event-name">{selectedEvent.title}</p>
+                    <h1>{selectedEvent.host}</h1>
+                    <h2 className="modal-event-name">{selectedEvent.title}</h2>
                 </div>
                 
                 <div className="scroll-view-container">
                     <div className="scroll-view">
                         { selectedEvent.image_url ? <img src={selectedEvent.image_url} alt="Event" className="event-image" /> : null }
                         <div className="event-text">
-                            <p className="section-title">Description</p>
-                            <p className="section-content">
+                            <h3>Description</h3>
+                            <p>
                                 {selectedEvent.description.trim().split('\n').map((line, index) => (
                                     <React.Fragment key={index}>
                                     {line}
@@ -49,8 +64,8 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel }) {
                                     </React.Fragment>
                                 ))}
                             </p>
-                            <p className="section-title">Details</p>
-                            <p className="section-content">
+                            <h3>Details</h3>
+                            <p>
                                 Location: {selectedEvent.city}, {selectedEvent.state}<br/>
                                 Date: {dayName}, {month} {day}<br/>
                                 Time: {startTime} - {endTime}<br/><br/>
@@ -61,7 +76,11 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel }) {
                 
                 <div className="button-container">
                     <Button className="button cancel" onClick={onCancel}>Back</Button>
-                    <Button className="button submit" onClick={handleButtonClick}>
+                    <Button
+                        className={`button submit ${isButtonInactive ? 'inactive' : ''}`} 
+                        onClick={handleButtonClick}
+                        disabled={isButtonInactive} 
+                    >
                         {getButtonLabel()}
                     </Button>
                 </div>

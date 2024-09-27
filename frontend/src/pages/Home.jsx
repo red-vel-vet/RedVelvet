@@ -8,7 +8,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     return (
-        <Layout>
+        <div>
             <img
                 src="https://images.unsplash.com/photo-1571118027171-d2e2c56cc926?q=80&w=988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Girl Pineapple"
@@ -34,7 +34,7 @@ const Home = () => {
                 </Button>
 
             </div>
-        </Layout>
+        </div>
     );
 }
 

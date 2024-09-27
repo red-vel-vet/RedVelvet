@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api'; 
-import Layout from '../../components/Layout';
 import EventItem from '../../components/EventItem'; 
 import DateFilterModal from '../../components/DateFilterModal';
 import Button from '../../components/Button';
 import EventDetails from '../../components/EventDetails';
 import logo from '../../assets/images/token.png';
-import '../../styles/styles.css'; 
 import '../../styles/Guests.css';
 import '../../styles/Events.css';   
 
@@ -23,8 +21,23 @@ function Events() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [addedEvents, setAddedEvents] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
     const navigate = useNavigate();
+
+    // Check if the user is logged in
+    useEffect(() => {
+        const checkLoginStatus = () => {
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
+            }
+        };
+
+        checkLoginStatus();
+    }, []);
 
     useEffect(() => {
         getEvents();
@@ -96,8 +109,13 @@ function Events() {
             alert("Please add at least one event to create a takeover.");
             return;
         }
+        
+        // Find the selected event details using the addedEvents array (which contains the event IDs)
+        const selectedEventDetails = events.filter(event => addedEvents.includes(event.id));
+        
+        // Navigate to the ConditionalBooking page and pass the selected events data
         navigate('/guests/conditionalbooking', {
-            state: { selectedEvents: addedEvents }
+            state: { selectedEvents: selectedEventDetails }
         });
     };
 
@@ -106,7 +124,7 @@ function Events() {
     };
 
     return (
-        <Layout className="content-area">
+        <div>
             <div className="search-filter-container">
                 <div className="search-bar-container">
                     <input 
@@ -180,9 +198,10 @@ function Events() {
                     setEndDate={setEndDate}
                     dateModalVisible={dateModalVisible}
                     onCancel={() => setDateModalVisible(false)}
+                    isLoggedIn={isLoggedIn}
                 />
             )}
-        </Layout>
+        </div>
     );
 }
 

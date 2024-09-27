@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // ensure the correct default import for jwtDecode
 import api from "../api";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
 import { useState, useEffect } from "react";
@@ -11,21 +11,38 @@ function ProtectedRoute() {
     useEffect(() => {
         const authenticate = async () => {
             try {
-                await auth();
+                const token = localStorage.getItem(ACCESS_TOKEN);
+                if (!token) {
+                    setIsAuthorized(false);
+                    return;
+                }
+
+                const decoded = jwtDecode(token);
+                const now = Math.floor(Date.now() / 1000); // Convert to seconds
+
+                // Check if token is about to expire (allow a 60-second buffer)
+                if (decoded.exp < now - 60) {
+                    await refreshToken();
+                } else {
+                    setIsAuthorized(true);
+                }
             } catch (error) {
                 console.error(error);
                 setIsAuthorized(false);
             }
         };
+
         authenticate();
     }, []);
 
     const refreshToken = async () => {
         const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+        if (!refreshToken) {
+            setIsAuthorized(false);
+            return;
+        }
         try {
-            const res = await api.post("/api/token/refresh/", {
-                refresh: refreshToken
-            });
+            const res = await api.post("/api/token/refresh/", { refresh: refreshToken });
             if (res.status === 200) {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 setIsAuthorized(true);
@@ -38,27 +55,12 @@ function ProtectedRoute() {
         }
     };
 
-    const auth = async () => {
-        const token = localStorage.getItem(ACCESS_TOKEN);
-        if (!token) {
-            setIsAuthorized(false);
-            return;
-        }
-        const decoded = jwtDecode(token);
-        const tokenExpiration = decoded.exp;
-        const now = Date.now() / 1000;
-
-        if (tokenExpiration < now - 60) {
-            await refreshToken();
-        } else {
-            setIsAuthorized(true);
-        }
-    };
-
+    // Show loading spinner while checking auth state
     if (isAuthorized === null) {
         return <LoadingSpinner />;
     }
 
+    // If authorized, render the protected content, otherwise navigate to login
     return isAuthorized ? <Outlet /> : <Navigate to="/login" />;
 }
 

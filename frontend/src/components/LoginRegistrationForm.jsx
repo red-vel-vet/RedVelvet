@@ -98,7 +98,7 @@ function LoginRegistrationForm({ route, method }) {
                         className="form-input"
                         id="email"
                         type="email"
-                        autocomplete="email"
+                        autoComplete="email"
                         value={email.toLowerCase()}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email Address"

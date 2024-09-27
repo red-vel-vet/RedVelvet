@@ -28,11 +28,27 @@ function App() {
           <Route path="/email-login" element={<EmailLogin />} />
           <Route path="/guests/events" element={<GuestPages.Events />} />
           <Route path="/guests/events/:eventId" element={<GuestPages.EventDetails />} />
-          <Route path="/guests/match/:userId" element={<ProtectedRoute><GuestPages.Match /></ProtectedRoute>} />
-          <Route path="/guests/conditionalbooking" element={<ProtectedRoute><GuestPages.ConditionalBooking /></ProtectedRoute>} />
-          <Route path="/guests/connections" element={<ProtectedRoute><GuestPages.Connections /></ProtectedRoute>} />
-          <Route path="/guests/connections/:userId" element={<ProtectedRoute><GuestPages.Connection /></ProtectedRoute>} />
-          <Route path="/guests/account" element={<ProtectedRoute><GuestPages.AccountInfo /></ProtectedRoute>} />
+
+          <Route path="/guests/match/:userId" element={<ProtectedRoute />}>
+            <Route index element={<GuestPages.Match />} />
+          </Route>
+
+          <Route path="/guests/conditionalbooking" element={<ProtectedRoute />}>
+            <Route index element={<GuestPages.ConditionalBooking />} />
+          </Route>
+
+          <Route path="/guests/connections" element={<ProtectedRoute />}>
+            <Route index element={<GuestPages.Connections />} />
+          </Route>
+
+          <Route path="/guests/connections/:userId" element={<ProtectedRoute />}>
+            <Route index element={<GuestPages.Connection />} />
+          </Route>
+
+          <Route path="/guests/profile" element={<ProtectedRoute />}>
+            <Route index element={<GuestPages.Profile />} />
+          </Route>
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

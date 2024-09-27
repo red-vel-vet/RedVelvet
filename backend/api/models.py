@@ -294,3 +294,45 @@ class UserResponse(models.Model):
             defaults={'response_value': 2}
         )
         return response
+    
+class MemberStatus(models.TextChoices):
+    APPLIED = 'Applied', 'Applied'
+    APPROVED = 'Approved', 'Approved'
+    REJECTED = 'Rejected', 'Rejected'
+    DORMANT = 'Dormant', 'Dormant'
+
+
+class Member(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='memberships')
+    host = models.ForeignKey(Host, on_delete=models.CASCADE, related_name='members')
+
+    status = models.CharField(max_length=10, choices=MemberStatus.choices, default=MemberStatus.APPLIED)
+    rejection_count = models.IntegerField(default=0)
+    blocked = models.BooleanField(default=False)
+    blocked_count = models.IntegerField(default=0)
+
+    application_date = models.DateTimeField(auto_now_add=True)
+    approval_date = models.DateTimeField(null=True, blank=True)
+    active_date = models.DateTimeField(null=True, blank=True)
+    expiration_date = models.DateTimeField(null=True, blank=True)
+    block_date = models.DateTimeField(null=True, blank=True)
+
+    rejection_reason = models.TextField(default='[]')  
+    blocked_reason = models.TextField(default='[]')    
+    comments = models.TextField(default='[]')          
+
+    is_active = models.BooleanField(default=False)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Automatically set is_active based on status and expiration_date
+        if self.status == MemberStatus.APPROVED and self.expiration_date and self.expiration_date >= timezone.now().date():
+            self.is_active = True
+        else:
+            self.is_active = False
+        super(Member, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.host.name} - {self.status}"

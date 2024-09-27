@@ -1,23 +1,25 @@
 .home-image {
-  width: 100%;
+  width: calc(100% + 20px);
   height: 230px;
   object-fit: cover;
   object-position: bottom;
-  padding-top: 60px;
+  padding-top: 30px;
   filter: grayscale(0%) sepia(100%) hue-rotate(-72deg) saturate(410%);
+  margin-left: -10px;
 }
 
 .tagline {
-    font-size: 16px;
-    font-weight: 200;
-    letter-spacing: 4px;
-    text-align: center;
-    margin: 40px 0; 
+  font-size: 16px;
+  font-weight: 200;
+  letter-spacing: 4px;
+  text-align: center;
+  margin: 40px 0; 
 }
 
 .button-container {
-    display: flex;
-    justify-content: center; 
-    gap: 20px;
-    padding: 10px 50px; 
+  display: flex;
+  justify-content: center; 
+  gap: 20px;
+  padding: 10px 50px; 
+  margin-left: -10px;
   }

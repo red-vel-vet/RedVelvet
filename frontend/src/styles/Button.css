@@ -32,3 +32,10 @@
 .button.submit:hover {
     background-color: #800020; 
 }
+
+.button.submit.inactive {
+    background-color: #800020 !important;  /* Make sure the background is always maroon */
+    cursor: not-allowed; /* Show disabled cursor */
+    transform: none; /* Disable scaling on click */
+    opacity: 0.7; /* Make button appear less prominent */
+}

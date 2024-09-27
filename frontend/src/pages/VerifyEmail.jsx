@@ -23,7 +23,7 @@ const VerifyEmail = () => {
                     setLoading(false);
                     // Optionally redirect to login after a delay
                     setTimeout(() => {
-                        navigate('/user/');
+                        navigate('/guests/events');
                     }, 3000);
                 })
                 .catch(error => {

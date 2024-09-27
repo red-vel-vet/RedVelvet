@@ -38,9 +38,9 @@ const Header = () => {
                     <li className={location.pathname === '/' ? 'active' : ''}>
                         <Link to="/" onClick={toggleMenu}>Home</Link>
                     </li>
-                    {/* <li className={location.pathname === '/events-management' ? 'active' : ''}>
-                        <Link to="/events-management" onClick={toggleMenu}>Event Management</Link>
-                    </li> */}
+                    <li className={location.pathname === '/guests/profile' ? 'active' : ''}>
+                        <Link to="/guests/profile" onClick={toggleMenu}>Profile</Link>
+                    </li>
                     {/* <li className={location.pathname === '/feedback' ? 'active' : ''}>
                         <Link to="/feedback" onClick={toggleMenu}>Feedback</Link>
                     </li> */}

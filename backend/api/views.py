@@ -180,7 +180,7 @@ class UpdateHost(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', True) 
+        partial = kwargs.pop('partial', True) # 
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
@@ -259,7 +259,13 @@ class ListEvents(generics.ListAPIView):
 
     def get_queryset(self):
         # Filter for active events that end in the future
-        return Event.objects.filter(is_active=True, end__gte=timezone.now())
+        queryset = Event.objects.filter(is_active=True, end__gte=timezone.now())
+
+        # If user is not logged in, filter to only show events where requires_approval_for_view is False
+        if not self.request.user.is_authenticated:
+            queryset = queryset.filter(requires_approval_for_view=False)
+        
+        return queryset
 
     def get_serializer(self, *args, **kwargs):
         # Determine the appropriate serializer based on user approval and event requirements
@@ -301,27 +307,52 @@ class ViewEvent(generics.RetrieveAPIView):
     def get_serializer_class(self):
         user = self.request.user
         event = self.get_object()
+
+        # If event does not require approval for view, use the full serializer
         if not event.requires_approval_for_view:
             return EventSerializer
+
+        # If user is authenticated and has an approved host application, use full serializer
         if user.is_authenticated:
             host_application = HostApplication.objects.filter(user=user, host=event.host).first()
             if host_application and host_application.status == ApplicationStatus.APPROVED:
                 return EventSerializer
+
+        # Otherwise, use limited serializer
         return LimitedEventSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
+        event = self.get_object()
         user = request.user
-        if instance.requires_approval_for_view:
+
+        # Check if event requires approval for viewing
+        if event.requires_approval_for_view:
             if not user.is_authenticated:
-                serializer = LimitedEventSerializer(instance)
+                # If not authenticated, return limited event details
+                serializer = LimitedEventSerializer(event)
                 return Response(serializer.data)
-            host_application = HostApplication.objects.filter(user=user, host=instance.host).first()
+
+            # If authenticated but no approved host application, return limited details
+            host_application = HostApplication.objects.filter(user=user, host=event.host).first()
             if not host_application or host_application.status != ApplicationStatus.APPROVED:
-                serializer = LimitedEventSerializer(instance)
+                serializer = LimitedEventSerializer(event)
                 return Response(serializer.data)
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+
+        # Fetch membership status if the user is authenticated
+        membership_status = None
+        if user.is_authenticated:
+            try:
+                member = Member.objects.get(user=user, host=event.host)
+                membership_status = member.status
+            except Member.DoesNotExist:
+                membership_status = None
+
+        # Use the appropriate serializer and attach membership status to the response
+        serializer = self.get_serializer(event)
+        response_data = serializer.data
+        response_data['membership_status'] = membership_status  # Include membership status
+
+        return Response(response_data)
 
 class UpdateEvent(generics.UpdateAPIView):
     queryset = Event.objects.all()
