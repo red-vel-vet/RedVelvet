@@ -1,28 +1,123 @@
 .profile-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.profile-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.profile-images {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, auto);
-}
-
-.profile-image img {
-  width: 33vw;
-  height: auto;
-  object-fit: cover;
-}
-
-.profile-details {
-  padding: 0 10px;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px 20px 10px;
+  }
+  
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .profile-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+    margin: 0 10px 0px 10px;
+  }
+  
+  .profile-image img {
+    width: 30vw;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .profile-details {
+    padding: 0 10px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  /* Editable Section */
+  .editable-section-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .editable-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; 
+    margin-bottom: 5px;
+  }
+  
+  .editable-section-header h4 {
+    margin: 0;
+  }
+  
+  .pencil-icon {
+    width: 15px;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .editable-section-edit {
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .editable-section-textarea {
+    width: calc(100% - 30px);
+    height: 100px;
+    padding: 5px;
+    font-family: inherit;
+    font-size: 14px;
+    letter-spacing: 2px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    resize: vertical; 
+  }
+  
+  .button-container-small {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  /* Application Details */
+  h3 {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+  
+  .app-question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .app-question-header h4 {
+    margin: 0;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    .profile-images {
+      /* grid-template-columns: repeat(2, 1fr); */
+    }
+  
+    .editable-section-textarea,
+    .editable-section-input {
+      width: calc(100% - 10px);
+    }
+    
+    .button-container-small {
+      /* justify-content: center; */
+    }
+  }

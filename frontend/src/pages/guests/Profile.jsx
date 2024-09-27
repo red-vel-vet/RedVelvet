@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../api'; // Assuming you have an API utility for making requests
-import '../../styles/Profile.css'; // Assuming you'll style it
+import api from '../../api'; 
+import EditableSection from '../../components/EditableSection';
+import Button from '../../components/Button';
+import '../../styles/Profile.css'; 
 import addPhoto from '../../assets/icons/add_photo.svg';
 
 function Profile() {
@@ -10,14 +12,11 @@ function Profile() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch the user's profile data and username when the component loads
     const fetchProfileData = async () => {
       try {
-        // Fetch profile data
         const profileResponse = await api.get('/api/user/profile/');
         setProfileData(profileResponse.data);
 
-        // Fetch username from the User model
         const userResponse = await api.get('/api/user/view/');
         setUsername(userResponse.data.username);
       } catch (err) {
@@ -29,6 +28,16 @@ function Profile() {
 
     fetchProfileData();
   }, []);
+
+  const handleSaveSection = (section, text) => {
+    api.put('/api/user/profile/', { ...profileData, [section]: text })
+      .then(() => {
+        setProfileData((prevData) => ({ ...prevData, [section]: text }));
+      })
+      .catch(() => {
+        setError('Failed to save profile data');
+      });
+  };
 
   if (loading) {
     return <div>Loading profile data...</div>;
@@ -42,7 +51,6 @@ function Profile() {
     return <div>No profile data available</div>;
   }
 
-  // Destructure profileData for easy access
   const {
     age_display_value,
     gender,
@@ -60,7 +68,7 @@ function Profile() {
     <div className="profile-container">
       <div className="profile-header">
         <h1>{username}</h1>
-        <h2>{age_display_value}  |  {gender.replace(/_/g, ' ')}  |  {sexuality.charAt(0) + sexuality.slice(1).toLowerCase()}</h2>
+        <h2>{age_display_value} | {gender.replace(/_/g, ' ')} | {sexuality.charAt(0) + sexuality.slice(1).toLowerCase()}</h2>
       </div>
       <div className="profile-images">
         {Array.from({ length: 6 }).map((_, index) => (
@@ -69,23 +77,66 @@ function Profile() {
           </div>
         ))}
       </div>
+
       <div className="profile-details">
-        <h3>About You</h3>
-        <p>{about_you || 'This is a brief description of what the person wants you to know about them. It should be very brief because we want to encourage in-person interactions. Quick look and first impression is all that we care about. Basically, summarize yourself in a Thread because Twitter is dead.'}</p>
+        <EditableSection
+          title="About You"
+          content={about_you}
+          placeholder="Summarize yourself in a short description"
+          isTextarea={true}
+          onSave={(text) => handleSaveSection('about_you', text)}
+        />
+
         <h3>Application Details</h3>
         <p>The following responses are only visible to hosts when you apply for membership and are not visible to other members.</p>
-        <h4>Relationship Status</h4>
-        <p>{relationship_status || 'Not provided'}</p>
-        <h4>Personal Background</h4>
-        <p>{personal_background || 'Not provided'}</p>
-        <h4>Experience</h4>
-        <p>{experience || 'Not provided'}</p>
-        <h4>Community Contribution</h4>
-        <p>{community_contribution || 'Not provided'}</p>
-        <h4>Philosophy Views</h4>
-        <p>{philosophy_views || 'Not provided'}</p>
-        <h4>Fantasy Preferences</h4>
-        <p>{fantasy_preferences || 'Not provided'}</p>
+
+        <EditableSection
+          title="Relationship Status"
+          content={relationship_status}
+          placeholder="Describe your relationship status"
+          isTextarea={true}
+          onSave={(text) => handleSaveSection('relationship_status', text)}
+        />
+
+        <EditableSection
+          title="Background, Interests, & Hobbies"
+          content={personal_background}
+          placeholder="Describe your background, interests, and hobbies"
+          isTextarea={true}
+          onSave={(text) => handleSaveSection('personal_background', text)}
+        />
+
+        <EditableSection
+          title="Sex-Positive Event Experience"
+          content={experience}
+          placeholder="Describe your experience with sex-positive events"
+          isTextarea={true}
+          onSave={(text) => handleSaveSection('experience', text)}
+        />
+
+        <EditableSection
+          title="Community Contribution"
+          content={community_contribution}
+          placeholder="Describe how you contribute to the community"
+          isTextarea={true}
+          onSave={(text) => handleSaveSection('community_contribution', text)}
+        />
+
+        <EditableSection
+          title="Philosophy on Sex"
+          content={philosophy_views}
+          placeholder="Describe your personal philosophy on sex"
+          isTextarea={true}
+          onSave={(text) => handleSaveSection('philosophy_views', text)}
+        />
+
+        <EditableSection
+          title="Sexual Fantasies"
+          content={fantasy_preferences}
+          placeholder="Describe your ideal fantasy"
+          isTextarea={true}
+          onSave={(text) => handleSaveSection('fantasy_preferences', text)}
+        />
       </div>
     </div>
   );

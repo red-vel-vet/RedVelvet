@@ -4,6 +4,7 @@
   align-items: center;
   width: 100vw;
   padding-top: env(safe-area-inset-top);
+  padding-bottom: 10px;
   position: fixed;
   top: 0;
   z-index: 9999;
