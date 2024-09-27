@@ -67,7 +67,7 @@
   
   .editable-section-textarea {
     width: calc(100% - 30px);
-    height: 100px;
+    height: 250px;
     padding: 5px;
     font-family: inherit;
     font-size: 14px;
@@ -76,6 +76,16 @@
     border-radius: 5px;
     margin-bottom: 5px;
     resize: vertical; 
+  }
+
+  .editable-section-content {
+    white-space: pre-wrap; 
+  }
+  .char-count {
+    font-size: 12px;
+    text-align: right;
+    color: #666;
+    margin-bottom:5px;
   }
   
   .button-container-small {
@@ -87,9 +97,9 @@
   }
   
   /* Application Details */
-  h3 {
+  .profile-details h3 {
     margin-top: 30px;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
   }

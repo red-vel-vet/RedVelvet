@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import pencil from '../assets/icons/pencil.svg';
 import Button from './Button';
 
-function EditableSection({ title, content, onSave, placeholder }) {
+function EditableSection({ title, content, onSave, placeholder, maxLength }) {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(content || '');
 
@@ -13,7 +13,7 @@ function EditableSection({ title, content, onSave, placeholder }) {
 
   const handleCancel = () => {
     setIsEditing(false);
-    setText(content); // Reset the text to the original content
+    setText(content); 
   };
 
   return (
@@ -36,14 +36,18 @@ function EditableSection({ title, content, onSave, placeholder }) {
             onChange={(e) => setText(e.target.value)}
             placeholder={placeholder}
             className="editable-section-textarea"
+            maxLength={maxLength} // Add maxLength prop here
           />
+          <div className="char-count">
+            {text.length}/{maxLength}
+          </div>
           <div className="button-container-small">
             <Button className="button cancel" onClick={handleCancel}>Cancel</Button>
             <Button className="button submit" onClick={handleSave}>Save</Button>
           </div>
         </div>
       ) : (
-        <p>{content || placeholder}</p>
+        <p className="editable-section-content">{content || placeholder}</p>
       )}
     </div>
   );

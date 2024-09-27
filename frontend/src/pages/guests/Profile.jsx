@@ -84,6 +84,7 @@ function Profile() {
           content={about_you}
           placeholder="Summarize yourself in a short description"
           isTextarea={true}
+          maxLength={500}
           onSave={(text) => handleSaveSection('about_you', text)}
         />
 
