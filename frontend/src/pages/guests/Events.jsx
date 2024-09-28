@@ -188,6 +188,7 @@ function Events() {
                     isAdded={addedEvents.includes(selectedEvent.id)}
                     onToggleAddRemove={() => onToggleAddRemove(selectedEvent.id)}
                     onCancel={() => setEventModalVisible(false)}
+                    isLoggedIn={isLoggedIn}
                 />
             )}
             {dateModalVisible && (

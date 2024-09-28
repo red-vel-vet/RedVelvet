@@ -123,7 +123,7 @@
 
 .modal-overlay {
   animation: fadeIn 0.3s ease-out forwards;
-  background: rgba(0, 0, 0, 0.5);
+  background: white;
   position: fixed;
   top: 0;
   left: 0;
@@ -131,13 +131,16 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: flex-end;
   align-items: center;
   opacity: 0;
   z-index: 2000;
 }
 
 .modal-content {
-  animation: slideUp 0.3s ease-out forwards;
+  background: white;
+  width: 100%;
+  animation: slideUp 0.4s ease-out forwards;
   transform: translateY(100%);
 }
 

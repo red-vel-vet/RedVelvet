@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../api';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'; // Import your token keys
 import '../styles/VerifyEmail.css';
 
 const VerifyEmail = () => {
@@ -17,11 +18,12 @@ const VerifyEmail = () => {
         if (token) {
             api.post('/api/verify-email/', { token })
                 .then(response => {
-                    localStorage.setItem('access', response.data.access);
-                    localStorage.setItem('refresh', response.data.refresh);
+                    // Use constants to store tokens in localStorage
+                    localStorage.setItem(ACCESS_TOKEN, response.data.access);
+                    localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
                     setMessage('Success! Redirecting...');
                     setLoading(false);
-                    // Optionally redirect to login after a delay
+                    // Redirect to events page after a short delay
                     setTimeout(() => {
                         navigate('/guests/events');
                     }, 3000);

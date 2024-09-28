@@ -16,6 +16,12 @@
   margin: 40px 0; 
 }
 
+.tagline p {
+  font-size: 16px;
+  margin-top: 20px;
+  color: #333333;
+}
+
 .button-container {
   display: flex;
   justify-content: center; 

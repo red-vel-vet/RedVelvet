@@ -13,8 +13,8 @@ function DateFilterModal({ startDate, endDate, setStartDate, setEndDate, dateMod
     };
 
     return (
-        <div className="modal-background">
-            <div className="modal-content">
+        <div className="date-modal-background">
+            <div className="date-modal-content">
                 <p className="datepicker-title">Select Date Range</p>
                 <a className="clear-link" onClick={clearDateFilter}>Clear Dates</a>
                 <DatePicker
