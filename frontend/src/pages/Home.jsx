@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Layout from '../components/Layout';
 import Button from '../components/Button';
 import '../styles/Home.css';
 import '../styles/Guests.css';
@@ -22,7 +21,9 @@ const Home = () => {
             <div className="button-container">
                 <Button 
                     className="button submit" 
-                    onClick={() => {console.log("Button clicked!");}}
+                    onClick={() => {
+                        alert("Host path under development. See guest path.");
+                    }}
                 >
                     Hosts
                 </Button>
