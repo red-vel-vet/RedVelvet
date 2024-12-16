@@ -145,6 +145,7 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=30, blank=True, default='')
     last_name = models.CharField(max_length=30, blank=True, default='')
     dob = models.DateField()
+    display_name = models.CharField(max_length=50, blank=True, null=True)
     age_display = models.CharField(
         max_length=10,
         choices=[(tag.name, tag.value) for tag in AgeDisplayType],

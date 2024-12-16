@@ -56,14 +56,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     age_display_value = serializers.ReadOnlyField()
+    sexuality_display = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
         fields = [
-            'first_name', 'last_name', 'dob', 'age_display', 'gender', 'sexuality',
+            'first_name', 'last_name', 'dob', 'display_name','age_display', 'gender', 'sexuality', 'sexuality_display',
             'about_you', 'relationship_status', 'personal_background', 'experience',
             'community_contribution', 'philosophy_views', 'fantasy_preferences', 'age_display_value'
         ]
+
+    def get_sexuality_display(self, obj):
+        return SexualityType[obj.sexuality].value
 
     def validate_first_name(self, value):
         # Ensure first_name can only be set once
