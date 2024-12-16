@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import navIcon from '../assets/icons/nav.svg';
 import navCloseIcon from '../assets/icons/nav-close.svg';
-import '../styles/Header.css';
+import guestsStyles from '../styles/Guests.module.css'; 
+import hostsStyles from '../styles/Hosts.module.css';   
+import '../styles/Header.css';  
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
+
+    const isHostsPage = location.pathname.startsWith('/hosts');
+    const currentStyles = isHostsPage ? hostsStyles : guestsStyles;
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -14,19 +19,20 @@ const Header = () => {
 
     return (
         <>
-            <header className="header">
-                <div className="header-left">
-                    <h1 className="header-title">RED VELVET</h1>
+            <header className={`${currentStyles.header} header`}>
+                <div className={`${currentStyles.headerLeft} header-left`}>
+                    <h1 className={`${currentStyles.headerTitle} header-title`}>RED VELVET</h1>
                 </div>
                 <div className="header-right">
                     <img
                         src={navIcon}
                         alt="Navigation Icon"
-                        className="header-icon"
+                        className={`${currentStyles.headerIcon} header-icon`}
                         onClick={toggleMenu}
                     />
                 </div>
             </header>
+
             <nav className={`nav-menu ${menuOpen ? 'open' : ''}`}>
                 <img
                     src={navCloseIcon}

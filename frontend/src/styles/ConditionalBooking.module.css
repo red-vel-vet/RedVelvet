@@ -1,0 +1,113 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
+
+.bookingContent {
+  padding-top: 35px;
+  padding-bottom: 70px; /* Add space for the fixed button container */
+  margin: 0 10px;
+  overflow-y: auto; /* Make it scrollable */
+  flex-grow: 1; /* Allow it to grow and fill the available space */
+}
+
+.eventBookings {
+  list-style-type: none;
+  padding-left: 10px;
+  margin-top: 35px;
+}
+
+.eventBooking {
+  margin-bottom: 20px;
+}
+
+.eventFlexContainer {
+  display: flex;
+  align-items: center;
+}
+
+.cbEventImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  margin-right: 20px;
+}
+
+.cbDetails {
+  flex-grow: 1;
+  padding: 0;
+}
+
+.cbDetails p {
+  margin: 0;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  position: fixed;
+  bottom: 0;
+  padding: 10px;
+  margin-left: 15px;
+}
+
+.addRemoveIcon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.ticketTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.ticketTable th,
+.ticketTable td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.ticketTable th {
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+.ticketTable th:first-child,
+.ticketTable td:first-child {
+  text-align: left;
+}
+
+.ticketTable th:nth-child(2),
+.ticketTable td:nth-child(2),
+.ticketTable th:nth-child(3),
+.ticketTable td:nth-child(3),
+.ticketTable th:nth-child(4),
+.ticketTable td:nth-child(4) {
+  text-align: center;
+}
+
+.ticketTable th:last-child,
+.ticketTable td:last-child {
+  width: 50px;
+  text-align: center;
+}
+
+.ticketTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.addedTicketsContainer {
+  margin-top: 35px;
+}
+
+.totalContainer {
+  margin-top: 10px;
+  text-align: right;
+}

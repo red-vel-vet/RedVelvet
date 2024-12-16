@@ -15,19 +15,27 @@ body {
 html, body {
   max-width: 100vw;
   overflow-x: hidden;
+  height: 100%; /* Ensure full height for the viewport */
+}
+
+#root {
+  height: 100%; /* Root element to span the entire viewport height */
 }
 
 .safe-area {
-  padding-top: var(--safe-area-inset-top);
-  padding-bottom: var(--safe-area-inset-bottom);
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Push footer to the bottom */
+  min-height: 100vh; /* Full viewport height */
 }
 
 .content-area {
-  padding: 50px 10px 0 10px;
-  min-height: 100vh;
+  flex: 1; /* Allow content to expand and take up remaining space */
+  overflow-y: auto; /* Enable scrolling for overflowing content */
+  padding: 50px 10px 00px 10px; /* Adjust padding for header/footer */
 }
 
+/* Typography */
 h1, h2 {
   font-size: 16px;
   text-align: center;
@@ -43,10 +51,9 @@ h2 {
   font-weight: 400;
   margin: 0;
   padding: 0 10px;
-  color: #800020;
 }
 
-h3 {
+h3, th {
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 3px;
@@ -58,13 +65,10 @@ h4 {
   font-weight: 500;
   letter-spacing: 3px;
   margin-bottom: 5px;
-  color: #800020;
 }
 
 p {
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 2.5px;
-  margin-top: 0;
-  margin-bottom: 0;
 }

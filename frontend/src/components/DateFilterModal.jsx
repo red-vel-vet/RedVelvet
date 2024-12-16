@@ -29,7 +29,7 @@ function DateFilterModal({ startDate, endDate, setStartDate, setEndDate, dateMod
                     selectsRange
                     inline
                 />
-                <div className="button-container">
+                <div className="date-button-container">
                     <Button className="button cancel" type="button" onClick={onCancel}>Cancel</Button>
                     <Button className="button submit" type="button" onClick={onCancel}>Apply</Button>
                 </div>

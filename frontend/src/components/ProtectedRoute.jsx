@@ -5,7 +5,7 @@ import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
 import { useState, useEffect } from "react";
 import LoadingSpinner from './LoadingSpinner';
 
-function ProtectedRoute() {
+function ProtectedRoute({ component: Component }) {
     const [isAuthorized, setIsAuthorized] = useState(null);
 
     useEffect(() => {
@@ -60,8 +60,8 @@ function ProtectedRoute() {
         return <LoadingSpinner />;
     }
 
-    // If authorized, render the protected content, otherwise navigate to login
-    return isAuthorized ? <Outlet /> : <Navigate to="/login" />;
+    // If authorized, render the component; otherwise, redirect to login
+    return isAuthorized ? <Component /> : <Navigate to="/login" />;
 }
 
 export default ProtectedRoute;

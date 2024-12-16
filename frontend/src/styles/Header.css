@@ -4,7 +4,6 @@
   align-items: center;
   width: 100vw;
   padding-top: env(safe-area-inset-top);
-  padding-bottom: 10px;
   position: fixed;
   top: 0;
   z-index: 9999;
@@ -12,6 +11,7 @@
 
 .header-title {
   padding-left: 10px;
+  padding-bottom: 7.5px;
   font-size: 18px;
   letter-spacing: 10pt;
   font-weight: 400;

@@ -1,0 +1,126 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  padding-top: 60px;
+  height: calc(100vh - 100px);
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+}
+
+.formTitle {
+  font-size: 30px;
+  letter-spacing: 8px;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.formMessage {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.formGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #DC143C;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 1em;
+  margin: 10px 0px 5px 10px;
+  text-align: left;
+  width: 90%;
+}
+
+.formInput {
+  width: 90%;
+  padding: 10px;
+  margin: 5px 0 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #333333;
+  height: 40px;
+}
+
+.formInput[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  padding-right: 10px;
+  height: 40px; /* Ensure the height remains consistent */
+  line-height: 1.2;
+  padding-left: 10px; /* Align with other inputs */
+}
+
+.formInput[type="date"]:focus {
+  border-color: #DC143C;
+  box-shadow: 0 0 5px rgba(220, 20, 60, 0.5);
+  outline: none;
+}
+
+.formGroup select.formInput {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 24px 8px 8px;
+  font-size: 16px;
+  /* background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 292.362 292.362"><path fill="%23333" d="M286.935,197.286l-14.273-14.273c-3.614-3.617-7.898-5.428-12.847-5.428h-231c-4.949,0-9.233,1.811-12.85,5.428L5.664,197.286c-3.617,3.617-5.424,7.902-5.424,12.85s1.807,9.233,5.424,12.847l14.276,14.271c3.617,3.617,7.901,5.428,12.85,5.428h231c4.948,0,9.232-1.811,12.847-5.428l14.273-14.271c3.617-3.614,5.428-7.898,5.428-12.847S290.552,200.902,286.935,197.286z"/></svg>'); */
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
+}
+
+.formGroup select.formInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.errorText {
+  font-size: 0.875em;
+  margin: -5px 0 5px 10px;
+  text-align: left;
+  width: 90%;
+  color: #DC143C;
+}
+
+.formGroup textarea {
+  height: 20vh;
+}
+
+.emailSent {
+  color: #DC143C;
+  margin: 10px 0;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.lrButton {
+  width: 150px;
+}

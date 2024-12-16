@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
+// import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import Button from './Button';
 import LoadingSpinner from './LoadingSpinner';
-import '../styles/Guests.css';
-import "../styles/Form.css";
+import formStyles from '../styles/Form.module.css'; 
 
 function LoginRegistrationForm({ route, method }) {
     const [email, setEmail] = useState("");
@@ -21,9 +20,9 @@ function LoginRegistrationForm({ route, method }) {
     const toggleLoginRegistration = () => {
         const currentPath = window.location.pathname;
         if (currentPath.includes('/login')) {
-            navigate('/register'); // Redirect to register if on login
+            navigate('/register'); 
         } else if (currentPath.includes('/register')) {
-            navigate('/login'); // Redirect to login if on register
+            navigate('/login'); 
         }
     };
 
@@ -66,7 +65,6 @@ function LoginRegistrationForm({ route, method }) {
                 alert("Please check your email to verify your account.");
                 navigate("/login");
             }
-            // Redirect to EmailLogin page after email is sent
             navigate('/email-login');
         } catch (error) {
             if (error.response) {
@@ -89,13 +87,13 @@ function LoginRegistrationForm({ route, method }) {
     };
 
     return (
-        <div className="container">
+        <div className={formStyles.container}>
             {loading && <LoadingSpinner />}
-            <form onSubmit={handleSubmit} className="form-container">
-                <p className="form-title">{name}</p>
-                <div className="form-group">
+            <form onSubmit={handleSubmit} className={formStyles.formContainer}>
+                <h2 className={formStyles.formTitle}>{name}</h2>
+                <div className={formStyles.formGroup}>
                     <input
-                        className="form-input"
+                        className={formStyles.formInput}
                         id="email"
                         type="email"
                         autoComplete="email"
@@ -104,13 +102,13 @@ function LoginRegistrationForm({ route, method }) {
                         placeholder="Email Address"
                         required
                     />
-                    {errors.email && <p className="error-text">{errors.email}</p>}
+                    {errors.email && <p className={formStyles.errorText}>{errors.email}</p>}
                 </div>
                 {!isLogin && (
                     <>
-                        <div className="form-group">
+                        <div className={formStyles.formGroup}>
                             <input
-                                className="form-input"
+                                className={formStyles.formInput}
                                 id="email-confirm"
                                 type="text"
                                 value={username}
@@ -118,33 +116,36 @@ function LoginRegistrationForm({ route, method }) {
                                 placeholder="Username"
                                 required
                             />
-                            {errors.username && <p className="error-text">{errors.username}</p>}
+                            {errors.username && <p className={formStyles.errorText}>{errors.username}</p>}
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="dob" className={`form-label ${dob ? 'has-value' : ''}`}>
+                        <div className={formStyles.formGroup}>
+                            <label htmlFor="dob" className={`${formStyles.formLabel} ${dob ? formStyles.hasValue : ''}`}>
                                 Date of Birth
                             </label>
                             <input
-                                className="form-input"
+                                className={formStyles.formInput}
                                 type="date"
                                 id="dob"
                                 value={dob}
                                 onChange={(e) => setDob(e.target.value)}
                                 required
                             />
-                            {errors.dob && <p className="error-text">{errors.dob}</p>}
+                            {errors.dob && <p className={formStyles.errorText}>{errors.dob}</p>}
                         </div>
                     </>
                 )}
-                <div className="button-container">
+                <div className={formStyles.buttonContainer}>
                     <Button
-                        className="button cancel switch lr-button"
+                        variant='cancel'
                         type="button"
                         onClick={toggleLoginRegistration}
                     >
                         {isLogin ? 'Switch to Register' : 'Switch to Login'}
                     </Button>
-                    <Button className="button submit lr-button" type="submit">
+                    <Button 
+                        variant='submit'
+                        type="submit"
+                    >
                         {isLogin ? 'Login' : 'Register'}
                     </Button>
                 </div>

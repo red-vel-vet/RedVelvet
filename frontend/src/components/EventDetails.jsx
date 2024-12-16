@@ -1,6 +1,8 @@
+// frontend/src/components/EventDetails.jsx
+
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/EventDetails.css';
+import EDstyles from '../styles/EventDetails.module.css'; // Import the CSS module
 import Button from './Button';
 
 function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isLoggedIn }) {
@@ -22,13 +24,15 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isL
     const endTime = eventEndDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
 
     const isButtonInactive = selectedEvent.membership_status === 'Applied';
+    
+    // Updated button label logic
     const getButtonLabel = () => {
         if (isButtonInactive) {
             return 'Application Pending';
         } else if (selectedEvent.membership_required) {
             return 'Apply';
         } else {
-            return isAdded ? 'Remove' : 'Add';
+            return isAdded ? 'Buy' : 'Buy'; // Both states show "Buy"
         }
     };
 
@@ -41,24 +45,27 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isL
         if (selectedEvent.membership_required) {
             alert("You need to apply for membership to attend this event.");
         } else {
-            onToggleAddRemove();
+            // Navigate to the booking page with the selected event's details
+            navigate('/guests/conditionalbooking', {
+                state: { selectedEvents: [selectedEvent] } // Pass the selected event as an array
+            });
         }
     };
 
     return (
-        <div className="modal-overlay" onClick={onCancel}>
-            <div className="modal-content slide-up" onClick={(e) => e.stopPropagation()}>
-                <div className="event-header">
+        <div className={EDstyles.modalOverlay} onClick={onCancel}>
+            <div className={`${EDstyles.modalContent} ${EDstyles.slideUp}`} onClick={(e) => e.stopPropagation()}>
+                <div className={EDstyles.eventHeader}>
                     <h1>{selectedEvent.host}</h1>
-                    <h2 className="modal-event-name">{selectedEvent.title}</h2>
+                    <h2 className={EDstyles.modalEventName}>{selectedEvent.title}</h2>
                 </div>
 
-                <div className="scroll-view-container">
-                    <div className="scroll-view">
+                <div className={EDstyles.scrollViewContainer}>
+                    <div className={EDstyles.scrollView}>
                         {selectedEvent.image_url ? (
-                            <img src={selectedEvent.image_url} alt="Event" className="event-image" />
+                            <img src={selectedEvent.image_url} alt="Event" className={EDstyles.eventImage} />
                         ) : null}
-                        <div className="event-text">
+                        <div className={EDstyles.eventText}>
                             <h3>Description</h3>
                             <p>
                                 {selectedEvent.description.trim().split('\n').map((line, index) => (
@@ -79,16 +86,20 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isL
                                 <br />
                                 <br />
                             </p>
+                            <h3>Matches Attending: {selectedEvent.matches_attending_count || 3}</h3> {/* Default value of 3 */}
                         </div>
                     </div>
                 </div>
 
-                <div className="button-container">
-                    <Button className="button cancel" onClick={onCancel}>
+                <div className={EDstyles.buttonContainer}>
+                    <Button 
+                        variant='cancel' 
+                        onClick={onCancel}
+                    >
                         Back
                     </Button>
                     <Button
-                        className={`button submit ${isButtonInactive ? 'inactive' : ''}`}
+                        variant='submit'
                         onClick={handleButtonClick}
                         disabled={isButtonInactive}
                     >

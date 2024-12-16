@@ -1,12 +1,12 @@
 import React from 'react';
-import '../styles/EmailLogin.css';
+import formStyles from '../styles/Form.module.css'; 
 
 function EmailLogin() {
     return (
-        <div className="container">
-            <div className="form-container">
-                <h1 className="form-title">Email Sent.</h1>
-                <p>Please check your email to log in or verify your account.</p>
+        <div className={formStyles.container}>
+            <div className={formStyles.formContainer}>
+                <h2 className={formStyles.formTitle}>Email Sent</h2>
+                <p className={formStyles.formMessage}>Please check your email to log in or verify your account.</p>
             </div>
         </div>
     );

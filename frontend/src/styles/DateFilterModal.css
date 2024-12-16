@@ -40,7 +40,7 @@
     text-decoration: underline;
 }
 
-.button-container {
+.date-button-container {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../../api'; 
-import EventItem from '../../components/EventItem'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import api from '../../api';
+import EventItem from '../../components/EventItem';
 import DateFilterModal from '../../components/DateFilterModal';
 import Button from '../../components/Button';
 import EventDetails from '../../components/EventDetails';
 import logo from '../../assets/images/token.png';
-import '../../styles/Guests.css';
-import '../../styles/Events.css';   
-
+import guestsStyles from '../../styles/Guests.module.css'; 
+import hostsStyles from '../../styles/Hosts.module.css';  
+import eventStyles from '../../styles/Events.module.css';  
 
 function Events() {
     const [events, setEvents] = useState([]);
@@ -21,9 +21,13 @@ function Events() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [addedEvents, setAddedEvents] = useState([]);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Determine if we're in the /hosts path to apply Hosts styles, otherwise default to Guests styles
+    const currentStyles = location.pathname.startsWith('/hosts') ? hostsStyles : guestsStyles;
 
     // Check if the user is logged in
     useEffect(() => {
@@ -48,7 +52,7 @@ function Events() {
     }, [events, searchQuery, startDate, endDate]);
 
     const getEvents = () => {
-        setIsLoading(true); 
+        setIsLoading(true);
         api.get('/api/events/')
             .then((res) => res.data)
             .then((data) => {
@@ -57,15 +61,15 @@ function Events() {
                 setFilteredEvents(sortedData);
             })
             .catch((err) => alert(err))
-            .finally(() => setIsLoading(false)); 
+            .finally(() => setIsLoading(false));
     };
 
     const filterEvents = () => {
         let filtered = events;
-        
+
         if (searchQuery) {
             const lowerCaseQuery = searchQuery.toLowerCase();
-            filtered = filtered.filter(event => 
+            filtered = filtered.filter(event =>
                 event.title?.toLowerCase().includes(lowerCaseQuery) ||
                 (event.description && event.description?.toLowerCase().includes(lowerCaseQuery)) ||
                 event.host?.toLowerCase().includes(lowerCaseQuery) ||
@@ -75,7 +79,7 @@ function Events() {
         }
 
         if (startDate && endDate) {
-            filtered = filtered.filter(event => 
+            filtered = filtered.filter(event =>
                 new Date(event.start) >= startDate && new Date(event.start) <= endDate
             );
         }
@@ -109,11 +113,9 @@ function Events() {
             alert("Please add at least one event to create a takeover.");
             return;
         }
-        
-        // Find the selected event details using the addedEvents array (which contains the event IDs)
+
         const selectedEventDetails = events.filter(event => addedEvents.includes(event.id));
-        
-        // Navigate to the ConditionalBooking page and pass the selected events data
+
         navigate('/guests/conditionalbooking', {
             state: { selectedEvents: selectedEventDetails }
         });
@@ -125,21 +127,25 @@ function Events() {
 
     return (
         <div>
-            <div className="search-filter-container">
-                <div className="search-bar-container">
-                    <input 
-                        type="text" 
+            <div className={eventStyles.searchFilterContainer}>
+                <div className={eventStyles.searchBarContainer}>
+                    <input
+                        type="text"
                         id="searchBar"
-                        placeholder="Search events..." 
-                        value={searchQuery} 
-                        onChange={(e) => setSearchQuery(e.target.value)} 
-                        className="search-bar"
+                        placeholder="Search events..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className={eventStyles.searchBar}
                     />
-                    {searchQuery && <button className="clear-button" onClick={clearSearch}>×</button>}
+                    {searchQuery && (
+                        <button className={eventStyles.clearButton} onClick={clearSearch}>
+                            ×
+                        </button>
+                    )}
                 </div>
-                <Button 
-                    className="button date-filter-button" 
-                    type="button" 
+                <Button
+                    variant="submit"
+                    type="button"
                     onClick={() => setDateModalVisible(true)}
                 >
                     Dates
@@ -147,40 +153,37 @@ function Events() {
             </div>
             <div>
                 {isLoading ? (
-                    <div className="home-container">
-                        <div className="loading-container">
-                            <img src={logo} alt="Red Velvet Icon" className="loading-logo" />
+                    <div className={eventStyles.homeContainer}>
+                        <div className={eventStyles.loadingContainer}>
+                            <img src={logo} alt="Red Velvet Icon" className={eventStyles.loadingLogo} />
                         </div>
                     </div>
                 ) : (
-                    <>
-                        <div className="home-container">
-                            <main className="events-container">
-                                <ul className="event-list">
-                                    {filteredEvents.map((event) => (
-                                        <EventItem
-                                            key={event.id}
-                                            event={event}
-                                            isAdded={addedEvents.includes(event.id)}
-                                            onToggleAddRemove={() => onToggleAddRemove(event.id)}
-                                            onClick={() => handleEventClick(event)}
-                                        />
-                                    ))}
-                                </ul>
-                            </main>
-                        </div>
-                    </>
+                    <div className={eventStyles.homeContainer}>
+                        <main className={eventStyles.eventsContainer}>
+                            <ul className={eventStyles.eventList}>
+                                {filteredEvents.map((event) => (
+                                    <EventItem
+                                        key={event.id}
+                                        event={event}
+                                        isAdded={addedEvents.includes(event.id)}
+                                        onToggleAddRemove={() => onToggleAddRemove(event.id)}
+                                        onClick={() => handleEventClick(event)}
+                                        themeStyles={currentStyles}  
+                                    />
+                                ))}
+                            </ul>
+                        </main>
+                    </div>
                 )}
             </div>
-            <div className="takeover-footer">
-                <Button
-                    className="takeover-button button submit"
-                    onClick={() => {
-                        handleCreateTakeoverClick();
-                    }}
-                >
-                    Create a Takeover!
-                </Button> 
+            <div className={eventStyles.takeoverFooter}>
+            {/* <Button
+                variant="takeover"
+                onClick={handleCreateTakeoverClick}
+            >
+                Create a Takeover!
+            </Button> */}
             </div>
             {eventModalVisible && selectedEvent && (
                 <EventDetails
@@ -192,7 +195,7 @@ function Events() {
                 />
             )}
             {dateModalVisible && (
-                <DateFilterModal 
+                <DateFilterModal
                     startDate={startDate}
                     endDate={endDate}
                     setStartDate={setStartDate}

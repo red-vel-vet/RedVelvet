@@ -1,32 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import '../styles/UserNavFooter.css';
-import accountIcon from '../assets/icons/user_nav/account.svg';
-import profileIcon from '../assets/icons/user_nav/profile.svg';
-import quizIcon from '../assets/icons/user_nav/quiz.svg';
-import connectionsIcon from '../assets/icons/user_nav/connections.svg';
+import baseStyles from '../styles/UserNavFooter.module.css';
 
-const Footer = () => {
-  return (
-    <div className="user-nav-footer">
-      <NavLink to="/user/account" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
-        <img src={accountIcon} alt="Account" />
-        <span>Account</span>
-      </NavLink>
-      <NavLink to="/user/profile" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
-        <img src={profileIcon} alt="Profile" />
-        <span>Profile</span>
-      </NavLink>
-      <NavLink to="/user/quiz" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
-        <img src={quizIcon} alt="Quiz" />
-        <span>Quiz</span>
-      </NavLink>
-      <NavLink to="/user/connections" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
-        <img src={connectionsIcon} alt="Connections" />
-        <span>Connections</span>
-      </NavLink>
-    </div>
-  );
+const UserNavFooter = ({ navItems, className }) => {
+    return (
+        <footer className={`${baseStyles.userNavFooter} ${className.guestFooter}`}>
+            {navItems.map(({ link, icon, label }) => (
+                <a href={link} key={label} className={`${baseStyles.navItem} ${className.navItem}`}>
+                    <img src={icon} alt={`${label} icon`} className={className.icon} />
+                    <span>{label}</span>
+                </a>
+            ))}
+        </footer>
+    );
 };
 
-export default Footer;
+export default UserNavFooter;

@@ -1,4 +1,4 @@
-.home-image {
+.homeImage {
   width: calc(100% + 20px);
   height: 230px;
   object-fit: cover;
@@ -22,10 +22,9 @@
   color: #333333;
 }
 
-.button-container {
+.homeButtonContainer {
   display: flex;
   justify-content: center; 
-  gap: 20px;
-  padding: 10px 50px; 
-  margin-left: -10px;
-  }
+  gap: 30px;
+  padding-top: 10px; 
+}

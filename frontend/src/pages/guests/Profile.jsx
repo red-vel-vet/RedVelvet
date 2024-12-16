@@ -54,7 +54,7 @@ function Profile() {
   const {
     age_display_value,
     gender,
-    sexuality,
+    sexuality_display,
     about_you,
     relationship_status,
     personal_background,
@@ -68,7 +68,7 @@ function Profile() {
     <div className="profile-container">
       <div className="profile-header">
         <h1>{username}</h1>
-        <h2>{age_display_value} | {gender.replace(/_/g, ' ')} | {sexuality.charAt(0) + sexuality.slice(1).toLowerCase()}</h2>
+        <h2>{age_display_value} | {gender.replace(/_/g, ' ')} | {sexuality_display}</h2>
       </div>
       <div className="profile-images">
         {Array.from({ length: 6 }).map((_, index) => (

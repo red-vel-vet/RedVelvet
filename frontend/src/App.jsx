@@ -20,7 +20,8 @@ function App() {
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} /> 
+          {/* Public routes */}
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
@@ -29,26 +30,14 @@ function App() {
           <Route path="/guests/events" element={<GuestPages.Events />} />
           <Route path="/guests/events/:eventId" element={<GuestPages.EventDetails />} />
 
-          <Route path="/guests/match/:userId" element={<ProtectedRoute />}>
-            <Route index element={<GuestPages.Match />} />
-          </Route>
+          {/* Protected routes */}
+          <Route path="/guests/match/:userId" element={<ProtectedRoute component={GuestPages.Match} />} />
+          <Route path="/guests/conditionalbooking" element={<ProtectedRoute component={GuestPages.ConditionalBooking} />} />
+          <Route path="/guests/connections" element={<ProtectedRoute component={GuestPages.Connections} />} />
+          <Route path="/guests/connections/:userId" element={<ProtectedRoute component={GuestPages.Connection} />} />
+          <Route path="/guests/profile" element={<ProtectedRoute component={GuestPages.Profile} />} />
 
-          <Route path="/guests/conditionalbooking" element={<ProtectedRoute />}>
-            <Route index element={<GuestPages.ConditionalBooking />} />
-          </Route>
-
-          <Route path="/guests/connections" element={<ProtectedRoute />}>
-            <Route index element={<GuestPages.Connections />} />
-          </Route>
-
-          <Route path="/guests/connections/:userId" element={<ProtectedRoute />}>
-            <Route index element={<GuestPages.Connection />} />
-          </Route>
-
-          <Route path="/guests/profile" element={<ProtectedRoute />}>
-            <Route index element={<GuestPages.Profile />} />
-          </Route>
-
+          {/* 404 - Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

@@ -1,22 +1,22 @@
-.event-item {
+.eventItem {
   position: relative;
   margin-bottom: 15px;
 }
 
-.selected-event {
+.selectedEvent {
   background-color: #FDECEC;
   scale: 1.01;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
-.event-logo {
+.eventLogo {
   width: 100%;
   height: 175px;
   object-fit: cover;
   object-position: center;
 }
 
-.event-info {
+.eventInfo {
   font-size: 10pt;
   letter-spacing: 4pt;
   border-bottom: 1px solid #e0e0e0;
@@ -24,23 +24,23 @@
   margin-bottom: 0px;
 }
 
-.event-info p {
+.eventInfo p {
   margin-top: 3px;
   margin-bottom: 0px;
 }
 
-.event-title {
+.eventTitle {
   white-space: nowrap; 
   overflow: hidden; 
   text-overflow: ellipsis; 
   width: 100%;
 }
 
-.host-name {
+.hostName {
   font-weight: bold;
 }
 
-.add-remove-icon {
+.addRemoveIcon {
   position: absolute;
   bottom: 15px; 
   right: 10px; 

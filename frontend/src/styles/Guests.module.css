@@ -3,10 +3,7 @@
   color: #800020;
 }
 
-.header-icon {
-  filter: invert(23%) sepia(94%) saturate(748%) hue-rotate(356deg) brightness(97%) contrast(88%);
-}
-
-.add-remove-icon {
+.headerIcon, 
+.addRemoveIcon {
   filter: invert(23%) sepia(94%) saturate(748%) hue-rotate(356deg) brightness(97%) contrast(88%);
 }

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'; // Import your token keys
-import '../styles/VerifyEmail.css';
+import formStyles from '../styles/Form.module.css'; 
 
 const VerifyEmail = () => {
     const [message, setMessage] = useState('Verifying email address...');
@@ -40,9 +40,11 @@ const VerifyEmail = () => {
     }, [location, navigate]);
 
     return (
-        <div className="verify-container">
-            <p>Email Verification</p>
-            {loading ? <LoadingSpinner /> : <p>{message}</p>}
+        <div className={formStyles.container}>
+            <div className={formStyles.formContainer}>
+                <h2 className={formStyles.formTitle}>Email Verification</h2>
+                {loading ? <LoadingSpinner /> : <p className={formStyles.formMessage}>{message}</p>}
+            </div>
         </div>
     );
 };

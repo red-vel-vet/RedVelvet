@@ -1,0 +1,9 @@
+.header {
+  background-color: #333333;
+  color: white;
+}
+  
+.header-icon,
+.add-remove-icon {
+    filter: invert(100%);
+}
