@@ -25,10 +25,3 @@
 .navItem span {
   font-size: 12px;
 }
-
-.navItem.active {
-}
-
-.navItem.active img {
-  opacity: 1;
-} 
