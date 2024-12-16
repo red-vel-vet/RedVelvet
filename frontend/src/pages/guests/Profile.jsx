@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api'; 
 import EditableSection from '../../components/EditableSection';
-import Button from '../../components/Button';
-import '../../styles/Profile.css'; 
 import addPhoto from '../../assets/icons/add_photo.svg';
+import EditProfileHeaderModal from '../../components/EditProfileHeaderModal';
+import styles from '../../styles/Profile.module.css';
 
 function Profile() {
   const [profileData, setProfileData] = useState(null);
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -28,6 +29,16 @@ function Profile() {
 
     fetchProfileData();
   }, []);
+
+  const handleSave = async (updatedData) => {
+    try {
+      const response = await api.put('/api/user/profile/', updatedData);
+      setProfileData(response.data);
+      setIsModalOpen(false);
+    } catch {
+      setError('Failed to save profile details');
+    }
+  };
 
   const handleSaveSection = (section, text) => {
     api.put('/api/user/profile/', { ...profileData, [section]: text })
@@ -65,20 +76,28 @@ function Profile() {
   } = profileData;
 
   return (
-    <div className="profile-container">
-      <div className="profile-header">
+    <div className={styles.profileContainer}>
+      <div className={styles.profileHeader} onClick={() => setIsModalOpen(true)}>
         <h1>{username}</h1>
-        <h2>{age_display_value} | {gender.replace(/_/g, ' ')} | {sexuality_display}</h2>
+        <h2>
+          {age_display_value} | {gender.replace(/_/g, ' ')} | {sexuality_display}
+        </h2>
       </div>
-      <div className="profile-images">
+      <EditProfileHeaderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave}
+        profileData={{ ...profileData, username }}
+      />
+      <div className={styles.profileImages}>
         {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className="profile-image">
+          <div key={index} className={styles.profileImage}>
             <img src={addPhoto} alt={`Add Photo ${index + 1}`} />
           </div>
         ))}
       </div>
 
-      <div className="profile-details">
+      <div className={styles.profileDetails}>
         <EditableSection
           title="About You"
           content={about_you}
@@ -96,6 +115,7 @@ function Profile() {
           content={relationship_status}
           placeholder="Describe your relationship status"
           isTextarea={true}
+          maxLength={500}
           onSave={(text) => handleSaveSection('relationship_status', text)}
         />
 
@@ -104,6 +124,7 @@ function Profile() {
           content={personal_background}
           placeholder="Describe your background, interests, and hobbies"
           isTextarea={true}
+          maxLength={500}
           onSave={(text) => handleSaveSection('personal_background', text)}
         />
 
@@ -112,6 +133,7 @@ function Profile() {
           content={experience}
           placeholder="Describe your experience with sex-positive events"
           isTextarea={true}
+          maxLength={500}
           onSave={(text) => handleSaveSection('experience', text)}
         />
 
@@ -120,6 +142,7 @@ function Profile() {
           content={community_contribution}
           placeholder="Describe how you contribute to the community"
           isTextarea={true}
+          maxLength={500}
           onSave={(text) => handleSaveSection('community_contribution', text)}
         />
 
@@ -128,6 +151,7 @@ function Profile() {
           content={philosophy_views}
           placeholder="Describe your personal philosophy on sex"
           isTextarea={true}
+          maxLength={500}
           onSave={(text) => handleSaveSection('philosophy_views', text)}
         />
 
@@ -136,6 +160,7 @@ function Profile() {
           content={fantasy_preferences}
           placeholder="Describe your ideal fantasy"
           isTextarea={true}
+          maxLength={500}
           onSave={(text) => handleSaveSection('fantasy_preferences', text)}
         />
       </div>

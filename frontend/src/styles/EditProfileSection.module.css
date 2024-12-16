@@ -1,0 +1,66 @@
+/* EditableSection.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  .header h4 {
+    margin: 0;
+  }
+  
+  .pencil {
+    width: 15px;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .edit {
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .textarea {
+    width: calc(100% - 20px);
+    height: 250px;
+    padding: 5px;
+    font-family: inherit;
+    font-size: 14px;
+    letter-spacing: 2px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    resize: vertical; 
+  }
+  
+  .content {
+    white-space: pre-wrap; 
+  }
+  
+  .charCount {
+    font-size: 12px;
+    text-align: right;
+    color: #666;
+    margin-bottom: 5px;
+    padding-right: 20px;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    width: calc(100% - 10px);
+    margin-bottom: 10px;
+    padding-right: 10px;
+  }
+  

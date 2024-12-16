@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../styles/EditProfileSection.module.css';
 import pencil from '../assets/icons/pencil.svg';
 import Button from './Button';
 
@@ -17,37 +18,37 @@ function EditableSection({ title, content, onSave, placeholder, maxLength }) {
   };
 
   return (
-    <div className="editable-section-container">
-      <div className="editable-section-header">
+    <div className={styles.container}>
+      <div className={styles.header}>
         <h4>{title}</h4>
         {!isEditing && (
           <img
             src={pencil}
             alt={`Edit ${title}`}
-            className="pencil-icon"
+            className={styles.pencil}
             onClick={() => setIsEditing(true)}
           />
         )}
       </div>
       {isEditing ? (
-        <div className="editable-section-edit">
+        <div className={styles.edit}>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder={placeholder}
-            className="editable-section-textarea"
-            maxLength={maxLength} // Add maxLength prop here
+            className={styles.textarea}
+            maxLength={maxLength}
           />
-          <div className="char-count">
+          <div className={styles.charCount}>
             {text.length}/{maxLength}
           </div>
-          <div className="button-container-small">
+          <div className={styles.buttonContainer}>
             <Button className="button cancel" onClick={handleCancel}>Cancel</Button>
             <Button className="button submit" onClick={handleSave}>Save</Button>
           </div>
         </div>
       ) : (
-        <p className="editable-section-content">{content || placeholder}</p>
+        <p className={styles.content}>{content || placeholder}</p>
       )}
     </div>
   );
