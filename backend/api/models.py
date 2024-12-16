@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from enum import Enum
 import uuid
 from datetime import date
+from django.utils import timezone
+
 
 class Host(models.Model):
     
@@ -29,7 +31,7 @@ class Host(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hosts', null=True)
     created_date = models.DateTimeField(auto_now_add=True, null=True)
     updated_date = models.DateTimeField(auto_now=True, null=True)
-    is_active = models.BooleanField(default=True, null=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -318,9 +320,9 @@ class Member(models.Model):
     expiration_date = models.DateTimeField(null=True, blank=True)
     block_date = models.DateTimeField(null=True, blank=True)
 
-    rejection_reason = models.TextField(default='[]')  
-    blocked_reason = models.TextField(default='[]')    
-    comments = models.TextField(default='[]')          
+    rejection_reason = models.TextField(default=list)  
+    blocked_reason = models.TextField(default=list)    
+    comments = models.TextField(default=list)          
 
     is_active = models.BooleanField(default=False)
 
