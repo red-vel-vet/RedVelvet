@@ -28,7 +28,7 @@ function App() {
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/email-login" element={<EmailLogin />} />
           <Route path="/guests/events" element={<GuestPages.Events />} />
-          <Route path="/guests/events/:eventId" element={<GuestPages.EventDetails />} />
+          {/* <Route path="/guests/events/:eventId" element={<GuestPages.EventDetails />} /> */}
 
           {/* Protected routes */}
           <Route path="/guests/match/:userId" element={<ProtectedRoute component={GuestPages.Match} />} />

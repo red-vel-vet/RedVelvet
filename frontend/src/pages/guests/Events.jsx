@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 import EventItem from '../../components/EventItem';
 import DateFilterModal from '../../components/DateFilterModal';
 import Button from '../../components/Button';
 import EventDetails from '../../components/EventDetails';
 import logo from '../../assets/images/token.png';
-import guestsStyles from '../../styles/Guests.module.css'; 
-import hostsStyles from '../../styles/Hosts.module.css';  
-import eventStyles from '../../styles/Events.module.css';  
+import eventStyles from '../../styles/Events.module.css';
 
-function Events() {
+function Events({ themeStyles }) {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -24,20 +22,11 @@ function Events() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const navigate = useNavigate();
-    const location = useLocation();
 
-    // Determine if we're in the /hosts path to apply Hosts styles, otherwise default to Guests styles
-    const currentStyles = location.pathname.startsWith('/hosts') ? hostsStyles : guestsStyles;
-
-    // Check if the user is logged in
     useEffect(() => {
         const checkLoginStatus = () => {
             const token = localStorage.getItem('access_token');
-            if (token) {
-                setIsLoggedIn(true);
-            } else {
-                setIsLoggedIn(false);
-            }
+            setIsLoggedIn(!!token);
         };
 
         checkLoginStatus();
@@ -169,21 +158,12 @@ function Events() {
                                         isAdded={addedEvents.includes(event.id)}
                                         onToggleAddRemove={() => onToggleAddRemove(event.id)}
                                         onClick={() => handleEventClick(event)}
-                                        themeStyles={currentStyles}  
                                     />
                                 ))}
                             </ul>
                         </main>
                     </div>
                 )}
-            </div>
-            <div className={eventStyles.takeoverFooter}>
-            {/* <Button
-                variant="takeover"
-                onClick={handleCreateTakeoverClick}
-            >
-                Create a Takeover!
-            </Button> */}
             </div>
             {eventModalVisible && selectedEvent && (
                 <EventDetails

@@ -47,13 +47,16 @@ const Layout = ({ children, isProtected }) => {
     checkTokenExpiry();
   }, [isProtected, location, navigate]);
 
+  // Determine if it's a guest or host route for footers (if you still need them)
   const isGuestPath = location.pathname.startsWith('/guests');
   const isHostPath = location.pathname.startsWith('/hosts');
 
   return (
     <div id="root">
       <Header />
-      <main className="content-area">{children}</main>
+      <main className="content-area">
+        {children}
+      </main>
       {isGuestPath && <GuestNavFooter />}
       {isHostPath && <HostNavFooter />}
     </div>

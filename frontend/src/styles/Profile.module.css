@@ -1,18 +1,26 @@
-.profile-container {
+.profileContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 5px 20px 5px;
+    padding: 0 5px 0px 5px;
   }
   
-  .profile-header {
+  .profileHeader {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
+  }
+
+  h2, h3 {
+    margin: 5px 0 0 0;
+  }
+
+  .profileHeader, h3 {
+    font-size: 15px;
+    letter-spacing: 2px;
   }
   
-  .profile-images {
+  .profileImages {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, auto);
@@ -20,50 +28,37 @@
     margin: 0 10px 0px 10px;
   }
   
-  .profile-image img {
+  .profileImage img {
     width: 30vw;
     height: auto;
     object-fit: cover;
     border-radius: 5px;
   }
   
-  .profile-details {
+  .profileDetails {
     padding: 0 10px;
     width: 100%;
     max-width: 600px;
   }
   
   /* Application Details */
-  .profile-details h3 {
-    margin-top: 30px;
+  .profileDetails h3 {
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
   }
   
-  .app-question-header {
+  .appQuestionHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-top: 20px;
   }
   
-  .app-question-header h4 {
-    margin: 0;
-  }
   
   /* Responsive styles */
-  @media (max-width: 600px) {
-    .profile-images {
-      /* grid-template-columns: repeat(2, 1fr); */
-    }
-  
-    .editable-section-textarea,
-    .editable-section-input {
+  @media (max-width: 600px) {  
+    .editableSectionTextarea,
+    .editableSectionInput {
       width: calc(100% - 10px);
-    }
-    
-    .button-container-small {
-      /* justify-content: center; */
     }
   }

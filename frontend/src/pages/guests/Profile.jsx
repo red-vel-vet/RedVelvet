@@ -78,10 +78,10 @@ function Profile() {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader} onClick={() => setIsModalOpen(true)}>
-        <h1>{username}</h1>
-        <h2>
+        <h2>{username}</h2>
+        <h3>
           {age_display_value} | {gender.replace(/_/g, ' ')} | {sexuality_display}
-        </h2>
+        </h3>
       </div>
       <EditProfileHeaderModal
         isOpen={isModalOpen}

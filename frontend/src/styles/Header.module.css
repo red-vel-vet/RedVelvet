@@ -1,4 +1,4 @@
-.header {
+.headerContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -9,34 +9,39 @@
   z-index: 9999;
 }
 
-.header-title {
-  padding-left: 10px;
-  padding-bottom: 7.5px;
-  font-size: 18px;
-  letter-spacing: 10pt;
-  font-weight: 400;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-}
-
-.header-icon {
+.headerIcon {
   width: 35px;
   height: 35px;
   margin: 0 10px;
   cursor: pointer;
 }
 
-.nav-menu {
+.guestHeader {
+  background-color: white;
+  color: #800020; /* Text/icon color for guests */
+}
+
+.guestHeader .headerIcon {
+  filter: invert(23%) sepia(94%) saturate(748%) hue-rotate(356deg) brightness(97%) contrast(88%);
+}
+
+.hostHeader {
+  background-color: #800020;
+  color: white; /* Text/icon color for hosts */
+}
+
+.hostHeader .headerIcon {
+  filter: brightness(0) invert(1); /* Example filter for host icon */
+}
+
+.navMenu {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: #333333f7;
-  padding-top: 60px; 
+  padding-top: 60px;
   z-index: 10000;
   display: flex;
   flex-direction: column;
@@ -46,12 +51,12 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.nav-menu.open {
+.open {
   opacity: 1;
   transform: translateY(0);
 }
 
-.nav-close-icon {
+.navCloseIcon {
   position: absolute;
   top: 15px;
   right: 10px;
@@ -60,7 +65,7 @@
   cursor: pointer;
 }
 
-.nav-menu ul {
+.navMenu ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -69,17 +74,17 @@
   align-items: center;
 }
 
-.nav-menu li {
+.navMenu li {
   margin: 10px 0;
 }
 
-.nav-menu li a {
+.navMenu li a {
   color: #FDF3E7;
   text-decoration: none;
   font-size: 24px;
 }
 
-.nav-menu li.active a {
-  color: #9f9f9f; 
-  pointer-events: none; 
+.active a {
+  color: #9f9f9f;
+  pointer-events: none;
 }

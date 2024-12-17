@@ -49,14 +49,16 @@ function ConditionalBooking() {
   };
 
   const totalCost = calculateTotal();
+  const fee = totalCost * 0.1;   // 10% fee
+  const finalTotal = totalCost + fee; // Add fee to the total
 
   const handleConfirmBooking = () => {
-    if (totalCost > 0 && selectedEvents.length > 0) {
+    if (finalTotal > 0 && selectedEvents.length > 0) {
       alert(
         "Proceeding to purchase page with the following details:\n" +
-          JSON.stringify({ selectedEvents, addedTickets, totalCost }, null, 2)
+          JSON.stringify({ selectedEvents, addedTickets, totalCost, fee, finalTotal }, null, 2)
       );
-      // navigate('/guests/payment', { state: { selectedEvents, addedTickets, totalCost } });
+      // navigate('/guests/payment', { state: { selectedEvents, addedTickets, totalCost: finalTotal } });
     } else {
       alert(
         'Please select at least one event and add tickets before proceeding.'
@@ -139,7 +141,11 @@ function ConditionalBooking() {
                   </tbody>
                 </table>
                 <div className={cbStyles.totalContainer}>
-                  <h3>Total: ${totalCost}</h3>
+                  <h4>Subtotal: ${totalCost.toFixed(2)}</h4>
+                  <h4>Ticketing Fees: ${fee.toFixed(2)} </h4>
+                  <h3>
+                    <strong>Total: ${finalTotal.toFixed(2)}</strong>
+                  </h3>
                 </div>
               </div>
             </div>

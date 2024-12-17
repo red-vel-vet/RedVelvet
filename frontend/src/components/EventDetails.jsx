@@ -56,8 +56,8 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isL
         <div className={EDstyles.modalOverlay} onClick={onCancel}>
             <div className={`${EDstyles.modalContent} ${EDstyles.slideUp}`} onClick={(e) => e.stopPropagation()}>
                 <div className={EDstyles.eventHeader}>
-                    <h1>{selectedEvent.host}</h1>
-                    <h2 className={EDstyles.modalEventName}>{selectedEvent.title}</h2>
+                    <h2>{selectedEvent.host}</h2>
+                    <h3 className={EDstyles.modalEventName}>{selectedEvent.title}</h3>
                 </div>
 
                 <div className={EDstyles.scrollViewContainer}>
@@ -66,7 +66,7 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isL
                             <img src={selectedEvent.image_url} alt="Event" className={EDstyles.eventImage} />
                         ) : null}
                         <div className={EDstyles.eventText}>
-                            <h3>Description</h3>
+                            <h4>Description</h4>
                             <p>
                                 {selectedEvent.description.trim().split('\n').map((line, index) => (
                                     <React.Fragment key={index}>
@@ -76,7 +76,7 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isL
                                     </React.Fragment>
                                 ))}
                             </p>
-                            <h3>Details</h3>
+                            <h4>Details</h4>
                             <p>
                                 Location: {selectedEvent.city}, {selectedEvent.state}
                                 <br />
@@ -86,7 +86,7 @@ function EventDetails({ selectedEvent, isAdded, onToggleAddRemove, onCancel, isL
                                 <br />
                                 <br />
                             </p>
-                            <h3>Matches Attending: {selectedEvent.matches_attending_count || 3}</h3> {/* Default value of 3 */}
+                            <h4>Matches Attending: {selectedEvent.matches_attending_count || 3}</h4> {/* Default value of 3 */}
                         </div>
                     </div>
                 </div>

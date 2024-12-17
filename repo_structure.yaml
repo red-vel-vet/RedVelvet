@@ -1,0 +1,314 @@
+  - path: /database
+    type: directory
+    contents:
+  - path: /frontend
+    type: directory
+    contents:
+    - path: /frontend/index.html
+      type: file
+    - path: /frontend/Dockerfile
+      type: file
+    - path: /frontend/vite.config.js
+      type: file
+    - path: /frontend/README.md
+      type: file
+    - path: /frontend/public
+      type: directory
+      contents:
+      - path: /frontend/public/vite.svg
+        type: file
+      - path: /frontend/public/icons
+        type: directory
+        contents:
+        - path: /frontend/public/icons/icon-192x192.png
+          type: file
+        - path: /frontend/public/icons/icon-512x512.png
+          type: file
+      - path: /frontend/public/manifest.json
+        type: file
+    - path: /frontend/package-lock.json
+      type: file
+    - path: /frontend/package.json
+      type: file
+    - path: /frontend/fly.toml
+      type: file
+    - path: /frontend/src
+      type: directory
+      contents:
+      - path: /frontend/src/constants.js
+        type: file
+      - path: /frontend/src/styles
+        type: directory
+        contents:
+        - path: /frontend/src/styles/ConditionalBooking.module.css
+          type: file
+        - path: /frontend/src/styles/DateFilterModal.css
+          type: file
+        - path: /frontend/src/styles/GuestNavFooter.module.css
+          type: file
+        - path: /frontend/src/styles/Hosts.module.css
+          type: file
+        - path: /frontend/src/styles/EditProfileSection.module.css
+          type: file
+        - path: /frontend/src/styles/styles.css
+          type: file
+        - path: /frontend/src/styles/Button.module.css
+          type: file
+        - path: /frontend/src/styles/EditProfileHeaderModal.module.css
+          type: file
+        - path: /frontend/src/styles/EventDetails.module.css
+          type: file
+        - path: /frontend/src/styles/Form.module.css
+          type: file
+        - path: /frontend/src/styles/VerifyEmail.css
+          type: file
+        - path: /frontend/src/styles/EventItem.module.css
+          type: file
+        - path: /frontend/src/styles/Events.module.css
+          type: file
+        - path: /frontend/src/styles/LoadingSpinner.css
+          type: file
+        - path: /frontend/src/styles/UserNavFooter.module.css
+          type: file
+        - path: /frontend/src/styles/Guests.module.css
+          type: file
+        - path: /frontend/src/styles/Profile.module.css
+          type: file
+        - path: /frontend/src/styles/Header.css
+          type: file
+        - path: /frontend/src/styles/Home.module.css
+          type: file
+      - path: /frontend/src/components
+        type: directory
+        contents:
+        - path: /frontend/src/components/Header.jsx
+          type: file
+        - path: /frontend/src/components/EditableSection.jsx
+          type: file
+        - path: /frontend/src/components/Layout.jsx
+          type: file
+        - path: /frontend/src/components/LoadingSpinner.jsx
+          type: file
+        - path: /frontend/src/components/LoginRegistrationForm.jsx
+          type: file
+        - path: /frontend/src/components/UserNavFooter.jsx
+          type: file
+        - path: /frontend/src/components/EditProfileHeaderModal.jsx
+          type: file
+        - path: /frontend/src/components/Button.jsx
+          type: file
+        - path: /frontend/src/components/ProtectedRoute.jsx
+          type: file
+        - path: /frontend/src/components/EventDetails.jsx
+          type: file
+        - path: /frontend/src/components/GuestNavFooter.jsx
+          type: file
+        - path: /frontend/src/components/DateFilterModal.jsx
+          type: file
+        - path: /frontend/src/components/HostNavFooter.jsx
+          type: file
+        - path: /frontend/src/components/EventItem.jsx
+          type: file
+      - path: /frontend/src/main.jsx
+        type: file
+      - path: /frontend/src/App.jsx
+        type: file
+      - path: /frontend/src/api.js
+        type: file
+      - path: /frontend/src/assets
+        type: directory
+        contents:
+        - path: /frontend/src/assets/images
+          type: directory
+          contents:
+          - path: /frontend/src/assets/images/site_preview.png
+            type: file
+          - path: /frontend/src/assets/images/token.png
+            type: file
+        - path: /frontend/src/assets/icons
+          type: directory
+          contents:
+          - path: /frontend/src/assets/icons/add_photo.svg
+            type: file
+          - path: /frontend/src/assets/icons/guest_nav
+            type: directory
+            contents:
+            - path: /frontend/src/assets/icons/guest_nav/events.svg
+              type: file
+            - path: /frontend/src/assets/icons/guest_nav/connections.svg
+              type: file
+            - path: /frontend/src/assets/icons/guest_nav/match.svg
+              type: file
+            - path: /frontend/src/assets/icons/guest_nav/profile.svg
+              type: file
+          - path: /frontend/src/assets/icons/user.svg
+            type: file
+          - path: /frontend/src/assets/icons/nav-close.svg
+            type: file
+          - path: /frontend/src/assets/icons/nav.svg
+            type: file
+          - path: /frontend/src/assets/icons/add.svg
+            type: file
+          - path: /frontend/src/assets/icons/pencil.svg
+            type: file
+          - path: /frontend/src/assets/icons/remove.svg
+            type: file
+        - path: /frontend/src/assets/react.svg
+          type: file
+      - path: /frontend/src/pages
+        type: directory
+        contents:
+        - path: /frontend/src/pages/UserDetails.jsx
+          type: file
+        - path: /frontend/src/pages/EmailLogin.jsx
+          type: file
+        - path: /frontend/src/pages/NotFound.jsx
+          type: file
+        - path: /frontend/src/pages/VerifyEmail.jsx
+          type: file
+        - path: /frontend/src/pages/Login.jsx
+          type: file
+        - path: /frontend/src/pages/Register.jsx
+          type: file
+        - path: /frontend/src/pages/Home.jsx
+          type: file
+        - path: /frontend/src/pages/guests
+          type: directory
+          contents:
+          - path: /frontend/src/pages/guests/Profile.jsx
+            type: file
+          - path: /frontend/src/pages/guests/Match.jsx
+            type: file
+          - path: /frontend/src/pages/guests/index.js
+            type: file
+          - path: /frontend/src/pages/guests/ConditionalBooking.jsx
+            type: file
+          - path: /frontend/src/pages/guests/Connections.jsx
+            type: file
+          - path: /frontend/src/pages/guests/Events.jsx
+            type: file
+  - path: /backend
+    type: directory
+    contents:
+    - path: /backend/requirements.txt
+      type: file
+    - path: /backend/Dockerfile
+      type: file
+    - path: /backend/backend
+      type: directory
+      contents:
+      - path: /backend/backend/migrations
+        type: directory
+        contents:
+        - path: /backend/backend/migrations/__init__.py
+          type: file
+      - path: /backend/backend/asgi.py
+        type: file
+      - path: /backend/backend/serializers.py
+        type: file
+      - path: /backend/backend/__init__.py
+        type: file
+      - path: /backend/backend/static
+        type: directory
+        contents:
+      - path: /backend/backend/settings.py
+        type: file
+      - path: /backend/backend/urls.py
+        type: file
+      - path: /backend/backend/views.py
+        type: file
+      - path: /backend/backend/wsgi.py
+        type: file
+    - path: /backend/static
+      type: directory
+      contents:
+    - path: /backend/fly.toml
+      type: file
+    - path: /backend/api
+      type: directory
+      contents:
+      - path: /backend/api/signals.py
+        type: file
+      - path: /backend/api/migrations
+        type: directory
+        contents:
+        - path: /backend/api/migrations/0009_alter_userprofile_first_name_and_more.py
+          type: file
+        - path: /backend/api/migrations/0008_userprofile.py
+          type: file
+        - path: /backend/api/migrations/0020_alter_host_is_active_alter_member_blocked_reason_and_more.py
+          type: file
+        - path: /backend/api/migrations/0013_alter_quizquestion_category_delete_userresponse.py
+          type: file
+        - path: /backend/api/migrations/0019_userprofile_display_name.py
+          type: file
+        - path: /backend/api/migrations/0006_event_requires_approval_for_view.py
+          type: file
+        - path: /backend/api/migrations/0015_userresponse_updated_at.py
+          type: file
+        - path: /backend/api/migrations/0012_quizcategory_quizquestion_userresponse.py
+          type: file
+        - path: /backend/api/migrations/0010_alter_host_is_active.py
+          type: file
+        - path: /backend/api/migrations/0014_userresponse.py
+          type: file
+        - path: /backend/api/migrations/__init__.py
+          type: file
+        - path: /backend/api/migrations/0011_alter_host_created_date_alter_host_is_active_and_more.py
+          type: file
+        - path: /backend/api/migrations/0007_hostapplication.py
+          type: file
+        - path: /backend/api/migrations/0005_feedback.py
+          type: file
+        - path: /backend/api/migrations/0002_alter_host_website_url.py
+          type: file
+        - path: /backend/api/migrations/0001_initial.py
+          type: file
+        - path: /backend/api/migrations/0004_passwordresettoken.py
+          type: file
+        - path: /backend/api/migrations/0016_quizquestion_quiz_type.py
+          type: file
+        - path: /backend/api/migrations/0003_emailverificationtoken.py
+          type: file
+        - path: /backend/api/migrations/0017_alter_quizquestion_quiz_type.py
+          type: file
+        - path: /backend/api/migrations/0018_member.py
+          type: file
+      - path: /backend/api/models.py
+        type: file
+      - path: /backend/api/serializers.py
+        type: file
+      - path: /backend/api/management
+        type: directory
+        contents:
+        - path: /backend/api/management/__init__.py
+          type: file
+        - path: /backend/api/management/commands
+          type: directory
+          contents:
+          - path: /backend/api/management/commands/__init__.py
+            type: file
+          - path: /backend/api/management/commands/questions.xlsx
+            type: file
+          - path: /backend/api/management/commands/load_data.py
+            type: file
+          - path: /backend/api/management/commands/categories.xlsx
+            type: file
+      - path: /backend/api/__init__.py
+        type: file
+      - path: /backend/api/apps.py
+        type: file
+      - path: /backend/api/admin.py
+        type: file
+      - path: /backend/api/tests.py
+        type: file
+      - path: /backend/api/urls.py
+        type: file
+      - path: /backend/api/views.py
+        type: file
+    - path: /backend/manage.py
+      type: file
+    - path: /backend/Procfile
+      type: file
+  - path: /README.md
+    type: file

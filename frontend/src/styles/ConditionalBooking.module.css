@@ -75,7 +75,6 @@
 }
 
 .ticketTable th {
-  font-weight: bold;
   background-color: #f9f9f9;
 }
 
@@ -110,4 +109,9 @@
 .totalContainer {
   margin-top: 10px;
   text-align: right;
+}
+
+.totalContainer h4 {
+  margin-bottom: 5px;
+  margin-top: 0;
 }
