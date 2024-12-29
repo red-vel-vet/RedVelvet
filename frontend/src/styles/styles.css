@@ -31,7 +31,7 @@ html, body {
 
 .content-area {
   flex: 1; 
-  overflow-y: auto; 
+  /* overflow-y: auto;  */
   padding: 50px 10px 00px 10px; 
 }
 

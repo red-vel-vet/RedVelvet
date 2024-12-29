@@ -41,10 +41,14 @@ class UserSerializer(serializers.ModelSerializer):
     def send_verification_email(self, email, token, is_registration):
         if is_registration:
             subject = 'Verify your email address'
-            message = f'Please click the link to verify your email address: https://red-vel.vet/verify-email/?token={token}'
+            message = f'Please click the link to verify your email address: https://red-vel.vet/verify-email/?token={token}\n'
+            message += f'Please click the link to verify your email address: localhost:3000/verify-email/?token={token}\n'
+            message += f'Please click the link to verify your email address: 192.168.1.185:3000/verify-email/?token={token}'
         else:
             subject = 'Log in to your account'
-            message = f'Please click the link to log in: https://red-vel.vet/verify-email/?token={token}'
+            message = f'Please click the link to log in: https://red-vel.vet/verify-email/?token={token}\n'
+            message += f'Please click the link to log in: localhost:3000/verify-email/?token={token}\n'
+            message += f'Please click the link to log in: 192.168.1.185:3000/verify-email/?token={token}'
 
         send_mail(
             subject,

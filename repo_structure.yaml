@@ -42,7 +42,7 @@
         contents:
         - path: /frontend/src/styles/ConditionalBooking.module.css
           type: file
-        - path: /frontend/src/styles/DateFilterModal.css
+        - path: /frontend/src/styles/Modal.module.css
           type: file
         - path: /frontend/src/styles/GuestNavFooter.module.css
           type: file
@@ -62,6 +62,8 @@
           type: file
         - path: /frontend/src/styles/VerifyEmail.css
           type: file
+        - path: /frontend/src/styles/Header.module.css
+          type: file
         - path: /frontend/src/styles/EventItem.module.css
           type: file
         - path: /frontend/src/styles/Events.module.css
@@ -74,7 +76,7 @@
           type: file
         - path: /frontend/src/styles/Profile.module.css
           type: file
-        - path: /frontend/src/styles/Header.css
+        - path: /frontend/src/styles/DateFilterModal.module.css
           type: file
         - path: /frontend/src/styles/Home.module.css
           type: file
@@ -94,6 +96,8 @@
         - path: /frontend/src/components/UserNavFooter.jsx
           type: file
         - path: /frontend/src/components/EditProfileHeaderModal.jsx
+          type: file
+        - path: /frontend/src/components/Modal.jsx
           type: file
         - path: /frontend/src/components/Button.jsx
           type: file

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Modal from './Modal';
 import Button from './Button';
 import styles from '../styles/EditProfileHeaderModal.module.css';
 
@@ -40,11 +41,9 @@ function EditProfileHeaderModal({ isOpen, onClose, onSave, profileData }) {
         onSave(formData);
     };
 
-    if (!isOpen) return null;
-
     return (
-        <div className={styles.modalOverlay} onClick={onClose}>
-            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <div className={styles.modalInner}>
                 <h2>Edit Profile Details</h2>
                 <form>
                     <label>
@@ -120,15 +119,11 @@ function EditProfileHeaderModal({ isOpen, onClose, onSave, profileData }) {
                     </label>
                 </form>
                 <div className={styles.modalButtons}>
-                    <Button variant="cancel" onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="submit" onClick={handleSave}>
-                        Save
-                    </Button>
+                    <Button variant="cancel" onClick={onClose}>Cancel</Button>
+                    <Button variant="submit" onClick={handleSave}>Save</Button>
                 </div>
             </div>
-        </div>
+        </Modal>
     );
 }
 

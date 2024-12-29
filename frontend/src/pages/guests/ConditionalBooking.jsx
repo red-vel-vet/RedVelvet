@@ -142,7 +142,7 @@ function ConditionalBooking() {
                 </table>
                 <div className={cbStyles.totalContainer}>
                   <h4>Subtotal: ${totalCost.toFixed(2)}</h4>
-                  <h4>Ticketing Fees: ${fee.toFixed(2)} </h4>
+                  <h4>Ticketing Fees: ${fee.toFixed(2)}</h4>
                   <h3>
                     <strong>Total: ${finalTotal.toFixed(2)}</strong>
                   </h3>

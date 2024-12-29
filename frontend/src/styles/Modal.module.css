@@ -1,0 +1,43 @@
+/* Default solid white full-screen overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;             /* Ensure it's above everything else */
+    background-color: #ffffff; /* Solid white */
+    display: block;           /* We'll absolutely position children inside */
+}
+
+/* Translucent overlay if backgroundStyle="translucent" */
+.overlayTranslucent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+/* 
+   outerModal is the container for your pinned header, scroll area, 
+   and pinned footer inside the full-screen overlay.
+*/
+.outerModal {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: slideUp 0.3s ease forwards;
+}
+
+@keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }

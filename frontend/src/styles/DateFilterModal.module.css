@@ -1,0 +1,51 @@
+.modalInner {
+    background-color: rgba(253, 243, 231, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    max-height: 85%;
+    position: relative;
+    overflow: hidden;
+}
+
+.clearLink {
+    cursor: pointer;
+    color: #800020;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.clearLink:hover {
+    text-decoration: underline;
+}
+
+.dateButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    flex-shrink: 0;
+}
+
+.datepickerTitle {
+    font-size: 20px;
+    color: black;
+    letter-spacing: 2px;
+    margin: 5px 0;
+}
+
+.react-datepicker {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__day--selected {
+    background-color: #800020;
+    color: white;
+}

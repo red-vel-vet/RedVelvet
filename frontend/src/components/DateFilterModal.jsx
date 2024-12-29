@@ -1,7 +1,8 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../styles/DateFilterModal.css';
+import Modal from './Modal';
+import dfStyles from '../styles/DateFilterModal.module.css';
 import Button from './Button';
 
 function DateFilterModal({ startDate, endDate, setStartDate, setEndDate, dateModalVisible, onCancel }) {
@@ -13,10 +14,10 @@ function DateFilterModal({ startDate, endDate, setStartDate, setEndDate, dateMod
     };
 
     return (
-        <div className="date-modal-background">
-            <div className="date-modal-content">
-                <p className="datepicker-title">Select Date Range</p>
-                <a className="clear-link" onClick={clearDateFilter}>Clear Dates</a>
+        <Modal isOpen={dateModalVisible} onClose={onCancel} backgroundStyle="translucent">
+            <div className={dfStyles.modalInner}>
+                <p className={dfStyles.datepickerTitle}>Select Date Range</p>
+                <a className={dfStyles.clearLink} onClick={clearDateFilter}>Clear Dates</a>
                 <DatePicker
                     selected={startDate}
                     onChange={(dates) => {
@@ -29,12 +30,12 @@ function DateFilterModal({ startDate, endDate, setStartDate, setEndDate, dateMod
                     selectsRange
                     inline
                 />
-                <div className="date-button-container">
+                <div className={dfStyles.dateButtonContainer}>
                     <Button className="button cancel" type="button" onClick={onCancel}>Cancel</Button>
                     <Button className="button submit" type="button" onClick={onCancel}>Apply</Button>
                 </div>
             </div>
-        </div>
+        </Modal>
     );
 }
 
