@@ -16,8 +16,8 @@
   
   .modalScrollArea {
     position: absolute;
-    top: 115px;   /* 45px + 60px header if you want it stacked exactly */
-    bottom: 60px; /* space for the footer (also 60px tall) */
+    top: 115px;   
+    bottom: 60px; 
     left: 0;
     right: 0;
     overflow-y: auto;
@@ -25,7 +25,6 @@
     padding: 0; /* Some margin around content, if desired */
   }
   
-  /* The event image can be displayed inline inside .modalScrollArea */
   .eventImage {
     width: 100%;
     height: 200px;
@@ -34,7 +33,6 @@
   }
   
   .eventText {
-    /* styles for text content, margin, etc. */
     padding: 0 10px;
   }
 
@@ -46,26 +44,21 @@
     margin-top: 5px;
   }
   
-  /* 3) The pinned footer for action buttons, pinned at bottom of the modal */
   .modalFooter {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60px;    /* match the offset in .modalScrollArea for a clean fit */
+    height: 60px; 
     background-color: #fff;
     z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 40px;
-  
-    /* For iOS safe area if needed: 
-       padding-bottom: env(safe-area-inset-bottom); 
-    */
+
   }
   
-  /* Example for a slide-up animation if you want, hooking into the parent <div> */
   @keyframes slideUp {
     from {
       transform: translateY(100%);

@@ -25,7 +25,7 @@ const VerifyEmail = () => {
                     setLoading(false);
                     // Redirect to events page after a short delay
                     setTimeout(() => {
-                        navigate('/guests/events');
+                        navigate('/');
                     }, 3000);
                 })
                 .catch(error => {

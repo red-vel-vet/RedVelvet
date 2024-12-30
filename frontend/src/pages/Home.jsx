@@ -20,9 +20,7 @@ const Home = () => {
             <div className={styles.homeButtonContainer}>
                 <Button 
                     variant="submit"  // Pass the variant prop
-                    onClick={() => {
-                        alert("Host path under development. See guest path.");
-                    }}
+                    onClick={() => navigate('/hosts/profile')}
                 >
                     Hosts
                 </Button>

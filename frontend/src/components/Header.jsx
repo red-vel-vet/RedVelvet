@@ -42,10 +42,10 @@ const Header = () => {
             <Link to="/" onClick={toggleMenu}>Home</Link>
           </li>
           <li className={location.pathname === '/guests/events' ? headerStyles.active : ''}>
-            <Link to="/guests/events" onClick={toggleMenu}>Events</Link>
+            <Link to="/guests/events" onClick={toggleMenu}>Guests</Link>
           </li>
-          <li className={location.pathname === '/guests/profile' ? headerStyles.active : ''}>
-            <Link to="/guests/profile" onClick={toggleMenu}>Profile</Link>
+          <li className={location.pathname === '/hosts/' ? headerStyles.active : ''}>
+            <Link to="/hosts/" onClick={toggleMenu}>Hosts</Link>
           </li>
         </ul>
       </nav>
